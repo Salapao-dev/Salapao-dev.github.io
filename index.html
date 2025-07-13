@@ -1,649 +1,843 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="th">
 <head>
-    <meta charset="utf-8">
-    <title>Salapao-Dev - Developer Portfolio</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free Website Template" name="keywords">
-    <meta content="Free Website Template" name="description">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watcharapong Kongjan - Full Stack Developer</title>
+    <meta name="description" content="Portfolio ของ Watcharapong Kongjan นักพัฒนา Full Stack ที่เชี่ยวชาญด้าน Web Development, SAP Development และ Mobile Apps">
+    <meta name="keywords" content="Web Developer, SAP Developer, Full Stack Developer, PHP, JavaScript, React, Next.js">
+    
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- CSS Libraries -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C53YT3VPQM"></script>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-C53YT3VPQM');
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'bounce-slow': 'bounce 2s infinite',
+                    }
+                }
+            }
+        }
     </script>
-
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
 
-<body data-spy="scroll" data-target=".navbar" data-offset="51">
-    <!-- Nav Bar Start -->
-    <div class="navbar navbar-expand-lg bg-light navbar-light">
-        <div class="container-fluid">
-            <a href="index.html" class="navbar-brand">Salapao-Dev</a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav ml-auto">
-                    <a href="#home" class="nav-item nav-link active">Home</a>
-                    <a href="#about" class="nav-item nav-link">About</a>
-                    <a href="#service" class="nav-item nav-link">Service</a>
-                    <a href="#experience" class="nav-item nav-link">Experience</a>
-                    <a href="#portfolio" class="nav-item nav-link">Portfolio</a>
-                    <a href="#blog" class="nav-item nav-link">Blog</a>
-                    <a href="#contact" class="nav-item nav-link">Contact</a>
+<body class="font-sans text-gray-800 bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="flex items-center justify-between py-4">
+                <a href="#home" class="text-2xl font-bold text-white hover:text-primary-300 transition-colors">
+                    Salapao-Dev
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-primary-300 transition-colors">หน้าแรก</a>
+                    <a href="#about" class="nav-link text-white hover:text-primary-300 transition-colors">เกี่ยวกับ</a>
+                    <a href="#services" class="nav-link text-white hover:text-primary-300 transition-colors">บริการ</a>
+                    <a href="#experience" class="nav-link text-white hover:text-primary-300 transition-colors">ประสบการณ์</a>
+                    <a href="#portfolio" class="nav-link text-white hover:text-primary-300 transition-colors">ผลงาน</a>
+                    <a href="#personal-website" class="nav-link text-white hover:text-primary-300 transition-colors">เว็บไซต์ส่วนตัว</a>
+                    <a href="#contact" class="nav-link text-white hover:text-primary-300 transition-colors">ติดต่อ</a>
                 </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </div>
-    </div>
-    <!-- Nav Bar End -->
-
-
-    <!-- Hero Start -->
-    <div class="hero" id="home">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-12 col-md-6">
-                    <div class="hero-content">
-                        <div class="hero-text">
-                            <p>I'm</p>
-                            <h1>Watcharapong Kongjan</h1>
-                            <h2></h2>
-                            <div class="typed-text">Software Developer, Web Developer, Front End Developer, Apps
-                                Developer, Sap Developer, IT Support, Office Worker</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 d-none d-md-block">
-                    <div class="hero-image">
-                        <img src="img/hero.png" alt="Hero Image">
-                    </div>
-                </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-white shadow-lg">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#home" class="block text-gray-800 hover:text-primary-600 transition-colors">หน้าแรก</a>
+                <a href="#about" class="block text-gray-800 hover:text-primary-600 transition-colors">เกี่ยวกับ</a>
+                <a href="#services" class="block text-gray-800 hover:text-primary-600 transition-colors">บริการ</a>
+                <a href="#experience" class="block text-gray-800 hover:text-primary-600 transition-colors">ประสบการณ์</a>
+                <a href="#portfolio" class="block text-gray-800 hover:text-primary-600 transition-colors">ผลงาน</a>
+                <a href="#personal-website" class="block text-gray-800 hover:text-primary-600 transition-colors">เว็บไซต์ส่วนตัว</a>
+                <a href="#contact" class="block text-gray-800 hover:text-primary-600 transition-colors">ติดต่อ</a>
             </div>
         </div>
-    </div>
-    <!-- Hero End -->
+    </nav>
 
-
-    <!-- About Start -->
-    <div class="about wow fadeInUp" data-wow-delay="0.1s" id="about">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="about-img">
-                        <img src="img/about.jpg" alt="Image">
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen gradient-bg flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+        <div class="container mx-auto px-4 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6">
+                        สวัสดีครับ, ผมคือ
+                        <span class="text-primary-300">Watcharapong Kongjan</span>
+                    </h1>
+                    <div class="text-xl lg:text-2xl text-gray-200 mb-8">
+                        <span id="typed-text"></span>
+                    </div>
+                    <p class="text-lg text-gray-300 mb-8 leading-relaxed">
+                        นักพัฒนา Full Stack ที่มีความหลงใหลในการสร้างสรรค์โซลูชันที่ตอบโจทย์ธุรกิจ 
+                        ด้วยประสบการณ์มากกว่า 1 ปี 7 เดือน ในด้านการพัฒนาเว็บไซต์, SAP และแอปพลิเคชัน
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#portfolio" class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                            ดูผลงาน
+                        </a>
+                        <a href="#contact" class="border-2 border-white text-white hover:bg-white hover:text-gray-800 px-8 py-3 rounded-lg font-semibold transition-all duration-300">
+                            ติดต่อ
+                        </a>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="about-content">
-                        <div class="section-header text-left">
-                            <p>Learn About Me</p>
-                            <h2>1 Years 7 Months Experience</h2>
-                        </div>
-                        <div class="about-text">
-                            <p>
-                                I am a passionate learner of new technologies and enjoy developing systems that solve
-                                problems creatively. My journey in IT started with a deep interest in programming and
-                                software development. Currently, I am studying Next.js and enhancing my skills in
-                                Full-Stack Development. I believe my adaptability and ability to learn quickly are my
-                                strengths, enabling me to tackle challenges of any kind.
-                            </p>
-                        </div>
-                        <div class="skills">
-                            <div class="skill-name">
-                                <p>Software Development</p>
-                                <p>85%</p>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
-                            </div>
-                            <div class="skill-name">
-                                <p>Web Development</p>
-                                <p>95%</p>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
-                            </div>
-                            <div class="skill-name">
-                                <p>Sap Development</p>
-                                <p>70%</p>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
-                            </div>
-                            <div class="skill-name">
-                                <p>Apps Development</p>
-                                <p>60%</p>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
-                            </div>
-                            <div class="skill-name">
-                                <p>IT Support</p>
-                                <p>80%</p>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
-                            </div>
-                            <div class="skill-name">
-                                <p>Office Worker</p>
-                                <p>90%</p>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
-                            </div>
-                        </div>
+                <div data-aos="fade-left" data-aos-duration="1000" class="flex justify-center">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-primary-400 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+                        <img src="img/hero.png" alt="Watcharapong Kongjan" class="relative z-10 w-80 h-80 object-cover rounded-full border-4 border-white shadow-2xl">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- About End -->
-
-
-    <!-- Service Start -->
-    <div class="service" id="service">
-        <div class="container">
-            <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
-                <p>What I do</p>
-                <h2>Awesome Quality Services</h2>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.0s">
-                    <div class="service-item">
-                        <div class="service-icon">
-                            <i class="fa fa-window-maximize"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3>Software Development</h3>
-                            <p>
-                                Experienced in creating scalable and efficient software solutions tailored to business
-                                needs, ensuring high quality and performance.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="service-item">
-                        <div class="service-icon">
-                            <i class="fa fa-laptop-code"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3>Web Development</h3>
-                            <p>
-                                Skilled in building responsive and user-friendly websites to enhance user experience and
-                                meet business objectives.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.4s">
-                    <div class="service-item">
-                        <div class="service-icon">
-                            <i class="fa fa-desktop"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3>Sap Development</h3>
-                            <p>
-                                Experienced in customizing and optimizing SAP solutions to streamline business processes
-                                and improve system integration.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.6s">
-                    <div class="service-item">
-                        <div class="service-icon">
-                            <i class="fa fa-mobile"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3>Apps Development</h3>
-                            <p>
-                                Experienced in developing intuitive and scalable mobile apps for Android and iOS to meet
-                                business needs.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.8s">
-                    <div class="service-item">
-                        <div class="service-icon">
-                            <i class="fa fa-cog"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3>IT Support</h3>
-                            <p>
-                                Skilled in troubleshooting, system maintenance, and providing technical assistance to
-                                ensure smooth IT operations.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.8s">
-                    <div class="service-item">
-                        <div class="service-icon">
-                            <i class="fa fa-file"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3>Office Worker</h3>
-                            <p>
-                                Efficient and detail-oriented with experience in administrative tasks, document
-                                management, and office operations.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-white text-2xl"></i>
         </div>
-    </div>
-    <!-- Service End -->
+    </section>
 
-
-    <!-- Experience Start -->
-    <div class="experience" id="experience">
-        <div class="container">
-            <header class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
-                <p>My Resume</p>
-                <h2>Working Experience</h2>
-            </header>
-            <div class="timeline">
-                <div class="timeline-item left wow slideInLeft" data-wow-delay="0.1s">
-                    <div class="timeline-text">
-                        <div class="timeline-date">2023 - 2023</div>
-                        <h2>Office Worker</h2>
-                        <h4>Trang Technical College Southern Vocational Education Institute2</h4>
-                        <p>
-                            Possesses strong expertise in preparing and managing official documentation, including
-                            drafting memos, issuing orders, developing project proposals, and handling various
-                            government-related documents with accuracy and professionalism
-                        </p>
-                    </div>
-                </div>
-                <div class="timeline-item right wow slideInRight" data-wow-delay="0.1s">
-                    <div class="timeline-text">
-                        <div class="timeline-date">2024 - Present</div>
-                        <h2>Web Developer and Sap Developer</h2>
-                        <h4>Cloudmate Co., Ltd.</h4>
-                        <p>
-                            I have experience in programming and website development, focusing primarily on SQL, PHP,
-                            HTML5, Bootstrap 5, and WordPress. I have also worked extensively with SAP ABAP,
-                            particularly in developing Reports, Interfaces, Smart Forms, and APIs. Additionally, I have
-                            basic knowledge and hands-on experience in using frameworks like Spring Boot and Next.js,
-                            which I am currently learning.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Job Experience End -->
-
-
-    <!-- Banner Start -->
-    <div class="banner wow zoomIn" data-wow-delay="0.1s">
-        <div class="container">
-            <div class="section-header text-center">
-                <p>About Me</p>
-                <h2>Message <span>About</span> Me</h2>
-            </div>
-            <div class="container banner-text">
-                <p>
-                    I am a dedicated and results-driven professional with a passion for technology and problem-solving.
-                    With experience in software development, SAP, web development, and mobile apps, I thrive on creating
-                    innovative solutions that drive business success. I am constantly learning new technologies to stay
-                    ahead in an ever-evolving field. My strengths include adaptability, collaboration, and the ability
-                    to work efficiently under pressure. </p>
-            </div>
-        </div>
-    </div>
-    <!-- Banner End -->
-
-
-    <!-- Portfolio Start -->
-    <div class="portfolio" id="portfolio">
-        <div class="container">
-            <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
-                <p>My Portfolio</p>
-                <h2>My Excellent Portfolio</h2>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <ul id="portfolio-filter">
-                        <li data-filter="*" class="filter-active">All</li>
-                        <li data-filter=".filter-1">Web Development</li>
-                        <li data-filter=".filter-2">SAP Development</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row portfolio-container">
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="0.0s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-1.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Tours Website</h3>
-                            <a class="btn" href="img/portfolio-1.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-2.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Jobs Website</h3>
-                            <a class="btn" href="img/portfolio-2.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="0.4s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-3.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Task-job Website</h3>
-                            <a class="btn" href="img/portfolio-3.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="0.6s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-4.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Dodee-Shop Website</h3>
-                            <a class="btn" href="img/portfolio-4.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="0.8s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-5.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Booking Website</h3>
-                            <a class="btn" href="img/portfolio-5.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="1s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-10.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>API Line Chat Bot</h3>
-                            <a class="btn" href="img/portfolio-10-2.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="1s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-11.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Salapao-Shop</h3>
-                            <a class="btn" href="img/portfolio-11-2.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-1 wow fadeInUp" data-wow-delay="1s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-12.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>ERP Module Production</h3>
-                            <a class="btn" href="img/portfolio-12-2.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-2 wow fadeInUp" data-wow-delay="1s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-6.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Report Programe</h3>
-                            <a class="btn" href="img/portfolio-6.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-2 wow fadeInUp" data-wow-delay="1s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-7.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Smartform Programe</h3>
-                            <a class="btn" href="img/portfolio-7.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-2 wow fadeInUp" data-wow-delay="1s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-8.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>Interface Programe</h3>
-                            <a class="btn" href="img/portfolio-8.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item filter-2 wow fadeInUp" data-wow-delay="1s">
-                    <div class="portfolio-wrap">
-                        <div class="portfolio-img">
-                            <img src="img/portfolio-9.jpg" alt="Image">
-                        </div>
-                        <div class="portfolio-text">
-                            <h3>API Programe</h3>
-                            <a class="btn" href="img/portfolio-9.jpg" data-lightbox="portfolio">+</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Portfolio End -->
-
-    <!-- Contact Start -->
-    <div class="contact wow fadeInUp" data-wow-delay="0.1s" id="contact">
-        <div class="container-fluid">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-8">
-                        <div class="contact-form">
-                            <div id="success"></div>
-                            <form name="sentMessage" id="contactForm" novalidate="novalidate">
-                                <div class="control-group">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name"
-                                        required="required" data-validation-required-message="Please enter your name" />
-                                    <p class="help-block"></p>
-                                </div>
-                                <div class="control-group">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email"
-                                        required="required"
-                                        data-validation-required-message="Please enter your email" />
-                                    <p class="help-block"></p>
-                                </div>
-                                <div class="control-group">
-                                    <input type="text" class="form-control" id="subject" placeholder="Subject"
-                                        required="required" data-validation-required-message="Please enter a subject" />
-                                    <p class="help-block"></p>
-                                </div>
-                                <div class="control-group">
-                                    <textarea class="form-control" id="message" placeholder="Message"
-                                        required="required"
-                                        data-validation-required-message="Please enter your message"></textarea>
-                                    <p class="help-block"></p>
-                                </div>
-                                <div>
-                                    <button class="btn" type="submit" id="sendMessageButton">Send Message</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Contact End -->
-
-
-    <!-- Blog Start -->
-    <div class="blog" id="blog">
-        <div class="container">
-            <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
-                <p>From Blog</p>
-                <h2>Latest Articles</h2>
-            </div>
-            <div class="row">
-                <!-- Blog Item 1 -->
-                <div class="col-lg-6">
-                    <div class="blog-item wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="blog-img">
-                            <img src="img/blog-1.jpg" alt="Blog Image">
-                        </div>
-                        <div class="blog-text">
-                            <h2>About Me: Watcharapong Kongjan</h2>
-                            <div class="blog-meta">
-                                <p><i class="far fa-user"></i> Watcharapong Kongjan</p>
-                                <p><i class="far fa-list-alt"></i> Website Developer</p>
-                                <p><i class="far fa-calendar-alt"></i> 22-Jan-2025</p>
-                            </div>
-                            <p>
-                                Hello, I am Watcharapong Kongjan, a software developer with experience in SAP, web
-                                development, and mobile app development. I specialize in creating scalable, efficient,
-                                and user-friendly solutions to meet business goals. I’m constantly learning new
-                                technologies to stay up-to-date in this ever-evolving field.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blog Item 2 -->
-                <div class="col-lg-6">
-                    <div class="blog-item wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="blog-img">
-                            <img src="img/blog-2.jpg" alt="Blog Image">
-                        </div>
-                        <div class="blog-text">
-                            <h2>My Career Journey</h2>
-                            <div class="blog-meta">
-                                <p><i class="far fa-user"></i> Watcharapong Kongjan</p>
-                                <p><i class="far fa-list-alt"></i> Career Development</p>
-                                <p><i class="far fa-calendar-alt"></i> 22-Jan-2025</p>
-                            </div>
-                            <p>
-                                I started my career in IT by participating in various programming and network system
-                                contests, before moving into software development. Over the years, I’ve developed
-                                expertise in ABAP, PHP, SQL, and other technologies, working on diverse projects
-                                including SAP ERP solutions.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Blog End -->
-
-
-
-    <!-- Footer Start -->
-    <div class="footer wow fadeIn" data-wow-delay="0.3s">
-        <div class="container-fluid">
-            <div class="container">
-                <div class="footer-info">
-                    <h2>Watcharapong Kongjan</h2>
-                    <h3>20/3, Na Phala Subdistrict, Mueang Trang District, Trang Province 92000</h3>
-                    <div class="footer-menu">
-                        <p>087-4737160</p>
-                        <p>Watcharapong.ballz@gmail.com</p>
-                    </div>
-                    <div class="footer-social">
-                        <a href="https://www.facebook.com/salapao0/"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/salapao.ball/"><i class="fab fa-instagram"></i></a>
-                        <a href="mailto:watcharapong.z@gmail.com"><i class="fab fa-pushed"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="container copyright">
-                <p>&copy; <a href="#">Salapao-Dev</a>, All Right Reserved |
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a href="https://www.facebook.com/salapao0/">Watcharapong Kongjan</a>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">เกี่ยวกับตัวผม</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    นักพัฒนาที่มีความหลงใหลในการเรียนรู้เทคโนโลยีใหม่ๆ และสร้างสรรค์ระบบที่แก้ปัญหาได้อย่างสร้างสรรค์
                 </p>
             </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <img src="img/about.jpg" alt="About Me" class="rounded-2xl shadow-2xl w-full">
+                </div>
+                
+                <div data-aos="fade-left">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-6">ประสบการณ์ 1 ปี 7 เดือน</h3>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        ผมเริ่มต้นการเดินทางในโลก IT ด้วยความสนใจอย่างลึกซึ้งในการเขียนโปรแกรมและการพัฒนา software 
+                        ปัจจุบันกำลังศึกษาการใช้ Next.js และพัฒนาทักษะในด้าน Full-Stack Development 
+                        ผมเชื่อว่าความสามารถในการปรับตัวและเรียนรู้ได้อย่างรวดเร็วเป็นจุดแข็งของผม 
+                        ทำให้สามารถรับมือกับความท้าทายได้ทุกประเภท
+                    </p>
+                    
+                    <!-- Skills -->
+                    <div class="space-y-6">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-gray-700">Software Development</span>
+                                <span class="text-primary-600 font-semibold">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="85"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-gray-700">Web Development</span>
+                                <span class="text-primary-600 font-semibold">95%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="95"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-gray-700">SAP Development</span>
+                                <span class="text-primary-600 font-semibold">70%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="70"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-gray-700">Mobile Apps Development</span>
+                                <span class="text-primary-600 font-semibold">60%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="60"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-gray-700">IT Support</span>
+                                <span class="text-primary-600 font-semibold">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="80"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">บริการของผม</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    บริการคุณภาพสูงที่ตอบโจทย์ความต้องการของธุรกิจ
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-2xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Software Development</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        สร้างสรรค์โซลูชันซอฟต์แวร์ที่ปรับขนาดได้และมีประสิทธิภาพสูง 
+                        ออกแบบเฉพาะตามความต้องการของธุรกิจ
+                    </p>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-globe text-2xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Web Development</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        พัฒนาเว็บไซต์ที่ตอบสนองและใช้งานง่าย 
+                        เพื่อเพิ่มประสบการณ์ผู้ใช้และบรรลุเป้าหมายทางธุรกิจ
+                    </p>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-database text-2xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">SAP Development</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        ปรับแต่งและเพิ่มประสิทธิภาพโซลูชัน SAP 
+                        เพื่อปรับปรุงกระบวนการทางธุรกิจและการรวมระบบ
+                    </p>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-mobile-alt text-2xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Mobile Apps Development</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        พัฒนาแอปพลิเคชันมือถือที่ใช้งานง่ายและปรับขนาดได้ 
+                        สำหรับ Android และ iOS
+                    </p>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-tools text-2xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">IT Support</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        ให้ความช่วยเหลือทางเทคนิค การบำรุงรักษาระบบ 
+                        และการแก้ไขปัญหาเพื่อให้การดำเนินงาน IT เป็นไปอย่างราบรื่น
+                    </p>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="600">
+                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-file-alt text-2xl text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Office Administration</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        งานธุรการที่มีประสิทธิภาพและใส่ใจในรายละเอียด 
+                        รวมถึงการจัดการเอกสารและการดำเนินงานสำนักงาน
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-white">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">ประสบการณ์การทำงาน</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    ประสบการณ์การทำงานที่หลากหลายในด้านเทคโนโลยีและธุรการ
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- Timeline -->
+                <div class="relative">
+                    <!-- Timeline Line -->
+                    <div class="absolute left-8 top-0 bottom-0 w-1 bg-primary-200"></div>
+                    
+                    <!-- Experience 1 -->
+                    <div class="relative mb-12" data-aos="fade-right">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                2023
+                            </div>
+                            <div class="ml-8 bg-gray-50 rounded-2xl p-8 shadow-lg">
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Office Worker</h3>
+                                <h4 class="text-lg text-primary-600 mb-4">วิทยาลัยเทคนิคตรัง สถาบันการอาชีวศึกษาภาคใต้ 2</h4>
+                                <p class="text-gray-600 leading-relaxed">
+                                    มีความเชี่ยวชาญในการเตรียมและจัดการเอกสารราชการ รวมถึงการร่างหนังสือเวียน 
+                                    ออกคำสั่ง พัฒนาโครงการ และจัดการเอกสารที่เกี่ยวข้องกับราชการต่างๆ 
+                                    ด้วยความแม่นยำและความเป็นมืออาชีพ
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Experience 2 -->
+                    <div class="relative mb-12" data-aos="fade-left">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                                2024
+                            </div>
+                            <div class="ml-8 bg-gray-50 rounded-2xl p-8 shadow-lg">
+                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Web Developer และ SAP Developer</h3>
+                                <h4 class="text-lg text-primary-600 mb-4">Cloudmate Co., Ltd.</h4>
+                                <p class="text-gray-600 leading-relaxed">
+                                    มีประสบการณ์ในการเขียนโปรแกรมและการพัฒนาเว็บไซต์ โดยเน้นที่ SQL, PHP, HTML5, 
+                                    Bootstrap 5 และ WordPress นอกจากนี้ยังทำงานกับ SAP ABAP อย่างกว้างขวาง 
+                                    โดยเฉพาะในการพัฒนา Reports, Interfaces, Smart Forms และ APIs 
+                                    และยังมีความรู้พื้นฐานและประสบการณ์ในการใช้ frameworks เช่น Spring Boot และ Next.js
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">ผลงานของผม</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    ผลงานที่หลากหลายในด้านการพัฒนาเว็บไซต์และ SAP
+                </p>
+            </div>
+            
+            <!-- Portfolio Filter -->
+            <div class="flex justify-center mb-12" data-aos="fade-up">
+                <div class="flex flex-wrap gap-4">
+                    <button class="portfolio-filter-btn active bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300" data-filter="all">
+                        ทั้งหมด
+                    </button>
+                    <button class="portfolio-filter-btn bg-white text-gray-700 hover:bg-primary-600 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300" data-filter="web">
+                        Web Development
+                    </button>
+                    <button class="portfolio-filter-btn bg-white text-gray-700 hover:bg-primary-600 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300" data-filter="sap">
+                        SAP Development
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Portfolio Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid">
+                <!-- Portfolio Item 1 -->
+                <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="100">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="img/portfolio-1.jpg" alt="Tours Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                        data-title="Tours Website"
+                                        data-description="เว็บไซต์ท่องเที่ยวที่ใช้งานง่ายและสวยงาม พัฒนาด้วย HTML5, CSS3, JavaScript และ Bootstrap"
+                                        data-images='["img/portfolio-1.jpg"]'>
+                                    ดูรูปเพิ่มเติม
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Tours Website</h3>
+                            <p class="text-gray-600">เว็บไซต์ท่องเที่ยวที่ใช้งานง่ายและสวยงาม</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 2 -->
+                <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="200">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="img/job-1.png" alt="Jobs Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                        data-title="Jobs Website"
+                                        data-description="เว็บไซต์หางานที่มีฟีเจอร์ครบครัน รวมถึงระบบสมัครงาน อัปโหลดไฟล์ และการจัดการโปรไฟล์"
+                                        data-images='["img/job-1.png", "img/job-2.png", "img/job-3.png", "img/job-4.png", "img/job-5.png"]'>
+                                    ดูรูปเพิ่มเติม
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Jobs Website</h3>
+                            <p class="text-gray-600">เว็บไซต์หางานที่มีฟีเจอร์ครบครัน</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 3 -->
+                <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="300">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="img/task-1.png" alt="Task-job Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                        data-title="Task-job Website"
+                                        data-description="ระบบจัดการงานและงานมอบหมายที่มีฟีเจอร์การติดตามความคืบหน้า การแจ้งเตือน และรายงานผล"
+                                        data-images='["img/task-1.png", "img/task-2.png", "img/task-3.png", "img/task-4.png"]'>
+                                    ดูรูปเพิ่มเติม
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Task-job Website</h3>
+                            <p class="text-gray-600">ระบบจัดการงานและงานมอบหมาย</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 4 -->
+                <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="400">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="img/shop-1.png" alt="Salapao Shop Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                        data-title="Salapao Shop Website"
+                                        data-description="เว็บไซต์ร้านค้าออนไลน์ที่ครบครัน รวมถึงระบบตะกร้าสินค้า การชำระเงิน และการจัดการสินค้า"
+                                        data-images='["img/shop-1.png", "img/shop-2.png", "img/shop-3.png", "img/shop-4.png", "img/shop-5.png", "img/shop-6.png", "img/shop-7.png"]'>
+                                    ดูรูปเพิ่มเติม
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Salapao Shop Website</h3>
+                            <p class="text-gray-600">เว็บไซต์ร้านค้าออนไลน์ที่ครบครัน</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 5 -->
+                <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="500">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="img/room-1.png" alt="Booking Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                        data-title="Booking Website"
+                                        data-description="ระบบจองออนไลน์ที่ใช้งานง่าย พร้อมระบบจัดการปฏิทิน การแจ้งเตือน และการชำระเงิน"
+                                        data-images='["img/room-1.png", "img/room-2.png", "img/room-3.png", "img/room-4.png"]'>
+                                    ดูรูปเพิ่มเติม
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Booking Website</h3>
+                            <p class="text-gray-600">ระบบจองออนไลน์ที่ใช้งานง่าย</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 6 -->
+                <div class="portfolio-item sap" data-aos="fade-up" data-aos-delay="600">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="img/portfolio-6.jpg" alt="Report Programme" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                        data-title="Report Programme"
+                                        data-description="โปรแกรมรายงาน SAP ABAP ที่พัฒนาขึ้นเพื่อการวิเคราะห์ข้อมูลและการรายงานผลการดำเนินงาน"
+                                        data-images='["img/portfolio-6.jpg", "img/portfolio-7.jpg", "img/portfolio-8.jpg", "img/portfolio-9.jpg"]'>
+                                    ดูรูปเพิ่มเติม
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Report and Interface</h3>
+                            <p class="text-gray-600">โปรแกรม SAP ABAP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 7 -->
+                <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="600">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="relative overflow-hidden">
+                            <img src="img/erp-1.png" alt="ERP System" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                        data-title="ERP System"
+                                        data-description="โปรแกรมระบบบริหารธุรกิจ Module Production ที่ครอบคลุมการจัดการการผลิต การควบคุมคุณภาพ และการวางแผน"
+                                        data-images='["img/erp-1.png", "img/erp-2.png", "img/erp-3.png", "img/erp-4.png", "img/erp-5.png", "img/erp-6.png"]'>
+                                    ดูรูปเพิ่มเติม
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">ERP System</h3>
+                            <p class="text-gray-600">โปรแกรมระบบบริหารธุรกิจ Module Production</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Website Section -->
+    <section id="personal-website" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">เว็บไซต์ส่วนตัว</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    เว็บไซต์ส่วนตัวที่พัฒนาด้วยเทคโนโลยีสมัยใหม่และออกแบบให้ใช้งานง่าย
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Website Preview -->
+                <div data-aos="fade-right">
+                    <div class="relative">
+                        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                            <div class="bg-gray-200 px-4 py-2 flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </div>
+                            <img src="img/wrb-1.png" alt="Personal Website Preview" class="w-full h-80 object-cover">
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 bg-primary-600 text-white px-6 py-3 rounded-lg shadow-lg">
+                            <span class="font-semibold">Live Demo</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Website Details -->
+                <div data-aos="fade-left">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-6">WebMarket - Salapao</h3>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        ตลาดซื้อขายเว็บไซต์สำเร็จรูปที่ครบครัน พร้อมระบบจัดการที่ทันสมัย และทีมงานมืออาชีพคอยให้คำปรึกษา 
+                        มีเว็บไซต์ขายแล้วกว่า 100+ รายการ ในหมวดหมู่ต่างๆ
+                    </p>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                            <div class="text-2xl font-bold text-primary-600">100+</div>
+                            <div class="text-sm text-gray-600">เว็บไซต์ขายแล้ว</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                            <div class="text-2xl font-bold text-primary-600">10</div>
+                            <div class="text-sm text-gray-600">เว็บไซต์ทั้งหมด</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                            <div class="text-2xl font-bold text-primary-600">4.7</div>
+                            <div class="text-sm text-gray-600">คะแนนเฉลี่ย</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                            <div class="text-2xl font-bold text-primary-600">5</div>
+                            <div class="text-sm text-gray-600">หมวดหมู่</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Features -->
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary-600 mr-3"></i>
+                            <span class="text-gray-700">ระบบค้นหาและกรองข้อมูลตามหมวดหมู่</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary-600 mr-3"></i>
+                            <span class="text-gray-700">ระบบจัดการเว็บไซต์สำเร็จรูปครบวงจร</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary-600 mr-3"></i>
+                            <span class="text-gray-700">ระบบติดต่อและสนับสนุนลูกค้า</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary-600 mr-3"></i>
+                            <span class="text-gray-700">รับประกันคุณภาพและบริการหลังการขาย</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary-600 mr-3"></i>
+                            <span class="text-gray-700">รองรับการชำระเงินและระบบรายงาน</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Technologies Used -->
+                    <div class="mb-8">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-4">เทคโนโลยีที่ใช้</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">PHP</span>
+                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">MySQL</span>
+                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Bootstrap</span>
+                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">jQuery</span>
+                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Tailwind CSS</span>
+                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">AJAX</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://salapao-dev.site/?" target="_blank" class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                            ดูเว็บไซต์
+                        </a>
+                        <a href="#contact" class="border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300">
+                            ติดต่อ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">ติดต่อผม</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    มีโปรเจกต์ที่น่าสนใจ? มาแลกเปลี่ยนความคิดเห็นกันครับ
+                </p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Contact Info -->
+                    <div data-aos="fade-right">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">ข้อมูลติดต่อ</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">ที่อยู่</h4>
+                                    <p class="text-gray-600">20/3 ตำบลนาแพล อำเภอเมืองตรัง จังหวัดตรัง 92000</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">โทรศัพท์</h4>
+                                    <p class="text-gray-600">087-4737160</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">อีเมล</h4>
+                                    <p class="text-gray-600">Watcharapong.ballz@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Links -->
+                        <div class="mt-8">
+                            <h4 class="font-semibold text-gray-800 mb-4">ติดตามผมได้ที่</h4>
+                            <div class="flex space-x-4">
+                                <a href="https://www.facebook.com/salapao0/" class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://www.instagram.com/salapao.ball/" class="w-12 h-12 bg-pink-600 rounded-lg flex items-center justify-center text-white hover:bg-pink-700 transition-colors">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="mailto:watcharapong.z@gmail.com" class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center text-white hover:bg-red-700 transition-colors">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div data-aos="fade-left">
+                        <form id="contactForm" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">ชื่อ</label>
+                                <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">อีเมล</label>
+                                <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">หัวข้อ</label>
+                                <input type="text" id="subject" name="subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">ข้อความ</label>
+                                <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 resize-none"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                                ส่งข้อความ
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold mb-4">Watcharapong Kongjan</h3>
+                <p class="text-gray-300 mb-6">Full Stack Developer ที่มีความหลงใหลในการสร้างสรรค์โซลูชันที่ตอบโจทย์</p>
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="https://www.facebook.com/salapao0/" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/salapao.ball/" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="mailto:watcharapong.z@gmail.com" class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+                <div class="border-t border-gray-700 pt-8">
+                    <p class="text-gray-400">
+                        © 2024 Salapao-Dev. All rights reserved. 
+                        Designed by <a href="https://www.facebook.com/salapao0/" class="text-primary-400 hover:text-primary-300">Watcharapong Kongjan</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-primary-600 text-white rounded-full shadow-lg hover:bg-primary-700 transition-all duration-300 transform hover:scale-110 opacity-0 invisible">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 opacity-0 invisible transition-all duration-300">
+        <div class="relative max-w-4xl max-h-[90vh] mx-4">
+            <!-- Close Button -->
+            <button id="closeModal" class="absolute -top-12 right-0 text-white text-2xl hover:text-primary-300 transition-colors z-10">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Navigation Buttons -->
+            <button id="prevImage" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary-300 transition-colors z-10 bg-black bg-opacity-50 rounded-full w-12 h-12 flex items-center justify-center">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="nextImage" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary-300 transition-colors z-10 bg-black bg-opacity-50 rounded-full w-12 h-12 flex items-center justify-center">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <!-- Image Container -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
+                <img id="modalImage" src="" alt="Portfolio Image" class="w-full h-auto max-h-[80vh] object-contain">
+                <div class="p-6">
+                    <h3 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+                    <p id="modalDescription" class="text-gray-600 mb-4"></p>
+                    <div id="modalImages" class="flex flex-wrap gap-2">
+                        <!-- Additional images will be loaded here -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Footer End -->
 
-
-    <!-- Back to top button -->
-    <a href="#" class="btn back-to-top"><i class="fa fa-chevron-up"></i></a>
-
-
-    <!-- Pre Loader -->
-    <div id="loader" class="show">
-        <div class="loader"></div>
-    </div>
-
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/typed/typed.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="lib/lightbox/js/lightbox.min.js"></script>
-
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
-
-    <!-- Template Javascript -->
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <script src="js/main.js"></script>
 </body>
-
 </html>

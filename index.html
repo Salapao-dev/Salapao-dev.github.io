@@ -44,6 +44,7 @@
                     },
                     fontFamily: {
                         'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['Fira Code', 'JetBrains Mono', 'monospace'],
                     },
                     animation: {
                         'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -57,6 +58,7 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -76,35 +78,594 @@
             from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #00ff41; }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 65, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.8), 0 0 30px rgba(0, 255, 65, 0.6); }
+        }
+        @keyframes codeLine {
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+            position: relative;
+        }
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
         .glass-effect {
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.1);
         }
+        .terminal-window {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        .terminal-header {
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .terminal-body {
+            padding: 24px;
+            font-family: 'Fira Code', monospace;
+            color: #c9d1d9;
+        }
+        .code-line {
+            animation: codeLine 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+        .code-line:nth-child(1) { animation-delay: 0.1s; }
+        .code-line:nth-child(2) { animation-delay: 0.3s; }
+        .code-line:nth-child(3) { animation-delay: 0.5s; }
+        .code-line:nth-child(4) { animation-delay: 0.7s; }
+        .code-line:nth-child(5) { animation-delay: 0.9s; }
+        .syntax-keyword { color: #ff7b72; }
+        .syntax-string { color: #a5d6ff; }
+        .syntax-function { color: #d2a8ff; }
+        .syntax-comment { color: #8b949e; }
+        .syntax-variable { color: #79c0ff; }
+        .cursor-blink {
+            border-right: 2px solid #00ff41;
+            animation: blink 1s infinite;
+        }
+        .neon-text {
+            text-shadow: 
+                0 0 5px rgba(0, 255, 65, 0.5),
+                0 0 10px rgba(0, 255, 65, 0.5),
+                0 0 15px rgba(0, 255, 65, 0.5);
+        }
+        .code-bg {
+            background: #0d1117;
+            border: 1px solid #30363d;
+        }
+        
+        /* Matrix Rain Effect */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        /* Glitch Effect */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .glitch {
+            animation: glitch 0.3s infinite;
+        }
+        
+        /* Terminal Typing Effect */
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #00ff41;
+            animation: typewriter 3s steps(40) 1s forwards, blink 1s infinite;
+        }
+        
+        /* Code Compilation Effect */
+        @keyframes compile {
+            0% { opacity: 0; transform: translateY(10px); }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .compile-line {
+            animation: compile 0.5s ease-out;
+        }
+        
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Scanline Effect */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 255, 65, 0.3), transparent);
+            animation: scanline 8s linear infinite;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        /* Terminal Prompt */
+        .terminal-prompt {
+            color: #00ff41;
+        }
+        .terminal-prompt::before {
+            content: '$ ';
+            color: #00ff41;
+        }
+        
+        /* Code Highlight Animation */
+        @keyframes highlight {
+            0%, 100% { background-color: transparent; }
+            50% { background-color: rgba(0, 255, 65, 0.2); }
+        }
+        .code-highlight {
+            animation: highlight 2s ease-in-out infinite;
+        }
+        
+        /* Binary Rain */
+        .binary-rain {
+            position: absolute;
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            opacity: 0.3;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+        
+        /* Loading Screen */
+        #loading-screen {
+            transition: opacity 0.5s ease-out;
+        }
+        
+        /* Particle Animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.5;
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px);
+                opacity: 0.3;
+            }
+            75% {
+                transform: translateY(-20px) translateX(5px);
+                opacity: 0.6;
+            }
+        }
+        
+        /* Terminal Input Focus */
+        #terminal-input:focus {
+            outline: none;
+        }
+        #terminal-input:focus + .cursor-blink {
+            animation: blink 0.8s infinite;
+        }
+        
+        /* Command Execution Animation */
+        @keyframes command-execute {
+            0% { opacity: 0; transform: translateX(-10px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        .command-execute {
+            animation: command-execute 0.3s ease-out;
+        }
+        
+        /* Terminal Response Animation */
+        @keyframes terminal-response {
+            0% { opacity: 0; max-height: 0; }
+            100% { opacity: 1; max-height: 500px; }
+        }
+        .terminal-response {
+            animation: terminal-response 0.5s ease-out;
+            overflow: hidden;
+        }
+        
+        /* Glow Pulse */
+        @keyframes glow-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 20px rgba(0, 255, 65, 0.6),
+                           0 0 30px rgba(0, 255, 65, 0.4);
+            }
+        }
+        .glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        
+        /* Code Compile Success */
+        @keyframes compile-success {
+            0% { 
+                background-color: rgba(0, 255, 65, 0.1);
+                transform: scale(1);
+            }
+            50% { 
+                background-color: rgba(0, 255, 65, 0.3);
+                transform: scale(1.02);
+            }
+            100% { 
+                background-color: transparent;
+                transform: scale(1);
+            }
+        }
+        .compile-success {
+            animation: compile-success 0.5s ease-out;
+        }
+        
+        /* Code Block Hover Effect */
+        .code-bg:hover {
+            border-color: #00ff41;
+            transition: border-color 0.3s ease;
+        }
+        
+        /* Success Animation */
+        @keyframes success-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .success-pulse {
+            animation: success-pulse 0.5s ease-in-out;
+        }
+        
+        /* Hacker Terminal Cursor */
+        .hacker-cursor::after {
+            content: '_';
+            animation: blink 1s infinite;
+            color: #00ff41;
+        }
+        
+        /* Code Block Glow */
+        .code-glow {
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            transition: box-shadow 0.3s ease;
+        }
+        .code-glow:hover {
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+        }
+        
+        /* Loading Spinner - Terminal Style */
+        .terminal-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 255, 65, 0.3);
+            border-radius: 50%;
+            border-top-color: #00ff41;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes float-delayed {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.4;
+            }
+            25% {
+                transform: translateY(-15px) translateX(-8px);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-30px) translateX(8px);
+                opacity: 0.2;
+            }
+            75% {
+                transform: translateY(-15px) translateX(-5px);
+                opacity: 0.5;
+            }
+        }
+        @keyframes float-slow {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0.5;
+            }
+            33% {
+                transform: translateY(-10px) translateX(5px);
+                opacity: 0.7;
+            }
+            66% {
+                transform: translateY(-20px) translateX(-5px);
+                opacity: 0.3;
+            }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 8s linear infinite;
+        }
+        .animate-float-delayed {
+            animation: float-delayed 4s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        .animate-float-slow {
+            animation: float-slow 6s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+        
+        /* ASCII Art Container */
+        .ascii-art {
+            font-family: 'Fira Code', monospace;
+            font-size: 8px;
+            line-height: 1;
+            color: #00ff41;
+            white-space: pre;
+            opacity: 0.5;
+        }
+        
+        /* Command Output */
+        .command-output {
+            color: #79c0ff;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        /* Error Message Style */
+        .error-message {
+            color: #ff7b72;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        /* Success Message Style */
+        .success-message {
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        /* Warning Message Style */
+        .warning-message {
+            color: #ffa657;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        /* Interactive Code Block */
+        .interactive-code {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .interactive-code:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+        }
+        
+        /* Terminal Window Glow */
+        .terminal-glow {
+            box-shadow: 
+                0 0 10px rgba(0, 255, 65, 0.3),
+                0 0 20px rgba(0, 255, 65, 0.2),
+                0 0 30px rgba(0, 255, 65, 0.1);
+        }
+        
+        /* Code Line Number */
+        .line-number {
+            color: #6e7681;
+            margin-right: 16px;
+            user-select: none;
+        }
+        
+        /* Selection Effect */
+        ::selection {
+            background: rgba(0, 255, 65, 0.3);
+            color: #fff;
+        }
+        
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff41, #79c0ff);
+            z-index: 10000;
+            transition: width 0.1s ease;
+        }
+        
+        /* Section Reveal Animation */
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        .reveal {
+            animation: reveal 1s ease-out;
+        }
+        
+        /* Code Block Line Numbers */
+        .code-block-with-lines {
+            counter-reset: line;
+        }
+        .code-line-numbered::before {
+            counter-increment: line;
+            content: counter(line);
+            display: inline-block;
+            width: 30px;
+            margin-right: 10px;
+            color: #6e7681;
+            text-align: right;
+            user-select: none;
+        }
+        
+        /* Terminal Cursor Enhanced */
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: #00ff41;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+            vertical-align: middle;
+        }
+        
+        /* Hover Glow Effect */
+        .hover-glow:hover {
+            text-shadow: 
+                0 0 10px rgba(0, 255, 65, 0.8),
+                0 0 20px rgba(0, 255, 65, 0.6),
+                0 0 30px rgba(0, 255, 65, 0.4);
+            transition: text-shadow 0.3s ease;
+        }
+        
+        /* Code Syntax Highlighting Enhanced */
+        .syntax-keyword { color: #ff7b72; font-weight: 600; }
+        .syntax-string { color: #a5d6ff; }
+        .syntax-function { color: #d2a8ff; font-weight: 500; }
+        .syntax-comment { color: #8b949e; font-style: italic; }
+        .syntax-variable { color: #79c0ff; }
+        .syntax-number { color: #79c0ff; }
+        .syntax-operator { color: #ff7b72; }
+        
+        /* Terminal Window Enhanced */
+        .terminal-window:hover {
+            box-shadow: 
+                0 0 20px rgba(0, 255, 65, 0.4),
+                0 0 40px rgba(0, 255, 65, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        /* Loading Bar */
+        .loading-bar {
+            height: 2px;
+            background: linear-gradient(90deg, #00ff41, #79c0ff);
+            animation: loading-progress 2s ease-in-out;
+        }
+        @keyframes loading-progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+        
+        /* Scrollbar Terminal Style */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ff41;
+        }
     </style>
 </head>
 
-<body class="font-sans text-gray-800 bg-gray-50">
+<body class="font-sans bg-gray-900 text-gray-100">
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-gray-900 z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="terminal-loader mx-auto mb-4"></div>
+            <div class="text-green-400 font-mono text-xl mb-2 hover-glow">Initializing System...</div>
+            <div class="text-gray-500 font-mono text-sm mb-4">
+                <div id="loading-status">Loading modules...</div>
+            </div>
+            <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden mx-auto">
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+    
+    <!-- Scanline Effect -->
+    <div class="scanline"></div>
+    
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="flex items-center justify-between py-4">
-                <a href="#home" class="text-2xl font-bold text-white hover:text-primary-300 transition-colors">
-                    Salapao-Dev
+                <a href="#home" class="text-2xl font-bold text-green-400 hover:text-green-300 transition-colors font-mono">
+                    &lt;Salapao-Dev /&gt;
                 </a>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden lg:flex space-x-8">
-                    <a href="#home" class="nav-link text-white hover:text-primary-300 transition-colors">หน้าแรก</a>
-                    <a href="#about" class="nav-link text-white hover:text-primary-300 transition-colors">เกี่ยวกับ</a>
-                    <a href="#technical-skills" class="nav-link text-white hover:text-primary-300 transition-colors">ทักษะ</a>
-                    <a href="#services" class="nav-link text-white hover:text-primary-300 transition-colors">บริการ</a>
-                    <a href="#experience" class="nav-link text-white hover:text-primary-300 transition-colors">ประสบการณ์</a>
-                    <a href="#portfolio" class="nav-link text-white hover:text-primary-300 transition-colors">ผลงาน</a>
-                    <!-- <a href="#personal-website" class="nav-link text-white hover:text-primary-300 transition-colors">เว็บไซต์ส่วนตัว</a> -->
-                    <a href="#contact" class="nav-link text-white hover:text-primary-300 transition-colors">ติดต่อ</a>
+                    <a href="#home" class="nav-link text-gray-300 hover:text-green-400 transition-colors font-mono text-sm">home()</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-green-400 transition-colors font-mono text-sm">about()</a>
+                    <a href="#technical-skills" class="nav-link text-gray-300 hover:text-green-400 transition-colors font-mono text-sm">skills()</a>
+                    <a href="#services" class="nav-link text-gray-300 hover:text-green-400 transition-colors font-mono text-sm">services()</a>
+                    <a href="#experience" class="nav-link text-gray-300 hover:text-green-400 transition-colors font-mono text-sm">experience()</a>
+                    <a href="#portfolio" class="nav-link text-gray-300 hover:text-green-400 transition-colors font-mono text-sm">portfolio()</a>
+                    <a href="#contact" class="nav-link text-gray-300 hover:text-green-400 transition-colors font-mono text-sm">contact()</a>
                 </div>
                 
                 <!-- Mobile Menu Button -->
@@ -115,51 +676,138 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="lg:hidden hidden bg-white shadow-lg">
+        <div id="mobile-menu" class="lg:hidden hidden bg-gray-800 shadow-lg border-t border-gray-700">
             <div class="px-4 py-6 space-y-4">
-                <a href="#home" class="block text-gray-800 hover:text-primary-600 transition-colors">หน้าแรก</a>
-                <a href="#about" class="block text-gray-800 hover:text-primary-600 transition-colors">เกี่ยวกับ</a>
-                <a href="#technical-skills" class="block text-gray-800 hover:text-primary-600 transition-colors">ทักษะ</a>
-                <a href="#services" class="block text-gray-800 hover:text-primary-600 transition-colors">บริการ</a>
-                <a href="#experience" class="block text-gray-800 hover:text-primary-600 transition-colors">ประสบการณ์</a>
-                <a href="#portfolio" class="block text-gray-800 hover:text-primary-600 transition-colors">ผลงาน</a>
-                <!-- <a href="#personal-website" class="block text-gray-800 hover:text-primary-600 transition-colors">เว็บไซต์ส่วนตัว</a> -->
-                <a href="#contact" class="block text-gray-800 hover:text-primary-600 transition-colors">ติดต่อ</a>
+                <a href="#home" class="block text-gray-300 hover:text-green-400 transition-colors font-mono">home()</a>
+                <a href="#about" class="block text-gray-300 hover:text-green-400 transition-colors font-mono">about()</a>
+                <a href="#technical-skills" class="block text-gray-300 hover:text-green-400 transition-colors font-mono">skills()</a>
+                <a href="#services" class="block text-gray-300 hover:text-green-400 transition-colors font-mono">services()</a>
+                <a href="#experience" class="block text-gray-300 hover:text-green-400 transition-colors font-mono">experience()</a>
+                <a href="#portfolio" class="block text-gray-300 hover:text-green-400 transition-colors font-mono">portfolio()</a>
+                <a href="#contact" class="block text-gray-300 hover:text-green-400 transition-colors font-mono">contact()</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen gradient-bg flex items-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-black opacity-20"></div>
+    <section id="home" class="min-h-screen gradient-bg flex items-center relative overflow-hidden pt-20">
         <div class="container mx-auto px-4 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div data-aos="fade-right" data-aos-duration="1000">
-                    <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6">
-                        สวัสดีครับ, ผมคือ
-                        <span class="text-primary-300">Watcharapong Kongjan</span>
-                    </h1>
-                    <div class="text-xl lg:text-2xl text-gray-200 mb-8">
-                        <span id="typed-text"></span>
+                <div data-aos="fade-right" data-aos-duration="1000" class="space-y-6">
+                    <!-- Terminal Window -->
+                    <div class="terminal-window terminal-glow">
+                        <div class="terminal-header">
+                            <div class="terminal-dot bg-red-500"></div>
+                            <div class="terminal-dot bg-yellow-500"></div>
+                            <div class="terminal-dot bg-green-500"></div>
+                            <span class="ml-4 text-xs text-gray-400 font-mono">salapao-dev@portfolio:~</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="code-line compile-line">
+                                <span class="terminal-prompt"></span><span class="syntax-function">cat</span> <span class="syntax-string">about.txt</span><br>
+                            </div>
+                            <div class="code-line compile-line mt-2">
+                                <span class="syntax-keyword">const</span> <span class="syntax-variable">developer</span> = {<br>
+                            </div>
+                            <div class="code-line compile-line ml-4">
+                                &nbsp;&nbsp;<span class="syntax-string">name</span>: <span class="syntax-string">'Watcharapong Kongjan'</span>,<br>
+                            </div>
+                            <div class="code-line compile-line ml-4">
+                                &nbsp;&nbsp;<span class="syntax-string">role</span>: <span class="syntax-string">'Full Stack Developer'</span>,<br>
+                            </div>
+                            <div class="code-line compile-line ml-4">
+                                &nbsp;&nbsp;<span class="syntax-string">experience</span>: <span class="syntax-string">'1 ปี 11 เดือน'</span>,<br>
+                            </div>
+                            <div class="code-line compile-line ml-4">
+                                &nbsp;&nbsp;<span class="syntax-string">skills</span>: [<span class="syntax-string">'Frontend'</span>, <span class="syntax-string">'Backend'</span>, <span class="syntax-string">'SAP ERP'</span>, <span class="syntax-string">'ABAP'</span>],<br>
+                            </div>
+                            <div class="code-line compile-line ml-4">
+                                &nbsp;&nbsp;<span class="syntax-string">status</span>: <span class="syntax-string">'available'</span><br>
+                            </div>
+                            <div class="code-line compile-line">
+                                };<br>
+                            </div>
+                            <div class="code-line compile-line mt-4">
+                                <span class="syntax-comment">// สวัสดีครับ ยินดีต้อนรับสู่ Portfolio ของผม</span><span class="cursor-blink inline-block w-0 ml-1"></span>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-lg text-gray-300 mb-8 leading-relaxed">
-                        นักพัฒนา Full Stack ที่มีความเชี่ยวชาญทั้งในด้าน Frontend และ Backend 
-                        รวมถึงการพัฒนาระบบ SAP ERP ด้วย ABAP ด้วยประสบการณ์ 1 ปี 11 เดือน 
-                        ในด้านการพัฒนาเว็บไซต์, SAP และการบูรณาการ API
-                    </p>
+                    
+                    <!-- Stats Counter -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="code-bg rounded-lg p-4 text-center border border-gray-700 hover:border-green-500 transition-all">
+                            <div class="text-3xl font-bold text-green-400 font-mono" id="exp-counter">0</div>
+                            <div class="text-sm text-gray-400 font-mono mt-1">Years Exp</div>
+                        </div>
+                        <div class="code-bg rounded-lg p-4 text-center border border-gray-700 hover:border-green-500 transition-all">
+                            <div class="text-3xl font-bold text-green-400 font-mono" id="project-counter">0</div>
+                            <div class="text-sm text-gray-400 font-mono mt-1">Projects</div>
+                        </div>
+                        <div class="code-bg rounded-lg p-4 text-center border border-gray-700 hover:border-green-500 transition-all">
+                            <div class="text-3xl font-bold text-green-400 font-mono" id="skill-counter">0</div>
+                            <div class="text-sm text-gray-400 font-mono mt-1">Skills</div>
+                        </div>
+                    </div>
+                    
                     <div class="flex flex-wrap gap-4">
-                        <a href="#portfolio" class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                            ดูผลงาน
+                        <a href="#portfolio" class="bg-green-500 hover:bg-green-400 text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 font-mono shadow-lg shadow-green-500/50 code-glow">
+                            <span class="terminal-prompt"></span>viewPortfolio()
                         </a>
-                        <a href="#contact" class="border-2 border-white text-white hover:bg-white hover:text-gray-800 px-8 py-3 rounded-lg font-semibold transition-all duration-300">
-                            ติดต่อ
+                        <a href="#contact" class="border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-300 font-mono code-glow">
+                            <span class="terminal-prompt"></span>contact()
                         </a>
+                    </div>
+                    
+                    <!-- Interactive Terminal Commands -->
+                    <div class="code-bg rounded-lg p-4 border border-gray-700 terminal-glow">
+                        <div class="text-xs text-gray-400 font-mono mb-3">
+                            <span class="text-green-400">//</span> Interactive Terminal - Type commands below:
+                        </div>
+                        <div id="interactive-terminal" class="space-y-2 min-h-[100px] max-h-[200px] overflow-y-auto">
+                            <div class="text-sm font-mono">
+                                <span class="terminal-prompt"></span><span id="terminal-input" class="text-gray-100" contenteditable="true"></span><span class="cursor-blink inline-block w-2 h-4 bg-green-400 ml-1"></span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500 font-mono mt-2">
+                            Press <span class="text-green-400">Enter</span> to execute | 
+                            Type <span class="text-green-400">help</span> for commands | 
+                            <span class="text-yellow-400">Ctrl+K</span> to focus
+                        </div>
                     </div>
                 </div>
-                <div data-aos="fade-left" data-aos-duration="1000" class="flex justify-center">
-                    <div class="relative">
-                        <div class="absolute inset-0 bg-primary-400 rounded-full blur-3xl opacity-30 animate-pulse"></div>
-                        <img src="img/hero.png" alt="Watcharapong Kongjan" class="relative z-10 w-80 h-80 object-cover rounded-full border-4 border-white shadow-2xl">
+                <div data-aos="fade-left" data-aos-duration="1000" class="flex justify-center items-center">
+                    <div class="relative group">
+                        <!-- Outer Glow Ring -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-green-400 via-green-500 to-green-400 rounded-full blur-3xl opacity-30 animate-pulse group-hover:opacity-50 transition-opacity duration-300"></div>
+                        
+                        <!-- Middle Glow Ring -->
+                        <div class="absolute -inset-4 bg-green-400 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                        
+                        <!-- Main Image Container -->
+                        <div class="relative z-10 w-80 h-80 rounded-full overflow-hidden border-4 border-green-400 shadow-2xl shadow-green-500/50 group-hover:border-green-300 group-hover:shadow-green-400/70 transition-all duration-300 transform group-hover:scale-105">
+                            <!-- Gradient Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-green-500/20 via-transparent to-green-400/10 z-10"></div>
+                            <img src="img/AI23-Photoroom.png" alt="Watcharapong Kongjan" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                            
+                            <!-- Animated Border -->
+                            <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-green-400 border-r-green-400 animate-spin-slow opacity-50"></div>
+                        </div>
+                        
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-6 -right-6 bg-gradient-to-r from-green-500 to-green-400 text-gray-900 px-5 py-2.5 rounded-lg font-mono text-base font-bold shadow-xl shadow-green-500/50 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 border-2 border-green-300">
+                            <span class="flex items-center gap-2">
+                                <i class="fas fa-code"></i>
+                                &lt;dev /&gt;
+                            </span>
+                        </div>
+                        
+                        <!-- Floating Particles -->
+                        <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+                            <div class="absolute top-1/4 left-1/4 w-3 h-3 bg-green-400 rounded-full opacity-60 animate-float"></div>
+                            <div class="absolute top-1/3 right-1/4 w-2 h-2 bg-green-500 rounded-full opacity-40 animate-float-delayed"></div>
+                            <div class="absolute bottom-1/4 left-1/3 w-2 h-2 bg-green-300 rounded-full opacity-50 animate-float-slow"></div>
+                            <div class="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-green-400 rounded-full opacity-40 animate-float"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,28 +815,32 @@
         
         <!-- Scroll Indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <i class="fas fa-chevron-down text-white text-2xl"></i>
+            <i class="fas fa-chevron-down text-green-400 text-2xl"></i>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
+    <section id="about" class="py-20 bg-gray-800 border-t border-gray-700">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">เกี่ยวกับตัวผม</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold text-green-400 mb-4 font-mono">
+                    <span class="text-gray-400">function</span> <span class="text-green-400">about</span>() {
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     นักพัฒนาที่มีความหลงใหลในการเรียนรู้เทคโนโลยีใหม่ๆ และสร้างสรรค์ระบบที่แก้ปัญหาได้อย่างสร้างสรรค์
                 </p>
             </div>
             
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div data-aos="fade-right">
-                    <img src="img/about.jpg" alt="About Me" class="rounded-2xl shadow-2xl w-full">
+                    <img src="img/AI4.jpg" alt="About Me" class="rounded-2xl shadow-2xl w-full">
                 </div>
                 
                 <div data-aos="fade-left">
-                    <h3 class="text-3xl font-bold text-gray-800 mb-6">ประสบการณ์ 1 ปี 11 เดือน</h3>
-                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                    <h3 class="text-3xl font-bold text-green-400 mb-6 font-mono">
+                        <span class="text-gray-400">const</span> <span class="text-green-400">experience</span> = <span class="text-yellow-400">'1 ปี 11 เดือน'</span>;
+                    </h3>
+                    <p class="text-lg text-gray-300 mb-6 leading-relaxed">
                         ผมมีความเชี่ยวชาญทั้งในด้าน Frontend และ Backend รวมถึงการพัฒนาระบบ SAP ERP ด้วย ABAP 
                         (Interface, Smart Forms, Report, API) และมีผลงานหลากหลาย เช่น การพัฒนาเว็บไซต์ Booking Tour ด้วย PHP, 
                         เว็บไซต์สมัครงานของบริษัทด้วย PHP, การทำงานกับ API เช่น Line Notify และ Line Broadcast 
@@ -197,72 +849,75 @@
                     
                     <!-- จุดแข็ง -->
                     <div class="mb-6">
-                        <h4 class="text-xl font-bold text-gray-800 mb-4">จุดแข็งของผม</h4>
-                        <ul class="space-y-2 text-gray-600">
+                        <h4 class="text-xl font-bold text-green-400 mb-4 font-mono">
+                            <span class="text-gray-400">const</span> <span class="text-green-400">strengths</span> = [
+                        </h4>
+                        <ul class="space-y-2 text-gray-300 ml-4">
                             <li class="flex items-start">
-                                <i class="fas fa-check-circle text-primary-600 mr-3 mt-1"></i>
+                                <span class="text-green-400 mr-3 mt-1 font-mono">→</span>
                                 <span>วิเคราะห์และพัฒนาโซลูชันที่ตอบโจทย์ความต้องการของผู้ใช้</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fas fa-check-circle text-primary-600 mr-3 mt-1"></i>
+                                <span class="text-green-400 mr-3 mt-1 font-mono">→</span>
                                 <span>ทำงานเป็นทีมได้อย่างมีประสิทธิภาพ พร้อมสื่อสารชัดเจน</span>
                             </li>
                             <li class="flex items-start">
-                                <i class="fas fa-check-circle text-primary-600 mr-3 mt-1"></i>
+                                <span class="text-green-400 mr-3 mt-1 font-mono">→</span>
                                 <span>เรียนรู้เทคโนโลยีใหม่ๆ และพัฒนาทักษะอย่างต่อเนื่อง</span>
                             </li>
                         </ul>
+                        <span class="text-green-400 font-mono">];</span>
                     </div>
                     
                     <!-- Skills -->
                     <div class="space-y-6">
                         <div class="skill-item">
                             <div class="flex justify-between mb-2">
-                                <span class="font-semibold text-gray-700">Software Development</span>
-                                <span class="text-primary-600 font-semibold">85%</span>
+                                <span class="font-semibold text-gray-300 font-mono">Software Development</span>
+                                <span class="text-green-400 font-semibold font-mono">85%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="85"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-semibold text-gray-700">Web Development</span>
-                                <span class="text-primary-600 font-semibold">95%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="95"></div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-green-500 h-3 rounded-full" data-width="85"></div>
                             </div>
                         </div>
                         
                         <div class="skill-item">
                             <div class="flex justify-between mb-2">
-                                <span class="font-semibold text-gray-700">SAP Development</span>
-                                <span class="text-primary-600 font-semibold">70%</span>
+                                <span class="font-semibold text-gray-300 font-mono">Web Development</span>
+                                <span class="text-green-400 font-semibold font-mono">95%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="70"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-semibold text-gray-700">Mobile Apps Development</span>
-                                <span class="text-primary-600 font-semibold">60%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="60"></div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-green-500 h-3 rounded-full" data-width="95"></div>
                             </div>
                         </div>
                         
                         <div class="skill-item">
                             <div class="flex justify-between mb-2">
-                                <span class="font-semibold text-gray-700">IT Support</span>
-                                <span class="text-primary-600 font-semibold">80%</span>
+                                <span class="font-semibold text-gray-300 font-mono">SAP Development</span>
+                                <span class="text-green-400 font-semibold font-mono">70%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="skill-bar bg-primary-600 h-3 rounded-full" data-width="80"></div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-green-500 h-3 rounded-full" data-width="70"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-gray-300 font-mono">Mobile Apps Development</span>
+                                <span class="text-green-400 font-semibold font-mono">60%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-green-500 h-3 rounded-full" data-width="60"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-semibold text-gray-300 font-mono">IT Support</span>
+                                <span class="text-green-400 font-semibold font-mono">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="skill-bar bg-green-500 h-3 rounded-full" data-width="80"></div>
                             </div>
                         </div>
                     </div>
@@ -272,11 +927,13 @@
     </section>
 
     <!-- Technical Skills Section -->
-    <section id="technical-skills" class="py-20 bg-gray-50">
+    <section id="technical-skills" class="py-20 bg-gray-900 border-t border-gray-700">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">ทักษะทางเทคนิค</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold text-green-400 mb-4 font-mono">
+                    <span class="text-gray-400">const</span> <span class="text-green-400">skills</span> = {
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     เทคโนโลยีและเครื่องมือที่ผมใช้ในการพัฒนา
                 </p>
             </div>
@@ -284,75 +941,76 @@
             <div class="max-w-6xl mx-auto">
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Languages & Frameworks -->
-                    <div class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="100">
-                        <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                            <i class="fas fa-code text-2xl text-primary-600"></i>
+                    <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                            <i class="fas fa-code text-2xl text-green-400"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Languages & Frameworks</h3>
+                        <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">Languages & Frameworks</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">JavaScript</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">HTML</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">CSS</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">PHP</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">MySQL</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Bootstrap</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">jQuery</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Ajax</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">WordPress</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">ABAP</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Laravel</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Node.js</span>
-                            <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">Angular (Basic)</span>
-                            <span class="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">Python (Basic)</span>
-
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">JavaScript</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">HTML</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">CSS</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">PHP</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">MySQL</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Bootstrap</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">jQuery</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Ajax</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">WordPress</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">ABAP</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Laravel</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Node.js</span>
+                            <span class="bg-gray-700 text-gray-400 px-3 py-1 rounded border border-gray-600 text-sm font-medium font-mono">Angular (Basic)</span>
+                            <span class="bg-gray-700 text-gray-400 px-3 py-1 rounded border border-gray-600 text-sm font-medium font-mono">Python (Basic)</span>
                         </div>
                     </div>
                     
                     <!-- Development Tools -->
-                    <div class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
-                        <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                            <i class="fas fa-tools text-2xl text-primary-600"></i>
+                    <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all" data-aos="fade-up" data-aos-delay="200">
+                        <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                            <i class="fas fa-tools text-2xl text-green-400"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Development Tools</h3>
+                        <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">Development Tools</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Git & GitHub</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Postman</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">VS Code</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Canva</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Gitlab</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Git Desktop</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Git & GitHub</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Postman</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">VS Code</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Canva</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Gitlab</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Git Desktop</span>
                         </div>
                     </div>
                     
                     <!-- API Integration -->
-                    <div class="bg-white rounded-2xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="300">
-                        <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                            <i class="fas fa-plug text-2xl text-primary-600"></i>
+                    <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all" data-aos="fade-up" data-aos-delay="300">
+                        <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                            <i class="fas fa-plug text-2xl text-green-400"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">API Integration</h3>
+                        <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">API Integration</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Line LIFF</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Line Official Account</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Facebook API</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Line Notify</span>
-                            <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">Line Broadcast</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Line LIFF</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Line Official Account</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Facebook API</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Line Notify</span>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded border border-green-500/30 text-sm font-medium font-mono">Line Broadcast</span>
                         </div>
                     </div>
                     
                     <!-- กำลังศึกษาเพิ่มเติม -->
-                    <div class="bg-white rounded-2xl p-8 shadow-lg md:col-span-2 lg:col-span-3" data-aos="fade-up" data-aos-delay="400">
-                        <div class="w-16 h-16 bg-yellow-100 rounded-xl flex items-center justify-center mb-6">
-                            <i class="fas fa-graduation-cap text-2xl text-yellow-600"></i>
+                    <div class="code-bg rounded-2xl p-8 shadow-lg md:col-span-2 lg:col-span-3 border border-yellow-500/30 hover:border-yellow-500 transition-all" data-aos="fade-up" data-aos-delay="400">
+                        <div class="w-16 h-16 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-6 border border-yellow-500/30">
+                            <i class="fas fa-graduation-cap text-2xl text-yellow-400"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">กำลังศึกษาเพิ่มเติม</h3>
+                        <h3 class="text-xl font-bold text-yellow-400 mb-4 font-mono">
+                            <span class="text-gray-400">//</span> กำลังศึกษาเพิ่มเติม
+                        </h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">REST API</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Java</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Spring Boot</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Next.js</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">React</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Nest.js</span>
-                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">n8n</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded border border-yellow-500/30 text-sm font-medium font-mono">REST API</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded border border-yellow-500/30 text-sm font-medium font-mono">Java</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded border border-yellow-500/30 text-sm font-medium font-mono">Spring Boot</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded border border-yellow-500/30 text-sm font-medium font-mono">Next.js</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded border border-yellow-500/30 text-sm font-medium font-mono">React</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded border border-yellow-500/30 text-sm font-medium font-mono">Nest.js</span>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded border border-yellow-500/30 text-sm font-medium font-mono">n8n</span>
                         </div>
                     </div>
                 </div>
@@ -361,83 +1019,85 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-20 bg-gray-50">
+    <section id="services" class="py-20 bg-gray-800 border-t border-gray-700">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">บริการของผม</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold text-green-400 mb-4 font-mono">
+                    <span class="text-gray-400">class</span> <span class="text-green-400">Services</span> {
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     บริการคุณภาพสูงที่ตอบโจทย์ความต้องการของธุรกิจ
                 </p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Service 1 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-code text-2xl text-primary-600"></i>
+                <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                        <i class="fas fa-code text-2xl text-green-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Software Development</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">Software Development</h3>
+                    <p class="text-gray-300 leading-relaxed">
                         สร้างสรรค์โซลูชันซอฟต์แวร์ที่ปรับขนาดได้และมีประสิทธิภาพสูง 
                         ออกแบบเฉพาะตามความต้องการของธุรกิจ
                     </p>
                 </div>
                 
                 <!-- Service 2 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-globe text-2xl text-primary-600"></i>
+                <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                        <i class="fas fa-globe text-2xl text-green-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Web Development</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">Web Development</h3>
+                    <p class="text-gray-300 leading-relaxed">
                         พัฒนาเว็บไซต์ที่ตอบสนองและใช้งานง่าย 
                         เพื่อเพิ่มประสบการณ์ผู้ใช้และบรรลุเป้าหมายทางธุรกิจ
                     </p>
                 </div>
                 
                 <!-- Service 3 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-database text-2xl text-primary-600"></i>
+                <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                        <i class="fas fa-database text-2xl text-green-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">SAP Development</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">SAP Development</h3>
+                    <p class="text-gray-300 leading-relaxed">
                         ปรับแต่งและเพิ่มประสิทธิภาพโซลูชัน SAP 
                         เพื่อปรับปรุงกระบวนการทางธุรกิจและการรวมระบบ
                     </p>
                 </div>
                 
                 <!-- Service 4 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
-                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-mobile-alt text-2xl text-primary-600"></i>
+                <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                        <i class="fas fa-mobile-alt text-2xl text-green-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Mobile Apps Development</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">Mobile Apps Development</h3>
+                    <p class="text-gray-300 leading-relaxed">
                         พัฒนาแอปพลิเคชันมือถือที่ใช้งานง่ายและปรับขนาดได้ 
                         สำหรับ Android และ iOS
                     </p>
                 </div>
                 
                 <!-- Service 5 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="500">
-                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-tools text-2xl text-primary-600"></i>
+                <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                        <i class="fas fa-tools text-2xl text-green-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">IT Support</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">IT Support</h3>
+                    <p class="text-gray-300 leading-relaxed">
                         ให้ความช่วยเหลือทางเทคนิค การบำรุงรักษาระบบ 
                         และการแก้ไขปัญหาเพื่อให้การดำเนินงาน IT เป็นไปอย่างราบรื่น
                     </p>
                 </div>
                 
                 <!-- Service 6 -->
-                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="600">
-                    <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-file-alt text-2xl text-primary-600"></i>
+                <div class="code-bg rounded-2xl p-8 shadow-lg border border-gray-700 hover:border-green-500 transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="600">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mb-6 border border-green-500/30">
+                        <i class="fas fa-file-alt text-2xl text-green-400"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Office Administration</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-xl font-bold text-green-400 mb-4 font-mono">Office Administration</h3>
+                    <p class="text-gray-300 leading-relaxed">
                         งานธุรการที่มีประสิทธิภาพและใส่ใจในรายละเอียด 
                         รวมถึงการจัดการเอกสารและการดำเนินงานสำนักงาน
                     </p>
@@ -447,11 +1107,13 @@
     </section>
 
     <!-- Experience Section -->
-    <section id="experience" class="py-20 bg-white">
+    <section id="experience" class="py-20 bg-gray-900 border-t border-gray-700">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">ประสบการณ์การทำงาน</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold text-green-400 mb-4 font-mono">
+                    <span class="text-gray-400">const</span> <span class="text-green-400">experience</span> = [
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     ประสบการณ์การทำงานที่หลากหลายในด้านเทคโนโลยีและธุรการ
                 </p>
             </div>
@@ -460,18 +1122,18 @@
                 <!-- Timeline -->
                 <div class="relative">
                     <!-- Timeline Line -->
-                    <div class="absolute left-8 top-0 bottom-0 w-1 bg-primary-200"></div>
+                    <div class="absolute left-8 top-0 bottom-0 w-1 bg-green-500/30"></div>
                     
                     <!-- Experience 1 -->
                     <div class="relative mb-12" data-aos="fade-right">
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            <div class="flex-shrink-0 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-gray-900 font-bold text-lg font-mono border-2 border-green-400 shadow-lg shadow-green-500/50">
                                 2023
                             </div>
-                            <div class="ml-8 bg-gray-50 rounded-2xl p-8 shadow-lg">
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">Office Worker</h3>
-                                <h4 class="text-lg text-primary-600 mb-4">วิทยาลัยเทคนิคตรัง สถาบันการอาชีวศึกษาภาคใต้ 2</h4>
-                                <p class="text-gray-600 leading-relaxed">
+                            <div class="ml-8 code-bg rounded-2xl p-8 shadow-lg border border-gray-700">
+                                <h3 class="text-2xl font-bold text-green-400 mb-2 font-mono">Office Worker</h3>
+                                <h4 class="text-lg text-green-300 mb-4">วิทยาลัยเทคนิคตรัง สถาบันการอาชีวศึกษาภาคใต้ 2</h4>
+                                <p class="text-gray-300 leading-relaxed">
                                     มีความเชี่ยวชาญในการเตรียมและจัดการเอกสารราชการ รวมถึงการร่างหนังสือเวียน 
                                     ออกคำสั่ง พัฒนาโครงการ และจัดการเอกสารที่เกี่ยวข้องกับราชการต่างๆ 
                                     ด้วยความแม่นยำและความเป็นมืออาชีพ
@@ -483,28 +1145,28 @@
                     <!-- Experience 2 -->
                     <div class="relative mb-12" data-aos="fade-left">
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            <div class="flex-shrink-0 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-gray-900 font-bold text-lg font-mono border-2 border-green-400 shadow-lg shadow-green-500/50">
                                 2024
                             </div>
-                            <div class="ml-8 bg-gray-50 rounded-2xl p-8 shadow-lg">
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">นักพัฒนาเว็บไซต์และระบบ ERP</h3>
-                                <h4 class="text-lg text-primary-600 mb-4">Cloudmate Co., Ltd.</h4>
-                                <div class="text-gray-600 leading-relaxed space-y-4">
-                                    <p class="font-semibold text-gray-800">ผลงานหลัก:</p>
-                                    <ul class="list-disc list-inside space-y-2 ml-4">
-                                        <li>พัฒนาเว็บไซต์ Booking Tour ด้วย PHP และ Tailwind CSS เพื่อเพิ่มประสิทธิภาพการจองทัวร์ออนไลน์</li>
-                                        <li>พัฒนาเว็บไซต์ Jobs ด้วย PHP และ Bootstrap5 เพื่อประสิทธิภาพในการค้นหางานและค้นหาผู้จ้างงาน</li>
-                                        <li>สร้างเว็บไซต์สมัครงานด้วย WordPress รองรับการใช้งานที่ง่ายและสะดวกสำหรับผู้สมัคร</li>
-                                        <li>ออกแบบและพัฒนา Interface, Smart Forms, Report และ API ในระบบ SAP ERP สำหรับโมดูล FI และ MM</li>
-                                        <li>บูรณาการ API เช่น Line Notify และ Line Broadcast เพื่อเพิ่มช่องทางการสื่อสารขององค์กร</li>
-                                        <li>ดึงข้อมูลจากเว็บไซต์ภายนอกเพื่อโพสต์ลงใน SAP ช่วยเพิ่มประสิทธิภาพการทำงานของทีม</li>
-                                        <li>เขียนระบบ ERP ได้รับมอบหมาย Module ระบบผลิตสินค้า และ ระบบคลังสินค้า</li>
+                            <div class="ml-8 code-bg rounded-2xl p-8 shadow-lg border border-gray-700">
+                                <h3 class="text-2xl font-bold text-green-400 mb-2 font-mono">นักพัฒนาเว็บไซต์และระบบ ERP</h3>
+                                <h4 class="text-lg text-green-300 mb-4">Cloudmate Co., Ltd.</h4>
+                                <div class="text-gray-300 leading-relaxed space-y-4">
+                                    <p class="font-semibold text-green-400 font-mono">// ผลงานหลัก:</p>
+                                    <ul class="space-y-2 ml-4">
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>พัฒนาเว็บไซต์ Booking Tour ด้วย PHP และ Tailwind CSS เพื่อเพิ่มประสิทธิภาพการจองทัวร์ออนไลน์</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>พัฒนาเว็บไซต์ Jobs ด้วย PHP และ Bootstrap5 เพื่อประสิทธิภาพในการค้นหางานและค้นหาผู้จ้างงาน</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>สร้างเว็บไซต์สมัครงานด้วย WordPress รองรับการใช้งานที่ง่ายและสะดวกสำหรับผู้สมัคร</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>ออกแบบและพัฒนา Interface, Smart Forms, Report และ API ในระบบ SAP ERP สำหรับโมดูล FI และ MM</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>บูรณาการ API เช่น Line Notify และ Line Broadcast เพื่อเพิ่มช่องทางการสื่อสารขององค์กร</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>ดึงข้อมูลจากเว็บไซต์ภายนอกเพื่อโพสต์ลงใน SAP ช่วยเพิ่มประสิทธิภาพการทำงานของทีม</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>เขียนระบบ ERP ได้รับมอบหมาย Module ระบบผลิตสินค้า และ ระบบคลังสินค้า</span></li>
                                     </ul>
-                                    <p class="font-semibold text-gray-800 mt-4">ลักษณะการทำงาน:</p>
-                                    <ul class="list-disc list-inside space-y-2 ml-4">
-                                        <li>รับและวิเคราะห์ความต้องการของผู้ใช้เพื่อพัฒนาโซลูชันที่ตรงจุด</li>
-                                        <li>ทำงานร่วมกับทีมอย่างราบรื่น พร้อมสื่อสารอย่างชัดเจน</li>
-                                        <li>มุ่งมั่นเรียนรู้เทคโนโลยีใหม่ๆ เพื่อสนับสนุนการเติบโตขององค์กร</li>
+                                    <p class="font-semibold text-green-400 mt-4 font-mono">// ลักษณะการทำงาน:</p>
+                                    <ul class="space-y-2 ml-4">
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>รับและวิเคราะห์ความต้องการของผู้ใช้เพื่อพัฒนาโซลูชันที่ตรงจุด</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>ทำงานร่วมกับทีมอย่างราบรื่น พร้อมสื่อสารอย่างชัดเจน</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>มุ่งมั่นเรียนรู้เทคโนโลยีใหม่ๆ เพื่อสนับสนุนการเติบโตขององค์กร</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -514,17 +1176,17 @@
                     <!-- Experience 3 -->
                     <div class="relative mb-12" data-aos="fade-right">
                         <div class="flex items-start">
-                            <div class="flex-shrink-0 w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            <div class="flex-shrink-0 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-gray-900 font-bold text-lg font-mono border-2 border-green-400 shadow-lg shadow-green-500/50">
                                 2025
                             </div>
-                            <div class="ml-8 bg-gray-50 rounded-2xl p-8 shadow-lg">
-                                <h3 class="text-2xl font-bold text-gray-800 mb-2">นักพัฒนาเว็บไซต์</h3>
-                                <h4 class="text-lg text-primary-600 mb-4">Musion Co., Ltd.</h4>
-                                <div class="text-gray-600 leading-relaxed space-y-4">
-                                    <p class="font-semibold text-gray-800">ผลงานหลัก:</p>
-                                    <ul class="list-disc list-inside space-y-2 ml-4">
-                                        <li>เขียนระบบรถบัสด้วย Laravel เพื่อจัดการข้อมูลและบริการรถบัส</li>
-                                        <li>เขียนระบบรปภด้วย Laravel เพื่อจัดการข้อมูลและงานด้านรักษาความปลอดภัย</li>
+                            <div class="ml-8 code-bg rounded-2xl p-8 shadow-lg border border-gray-700">
+                                <h3 class="text-2xl font-bold text-green-400 mb-2 font-mono">นักพัฒนาเว็บไซต์</h3>
+                                <h4 class="text-lg text-green-300 mb-4">Musion Co., Ltd.</h4>
+                                <div class="text-gray-300 leading-relaxed space-y-4">
+                                    <p class="font-semibold text-green-400 font-mono">// ผลงานหลัก:</p>
+                                    <ul class="space-y-2 ml-4">
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>เขียนระบบรถบัสด้วย Laravel เพื่อจัดการข้อมูลและบริการรถบัส</span></li>
+                                        <li class="flex items-start"><span class="text-green-400 mr-2 font-mono">→</span><span>เขียนระบบรปภด้วย Laravel เพื่อจัดการข้อมูลและงานด้านรักษาความปลอดภัย</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -536,11 +1198,13 @@
     </section>
 
     <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20 bg-gray-50">
+    <section id="portfolio" class="py-20 bg-gray-800 border-t border-gray-700">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">ผลงานของผม</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold text-green-400 mb-4 font-mono">
+                    <span class="text-gray-400">const</span> <span class="text-green-400">portfolio</span> = [
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     ผลงานที่หลากหลายในด้านการพัฒนาเว็บไซต์และ SAP
                 </p>
             </div>
@@ -548,14 +1212,14 @@
             <!-- Portfolio Filter -->
             <div class="flex justify-center mb-12" data-aos="fade-up">
                 <div class="flex flex-wrap gap-4">
-                    <button class="portfolio-filter-btn active bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300" data-filter="all">
-                        ทั้งหมด
+                    <button class="portfolio-filter-btn active bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 font-mono border border-green-400 shadow-lg shadow-green-500/50" data-filter="all">
+                        all()
                     </button>
-                    <button class="portfolio-filter-btn bg-white text-gray-700 hover:bg-primary-600 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300" data-filter="web">
-                        Web Development
+                    <button class="portfolio-filter-btn code-bg text-gray-300 hover:bg-green-500 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 font-mono border border-gray-700 hover:border-green-500" data-filter="web">
+                        web()
                     </button>
-                    <button class="portfolio-filter-btn bg-white text-gray-700 hover:bg-primary-600 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300" data-filter="sap">
-                        SAP Development
+                    <button class="portfolio-filter-btn code-bg text-gray-300 hover:bg-green-500 hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 font-mono border border-gray-700 hover:border-green-500" data-filter="sap">
+                        sap()
                     </button>
                 </div>
             </div>
@@ -564,11 +1228,11 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid">
                 <!-- Portfolio Item 1 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="100">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/portfolio-1.jpg" alt="Tours Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                            <div class="absolute inset-0 bg-black bg-opacity-70 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="Tours Website"
                                         data-description="เว็บไซต์ท่องเที่ยวที่ใช้งานง่ายและสวยงาม พัฒนาด้วย HTML5, CSS3, JavaScript และ Bootstrap"
                                         data-images='["img/portfolio-1.jpg"]'>
@@ -577,19 +1241,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Tours Website</h3>
-                            <p class="text-gray-600">เว็บไซต์ท่องเที่ยวที่ใช้งานง่ายและสวยงาม</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">Tours Website</h3>
+                            <p class="text-gray-300">เว็บไซต์ท่องเที่ยวที่ใช้งานง่ายและสวยงาม</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Portfolio Item 2 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="200">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/job-1.png" alt="Jobs Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="Jobs Website"
                                         data-description="เว็บไซต์หางานที่มีฟีเจอร์ครบครัน รวมถึงระบบสมัครงาน อัปโหลดไฟล์ และการจัดการโปรไฟล์"
                                         data-images='["img/job-1.png", "img/job-2.png", "img/job-3.png", "img/job-4.png", "img/job-5.png"]'>
@@ -598,19 +1262,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Jobs Website</h3>
-                            <p class="text-gray-600">เว็บไซต์หางานที่มีฟีเจอร์ครบครัน</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">Jobs Website</h3>
+                            <p class="text-gray-300">เว็บไซต์หางานที่มีฟีเจอร์ครบครัน</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Portfolio Item 3 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="300">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/task-1.png" alt="Task-job Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="Task-job Website"
                                         data-description="ระบบจัดการงานและงานมอบหมายที่มีฟีเจอร์การติดตามความคืบหน้า การแจ้งเตือน และรายงานผล"
                                         data-images='["img/task-1.png", "img/task-2.png", "img/task-3.png", "img/task-4.png"]'>
@@ -619,19 +1283,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Task-job Website</h3>
-                            <p class="text-gray-600">ระบบจัดการงานและงานมอบหมาย</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">Task-job Website</h3>
+                            <p class="text-gray-300">ระบบจัดการงานและงานมอบหมาย</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Portfolio Item 4 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="400">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/shop-1.png" alt="Salapao Shop Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="Salapao Shop Website"
                                         data-description="เว็บไซต์ร้านค้าออนไลน์ที่ครบครัน รวมถึงระบบตะกร้าสินค้า การชำระเงิน และการจัดการสินค้า"
                                         data-images='["img/shop-1.png", "img/shop-2.png", "img/shop-3.png", "img/shop-4.png", "img/shop-5.png", "img/shop-6.png", "img/shop-7.png"]'>
@@ -640,19 +1304,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Salapao Shop Website</h3>
-                            <p class="text-gray-600">เว็บไซต์ร้านค้าออนไลน์ที่ครบครัน</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">Salapao Shop Website</h3>
+                            <p class="text-gray-300">เว็บไซต์ร้านค้าออนไลน์ที่ครบครัน</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Portfolio Item 5 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="500">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/room-1.png" alt="Booking Website" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="Booking Website"
                                         data-description="ระบบจองออนไลน์ที่ใช้งานง่าย พร้อมระบบจัดการปฏิทิน การแจ้งเตือน และการชำระเงิน"
                                         data-images='["img/room-1.png", "img/room-2.png", "img/room-3.png", "img/room-4.png"]'>
@@ -661,19 +1325,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Booking Website</h3>
-                            <p class="text-gray-600">ระบบจองออนไลน์ที่ใช้งานง่าย</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">Booking Website</h3>
+                            <p class="text-gray-300">ระบบจองออนไลน์ที่ใช้งานง่าย</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Portfolio Item 6 -->
                 <div class="portfolio-item sap" data-aos="fade-up" data-aos-delay="600">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/portfolio-6.jpg" alt="Report Programme" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="Report Programme"
                                         data-description="โปรแกรมรายงาน SAP ABAP ที่พัฒนาขึ้นเพื่อการวิเคราะห์ข้อมูลและการรายงานผลการดำเนินงาน"
                                         data-images='["img/portfolio-6.jpg", "img/portfolio-7.jpg", "img/portfolio-8.jpg", "img/portfolio-9.jpg"]'>
@@ -682,19 +1346,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Report and Interface</h3>
-                            <p class="text-gray-600">โปรแกรม SAP ABAP</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">Report and Interface</h3>
+                            <p class="text-gray-300">โปรแกรม SAP ABAP</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Portfolio Item 7 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="600">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/erp-1.png" alt="ERP System" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="ERP System"
                                         data-description="โปรแกรมระบบบริหารธุรกิจ Module Production ที่ครอบคลุมการจัดการการผลิต การควบคุมคุณภาพ และการวางแผน"
                                         data-images='["img/erp-1.png", "img/erp-2.png", "img/erp-3.png", "img/erp-4.png", "img/erp-5.png", "img/erp-6.png"]'>
@@ -703,19 +1367,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">ERP System</h3>
-                            <p class="text-gray-600">โปรแกรมระบบบริหารธุรกิจ Module Production</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">ERP System</h3>
+                            <p class="text-gray-300">โปรแกรมระบบบริหารธุรกิจ Module Production</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Portfolio Item 8 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="700">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/bus-1.png" alt="Bus Management System" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="ระบบรถบัส"
                                         data-description="ระบบจัดการรถบัสที่พัฒนาด้วย Laravel เพื่อจัดการข้อมูลรถบัส ตารางเวลา การจองรถบัส รวมไปถึงระบบบุคคล การตลาด ลฯล"
                                         data-images='["img/bus-1.png", "img/bus-2.png", "img/bus-3.png", "img/bus-4.png"]'>
@@ -724,19 +1388,19 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">ระบบรถบัส</h3>
-                            <p class="text-gray-600">ระบบจัดการรถบัสด้วย Laravel</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">ระบบรถบัส</h3>
+                            <p class="text-gray-300">ระบบจัดการรถบัสด้วย Laravel</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Portfolio Item 9 -->
                 <div class="portfolio-item web" data-aos="fade-up" data-aos-delay="800">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="code-bg rounded-2xl overflow-hidden shadow-lg border border-gray-700 hover:border-green-500 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="relative overflow-hidden">
                             <img src="img/anupon-1.png" alt="Security Management System" class="w-full h-64 object-cover transition-transform duration-300 hover:scale-110">
                             <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <button class="view-more-btn bg-white text-gray-800 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300"
+                                <button class="view-more-btn bg-green-500 text-gray-900 px-6 py-3 rounded-lg font-semibold transform scale-0 hover:scale-100 transition-transform duration-300 font-mono"
                                         data-title="ระบบรปภ"
                                         data-description="ระบบจัดการงานด้านรักษาความปลอดภัยที่พัฒนาด้วย Laravel เพื่อจัดการข้อมูลเจ้าหน้าที่รปภ ตารางเวร และรายงานเหตุการณ์"
                                         data-images='["img/anupon-1.png", "img/anupon-2.png", "img/anupon-3.png", "img/anupon-4.png", "img/anupon-5.png"]'>
@@ -745,8 +1409,8 @@
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">ระบบรปภ</h3>
-                            <p class="text-gray-600">ระบบจัดการงานด้านรักษาความปลอดภัยด้วย Laravel</p>
+                            <h3 class="text-xl font-bold text-green-400 mb-2 font-mono">ระบบรปภ</h3>
+                            <p class="text-gray-300">ระบบจัดการงานด้านรักษาความปลอดภัยด้วย Laravel</p>
                         </div>
                     </div>
                 </div>
@@ -856,11 +1520,13 @@
     </section> -->
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white">
+    <section id="contact" class="py-20 bg-gray-900 border-t border-gray-700">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">ติดต่อผม</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold text-green-400 mb-4 font-mono">
+                    <span class="text-gray-400">function</span> <span class="text-green-400">contact</span>() {
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
                     มีโปรเจกต์ที่น่าสนใจ? มาแลกเปลี่ยนความคิดเห็นกันครับ
                 </p>
             </div>
@@ -869,50 +1535,50 @@
                 <div class="grid lg:grid-cols-2 gap-12">
                     <!-- Contact Info -->
                     <div data-aos="fade-right">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-6">ข้อมูลติดต่อ</h3>
+                        <h3 class="text-2xl font-bold text-green-400 mb-6 font-mono">// ข้อมูลติดต่อ</h3>
                         <div class="space-y-6">
                             <div class="flex items-center">
-                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-map-marker-alt text-primary-600"></i>
+                                <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-4 border border-green-500/30">
+                                    <i class="fas fa-map-marker-alt text-green-400"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">ที่อยู่</h4>
-                                    <p class="text-gray-600">20/3 ตำบลนาแพล อำเภอเมืองตรัง จังหวัดตรัง 92000</p>
+                                    <h4 class="font-semibold text-green-400 font-mono">ที่อยู่</h4>
+                                    <p class="text-gray-300">20/3 ตำบลนาแพล อำเภอเมืองตรัง จังหวัดตรัง 92000</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-center">
-                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-phone text-primary-600"></i>
+                                <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-4 border border-green-500/30">
+                                    <i class="fas fa-phone text-green-400"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">โทรศัพท์</h4>
-                                    <p class="text-gray-600">087-4737160</p>
+                                    <h4 class="font-semibold text-green-400 font-mono">โทรศัพท์</h4>
+                                    <p class="text-gray-300">087-4737160</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-center">
-                                <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mr-4">
-                                    <i class="fas fa-envelope text-primary-600"></i>
+                                <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-4 border border-green-500/30">
+                                    <i class="fas fa-envelope text-green-400"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">อีเมล</h4>
-                                    <p class="text-gray-600">Watcharapong.ballz@gmail.com</p>
+                                    <h4 class="font-semibold text-green-400 font-mono">อีเมล</h4>
+                                    <p class="text-gray-300 font-mono">Watcharapong.ballz@gmail.com</p>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Social Links -->
                         <div class="mt-8">
-                            <h4 class="font-semibold text-gray-800 mb-4">ติดตามผมได้ที่</h4>
+                            <h4 class="font-semibold text-green-400 mb-4 font-mono">// ติดตามผมได้ที่</h4>
                             <div class="flex space-x-4">
-                                <a href="https://www.facebook.com/salapao0/" class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors">
+                                <a href="https://www.facebook.com/salapao0/" class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-400 hover:bg-blue-600 border border-blue-500/30 hover:border-blue-500 transition-colors">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a href="https://www.instagram.com/salapao.ball/" class="w-12 h-12 bg-pink-600 rounded-lg flex items-center justify-center text-white hover:bg-pink-700 transition-colors">
+                                <a href="https://www.instagram.com/salapao.ball/" class="w-12 h-12 bg-pink-600/20 rounded-lg flex items-center justify-center text-pink-400 hover:bg-pink-600 border border-pink-500/30 hover:border-pink-500 transition-colors">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="mailto:watcharapong.z@gmail.com" class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center text-white hover:bg-red-700 transition-colors">
+                                <a href="mailto:watcharapong.z@gmail.com" class="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center text-red-400 hover:bg-red-600 border border-red-500/30 hover:border-red-500 transition-colors">
                                     <i class="fas fa-envelope"></i>
                                 </a>
                             </div>
@@ -923,27 +1589,27 @@
                     <div data-aos="fade-left">
                         <form id="contactForm" class="space-y-6">
                             <div>
-                                <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">ชื่อ</label>
-                                <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300">
+                                <label for="name" class="block text-sm font-semibold text-green-400 mb-2 font-mono">ชื่อ</label>
+                                <input type="text" id="name" name="name" required class="w-full px-4 py-3 code-bg border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 text-gray-100">
                             </div>
                             
                             <div>
-                                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">อีเมล</label>
-                                <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300">
+                                <label for="email" class="block text-sm font-semibold text-green-400 mb-2 font-mono">อีเมล</label>
+                                <input type="email" id="email" name="email" required class="w-full px-4 py-3 code-bg border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 text-gray-100">
                             </div>
                             
                             <div>
-                                <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">หัวข้อ</label>
-                                <input type="text" id="subject" name="subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300">
+                                <label for="subject" class="block text-sm font-semibold text-green-400 mb-2 font-mono">หัวข้อ</label>
+                                <input type="text" id="subject" name="subject" required class="w-full px-4 py-3 code-bg border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 text-gray-100">
                             </div>
                             
                             <div>
-                                <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">ข้อความ</label>
-                                <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 resize-none"></textarea>
+                                <label for="message" class="block text-sm font-semibold text-green-400 mb-2 font-mono">ข้อความ</label>
+                                <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 code-bg border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 resize-none text-gray-100"></textarea>
                             </div>
                             
-                            <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                                ส่งข้อความ
+                            <button type="submit" class="w-full bg-green-500 hover:bg-green-400 text-gray-900 py-3 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 font-mono shadow-lg shadow-green-500/50">
+                                $ sendMessage()
                             </button>
                         </form>
                     </div>
@@ -953,26 +1619,26 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-700">
         <div class="container mx-auto px-4 lg:px-8">
             <div class="text-center">
-                <h3 class="text-2xl font-bold mb-4">Watcharapong Kongjan</h3>
-                <p class="text-gray-300 mb-6">Full Stack Developer ที่มีความหลงใหลในการสร้างสรรค์โซลูชันที่ตอบโจทย์</p>
+                <h3 class="text-2xl font-bold mb-4 font-mono text-green-400">&lt;Salapao-Dev /&gt;</h3>
+                <p class="text-gray-300 mb-6 font-mono">// Full Stack Developer ที่มีความหลงใหลในการสร้างสรรค์โซลูชันที่ตอบโจทย์</p>
                 <div class="flex justify-center space-x-6 mb-8">
-                    <a href="https://www.facebook.com/salapao0/" class="text-gray-300 hover:text-white transition-colors">
+                    <a href="https://www.facebook.com/salapao0/" class="text-gray-400 hover:text-green-400 transition-colors">
                         <i class="fab fa-facebook-f text-xl"></i>
                     </a>
-                    <a href="https://www.instagram.com/salapao.ball/" class="text-gray-300 hover:text-white transition-colors">
+                    <a href="https://www.instagram.com/salapao.ball/" class="text-gray-400 hover:text-green-400 transition-colors">
                         <i class="fab fa-instagram text-xl"></i>
                     </a>
-                    <a href="mailto:watcharapong.z@gmail.com" class="text-gray-300 hover:text-white transition-colors">
+                    <a href="mailto:watcharapong.z@gmail.com" class="text-gray-400 hover:text-green-400 transition-colors">
                         <i class="fas fa-envelope text-xl"></i>
                     </a>
                 </div>
                 <div class="border-t border-gray-700 pt-8">
-                    <p class="text-gray-400">
-                        © 2024 Salapao-Dev. All rights reserved. 
-                        Designed by <a href="https://www.facebook.com/salapao0/" class="text-primary-400 hover:text-primary-300">Watcharapong Kongjan</a>
+                    <p class="text-gray-400 font-mono">
+                        <span class="text-gray-500">//</span> © 2025 Salapao-Dev. All rights reserved. 
+                        Designed by <a href="https://www.facebook.com/salapao0/" class="text-green-400 hover:text-green-300">Watcharapong Kongjan</a>
                     </p>
                 </div>
             </div>
@@ -980,33 +1646,47 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-primary-600 text-white rounded-full shadow-lg hover:bg-primary-700 transition-all duration-300 transform hover:scale-110 opacity-0 invisible">
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-green-500 text-gray-900 rounded-full shadow-lg shadow-green-500/50 hover:bg-green-400 transition-all duration-300 transform hover:scale-110 opacity-0 invisible border-2 border-green-400">
         <i class="fas fa-chevron-up"></i>
     </button>
 
     <!-- Image Modal -->
-    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 opacity-0 invisible transition-all duration-300">
-        <div class="relative max-w-4xl max-h-[90vh] mx-4">
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50 opacity-0 invisible transition-all duration-300">
+        <div class="relative max-w-6xl max-h-[95vh] mx-4 w-full">
             <!-- Close Button -->
-            <button id="closeModal" class="absolute -top-12 right-0 text-white text-2xl hover:text-primary-300 transition-colors z-10">
+            <button id="closeModal" class="absolute -top-12 right-0 text-white text-3xl hover:text-green-400 transition-colors z-10 w-10 h-10 flex items-center justify-center bg-gray-900/80 rounded-full border border-gray-700 hover:border-green-400">
                 <i class="fas fa-times"></i>
             </button>
             
             <!-- Navigation Buttons -->
-            <button id="prevImage" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary-300 transition-colors z-10 bg-black bg-opacity-50 rounded-full w-12 h-12 flex items-center justify-center">
+            <button id="prevImage" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-green-400 transition-all z-10 bg-gray-900/90 backdrop-blur-sm rounded-full w-14 h-14 flex items-center justify-center border border-gray-700 hover:border-green-400 hover:bg-gray-800 shadow-lg">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <button id="nextImage" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-primary-300 transition-colors z-10 bg-black bg-opacity-50 rounded-full w-12 h-12 flex items-center justify-center">
+            <button id="nextImage" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl hover:text-green-400 transition-all z-10 bg-gray-900/90 backdrop-blur-sm rounded-full w-14 h-14 flex items-center justify-center border border-gray-700 hover:border-green-400 hover:bg-gray-800 shadow-lg">
                 <i class="fas fa-chevron-right"></i>
             </button>
             
             <!-- Image Container -->
-            <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
-                <img id="modalImage" src="" alt="Portfolio Image" class="w-full h-auto max-h-[80vh] object-contain">
-                <div class="p-6">
-                    <h3 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-2"></h3>
-                    <p id="modalDescription" class="text-gray-600 mb-4"></p>
-                    <div id="modalImages" class="flex flex-wrap gap-2">
+            <div class="terminal-window overflow-hidden shadow-2xl border-2 border-green-400/50 terminal-glow">
+                <!-- Terminal Header -->
+                <div class="terminal-header">
+                    <div class="terminal-dot bg-red-500"></div>
+                    <div class="terminal-dot bg-yellow-500"></div>
+                    <div class="terminal-dot bg-green-500"></div>
+                    <span class="ml-4 text-xs text-gray-400 font-mono" id="modalTitle">Portfolio Image</span>
+                </div>
+                
+                <!-- Image Content -->
+                <div class="bg-gray-900 p-4">
+                    <img id="modalImage" src="" alt="Portfolio Image" class="w-full h-auto max-h-[70vh] object-contain rounded-lg mx-auto block">
+                    
+                    <!-- Description -->
+                    <div class="mt-4 px-2">
+                        <p id="modalDescription" class="text-gray-300 text-sm font-mono leading-relaxed"></p>
+                    </div>
+                    
+                    <!-- Thumbnail Navigation -->
+                    <div id="modalImages" class="flex flex-wrap gap-3 justify-center mt-6 pt-4 border-t border-gray-700">
                         <!-- Additional images will be loaded here -->
                     </div>
                 </div>

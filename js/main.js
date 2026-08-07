@@ -1,1051 +1,366 @@
-// Main JavaScript for Salapao-Dev Portfolio
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Initialize AOS (Animate On Scroll)
-    AOS.init({
-        duration: 1000,
-        easing: 'ease-in-out',
-        once: true,
-        mirror: false
-    });
-
-    // Typed.js for hero section
-    if (document.getElementById('typed-text')) {
-        new Typed('#typed-text', {
-            strings: [
-                'Software Developer',
-                'Web Developer', 
-                'SAP Developer',
-                'Mobile Apps Developer',
-                'IT Support',
-                'Full Stack Developer'
-            ],
-            typeSpeed: 100,
-            backSpeed: 50,
-            backDelay: 2000,
-            loop: true,
-            showCursor: true,
-            cursorChar: '|'
-        });
-    }
-
-    // Navigation functionality
-    const navbar = document.getElementById('navbar');
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    // Sticky navigation
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            navbar.classList.add('bg-white', 'shadow-lg');
-            navbar.classList.remove('bg-transparent');
-            // Update nav links color
-            navLinks.forEach(link => {
-                link.classList.remove('text-white');
-                link.classList.add('text-gray-800');
-            });
-        } else {
-            navbar.classList.remove('bg-white', 'shadow-lg');
-            navbar.classList.add('bg-transparent');
-            // Update nav links color
-            navLinks.forEach(link => {
-                link.classList.remove('text-gray-800');
-                link.classList.add('text-white');
-            });
+document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.getElementById('nav');
+    const scrollLine = document.getElementById('scrollLine');
+    const cursorGlow = document.getElementById('cursorGlow');
+    const menuButton = document.getElementById('menuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const translations = {
+        th: {
+            'nav.about': 'เกี่ยวกับ', 'nav.experience': 'ประสบการณ์', 'nav.work': 'ผลงาน', 'nav.contact': 'ติดต่อ',
+            'nav.resume': 'ดาวน์โหลด CV', 'nav.available': 'พร้อมรับงาน',
+            'hero.location': 'อยู่ที่จังหวัดตรัง ประเทศไทย', 'hero.name': 'วัชรพงศ์ คงจันทร์',
+            'hero.role': 'นักพัฒนาที่เปลี่ยน Workflow ซับซ้อนให้เป็น <em>ระบบที่เรียบง่ายและเชื่อถือได้</em>',
+            'hero.resume': 'ดาวน์โหลด Resume', 'hero.portfolio': 'ดูผลงาน',
+            'about.lead': 'ผมเป็นนักพัฒนาที่ทำงานอยู่ระหว่าง',
+            'about.p1': 'มีประสบการณ์พัฒนาระบบองค์กรตั้งแต่เก็บ Requirement, สร้าง Workflow, เชื่อมต่อ API, ทดสอบ ไปจนถึงนำขึ้น Production',
+            'about.p2': 'ถนัด K2 SmartForms, Laravel, PHP, SQL และ SAP ABAP พร้อมเรียนรู้เครื่องมือใหม่เพื่อแก้ปัญหาให้เหมาะกับแต่ละธุรกิจ',
+            'about.cta': 'ร่วมงานกัน',
+            'metrics.experience': 'ปีของ<br>ประสบการณ์', 'metrics.projects': 'โปรเจกต์<br>ที่เลือกไว้', 'metrics.gpa': 'GPA — เกียรตินิยม<br>อันดับ 1',
+            'services.title': 'บริการที่ช่วยเปลี่ยน<br>แนวคิดให้เป็นระบบ',
+            'services.subtitle': 'รับพัฒนางานตามขอบเขตที่ชัดเจน ตั้งแต่การวิเคราะห์ไปจนถึงส่งมอบและดูแลหลังใช้งาน',
+            'services.web.title': 'พัฒนา Web Application', 'services.web.desc': 'ระบบหลังบ้าน Dashboard แบบฟอร์ม และระบบจัดการข้อมูลที่ออกแบบตามกระบวนการของธุรกิจ',
+            'services.workflow.title': 'Workflow Automation', 'services.workflow.desc': 'เปลี่ยนขั้นตอนอนุมัติและงานเอกสารให้เป็น Workflow ที่ติดตามสถานะและตรวจสอบย้อนหลังได้',
+            'services.integration.title': 'เชื่อมต่อระบบ', 'services.integration.desc': 'เชื่อมต่อข้อมูลระหว่างระบบ ลดการกรอกข้อมูลซ้ำ และทำให้กระบวนการทำงานต่อเนื่องกัน',
+            'services.support.title': 'ดูแลระบบและ IT Support', 'services.support.desc': 'ตรวจสอบ แก้ไขปัญหา ปรับปรุงระบบ และจัดทำเอกสารเพื่อให้ผู้ใช้ทำงานได้อย่างต่อเนื่อง',
+            'journey.title': 'จากพื้นฐาน IT<br>สู่ระบบองค์กร',
+            'journey.subtitle': 'ทุกช่วงการทำงานช่วยต่อยอดทักษะจากการดูแลระบบ สู่ Web Development, ERP และ Workflow Automation',
+            'journey.it': 'ฐานข้อมูล เครือข่าย ซ่อมคอมพิวเตอร์ และพัฒนาแอปพลิเคชัน',
+            'journey.web': 'พัฒนาเว็บไซต์จริงด้วย PHP, MySQL, Bootstrap และ WordPress',
+            'journey.erp': 'ระบบการผลิต คลังสินค้า และ SAP ABAP Integration',
+            'journey.k2': 'Workflow, SmartForms, SmartObjects และการเชื่อมต่อระบบองค์กร',
+            'career.subtitle': 'ประสบการณ์จากงานเอกสาร สู่การพัฒนา Web Application และระบบ Workflow ระดับองค์กร',
+            'career.k2': 'พัฒนา SmartForms, Workflows และ SmartObjects เชื่อมต่อระบบภายนอก ทดสอบ แก้ไข UAT และดูแลระบบ Production',
+            'career.fullstack': 'สร้าง Web Application ตาม Figma ด้วย Laravel และ MySQL ใช้ Docker และ GitLab ในกระบวนการพัฒนา',
+            'career.php': 'พัฒนาเว็บไซต์ PHP และ WordPress รวมถึง SAP ABAP Report, Interface, Smart Form และ API',
+            'career.officer': 'จัดทำโครงการ บันทึกข้อความ คำสั่ง และเอกสารราชการสำหรับงานกิจกรรมนักเรียน',
+            'process.title': 'ชัดเจนทุกขั้นตอน<br>ตั้งแต่โจทย์ถึงใช้งานจริง',
+            'process.subtitle': 'กระบวนการทำงานที่เน้นการสื่อสาร ตรวจสอบได้ และลดความเสี่ยงก่อนนำระบบขึ้นใช้งาน',
+            'process.discover.title': 'ทำความเข้าใจโจทย์', 'process.discover.desc': 'รวบรวม Requirement ผู้เกี่ยวข้อง ข้อมูล และข้อจำกัดของกระบวนการปัจจุบัน',
+            'process.design.title': 'ออกแบบแนวทาง', 'process.design.desc': 'วาง Flow โครงสร้างข้อมูล หน้าจอ และจุดเชื่อมต่อให้ทุกฝ่ายเห็นภาพตรงกัน',
+            'process.build.title': 'พัฒนาเป็นรอบ', 'process.build.desc': 'แบ่งงานเป็นส่วนย่อย พัฒนาและสาธิตความคืบหน้าเพื่อรับ Feedback ระหว่างทาง',
+            'process.verify.title': 'ทดสอบและปรับปรุง', 'process.verify.desc': 'ทำ Unit Testing รองรับ UAT แก้ไขข้อผิดพลาด และตรวจสอบกรณีใช้งานสำคัญ',
+            'process.deliver.title': 'ส่งมอบและดูแล', 'process.deliver.desc': 'Deploy พร้อมเอกสาร User Manual และติดตามปัญหาหลังนำระบบขึ้นใช้งาน',
+            'k2.note': 'กรณีศึกษาแบบไม่เปิดเผยชื่อลูกค้าและข้อมูลภายใน',
+            'k2.summary': 'เปลี่ยนกระบวนการอนุมัติที่มีหลายขั้นตอนและข้อมูลกระจาย ให้เป็น Workflow กลางที่ผู้ใช้ติดตามสถานะได้',
+            'k2.challenge.label': 'โจทย์', 'k2.challenge.title': 'ขั้นตอนอนุมัติซับซ้อน', 'k2.challenge.desc': 'ข้อมูลจากแบบฟอร์ม ผู้อนุมัติ และสถานะงานอยู่คนละจุด ทำให้ติดตามงานและตรวจสอบย้อนหลังได้ยาก',
+            'k2.role.label': 'หน้าที่รับผิดชอบ', 'k2.role.desc': 'พัฒนา SmartForms, Views, Rules, Validation, Workflow และ SmartObjects ตาม Requirement ที่ได้รับ',
+            'k2.integration.label': 'การเชื่อมต่อ', 'k2.integration.desc': 'เชื่อมข้อมูลกับ SQL Server, REST API, Web Services หรือ SharePoint ตามบริบทของระบบ',
+            'k2.quality.label': 'คุณภาพและส่งมอบ', 'k2.quality.desc': 'ทำ Unit Testing แก้ไขปัญหาจาก UAT จัดทำ Deployment Document และ User Manual',
+            'k2.outcome.label': 'ผลลัพธ์เชิงคุณภาพ', 'k2.outcome.one': 'ขั้นตอนอนุมัติมีมาตรฐานและมองเห็นสถานะได้จากจุดเดียว',
+            'k2.outcome.two': 'ลดการกรอกข้อมูลซ้ำด้วยการเชื่อมต่อระบบที่เกี่ยวข้อง', 'k2.outcome.three': 'ตรวจสอบประวัติและแก้ไขปัญหา Workflow ได้สะดวกขึ้น',
+            'work.subtitle': 'คลิกที่ผลงานเพื่ออ่าน Case Study และดูภาพเพิ่มเติม',
+            'project.bus': 'ระบบจัดการรถบัส บุคลากร การตลาด ตารางเดินรถ และรายงาน',
+            'project.security': 'ระบบจัดการเจ้าหน้าที่ ตารางเวร จุดตรวจ และรายงานเหตุการณ์',
+            'project.erp': 'ระบบบริหารการผลิต บัญชีส่วนประกอบ และคลังสินค้า',
+            'project.jobs': 'แพลตฟอร์มหางาน สมัครงาน อัปโหลดเอกสาร และจัดการโปรไฟล์',
+            'outcome.bus': 'รวมข้อมูลการดำเนินงานไว้ในระบบเดียว ช่วยให้ติดตามภาพรวมและจัดทำรายงานได้ง่ายขึ้น',
+            'outcome.security': 'ข้อมูลเวรและเหตุการณ์ค้นหาได้เป็นระบบ เพิ่มความสะดวกในการติดตามและตรวจสอบย้อนหลัง',
+            'outcome.erp': 'เชื่อมโยง BOM การผลิต และคลังสินค้า ทำให้ข้อมูลในแต่ละขั้นตอนต่อเนื่องกันมากขึ้น',
+            'outcome.jobs': 'ผู้สมัครและผู้ประกอบการจัดการประกาศ โปรไฟล์ และใบสมัครผ่านช่องทางเดียว',
+            'award.sciitech': 'ชนะเลิศอันดับ 1 กลุ่มวิทยาศาสตร์คอมพิวเตอร์และเทคโนโลยี',
+            'award.ncst': 'นำเสนอผลงานด้านวิทยาการคอมพิวเตอร์และเทคโนโลยีสารสนเทศ',
+            'award.network': 'รองชนะเลิศอันดับ 4 ระดับชาติ',
+            'award.icdl': 'Workforce Basics ระดับ 2 · คะแนนรับรอง 775',
+            'availability.title': 'พร้อมสำหรับ<br>โอกาสใหม่',
+            'availability.subtitle': 'เปิดรับงานที่ได้ใช้ทักษะด้านการพัฒนาระบบและแก้ปัญหาให้ธุรกิจ',
+            'availability.positionLabel': 'ตำแหน่งที่สนใจ', 'availability.typeLabel': 'รูปแบบการทำงาน',
+            'availability.type': 'งานประจำ · Part-time · Freelance<br>Work from Home',
+            'availability.startLabel': 'เริ่มงานได้', 'availability.start': '30 วันหลังจากเซ็นสัญญา',
+            'availability.salaryLabel': 'เงินเดือนที่คาดหวัง', 'availability.salary': '20,000 — 25,000 บาท',
+            'availability.download': 'ดาวน์โหลด Resume PDF',
+            'case.challenge': 'โจทย์', 'case.role': 'บทบาท', 'case.solution': 'แนวทางแก้ปัญหา', 'case.outcome': 'ผลลัพธ์'
+        },
+        en: {
+            'nav.about': 'About', 'nav.experience': 'Experience', 'nav.work': 'Work', 'nav.contact': 'Contact',
+            'nav.resume': 'Download CV', 'nav.available': 'Available for work',
+            'hero.location': 'Based in Trang, Thailand', 'hero.name': 'Watcharapong Khongchan',
+            'hero.role': 'Developer who turns complex workflows into <em>simple, reliable systems.</em>',
+            'hero.resume': 'Download Resume', 'hero.portfolio': 'View Work',
+            'about.lead': 'I am a developer working between',
+            'about.p1': 'Experienced in enterprise development from requirements and workflow design to API integration, testing, and production deployment.',
+            'about.p2': 'Skilled in K2 SmartForms, Laravel, PHP, SQL, and SAP ABAP, with a continuous drive to learn the right tools for each business problem.',
+            'about.cta': "Let's work together",
+            'metrics.experience': 'Years of<br>experience', 'metrics.projects': 'Selected<br>projects', 'metrics.gpa': 'GPA — First<br>class honors',
+            'services.title': 'Services that turn<br>ideas into systems',
+            'services.subtitle': 'Clear-scope development from analysis and implementation through delivery and post-launch support.',
+            'services.web.title': 'Web Application Development', 'services.web.desc': 'Back-office systems, dashboards, forms, and data management tailored to business processes.',
+            'services.workflow.title': 'Workflow Automation', 'services.workflow.desc': 'Turn approvals and document processes into traceable, auditable digital workflows.',
+            'services.integration.title': 'System Integration', 'services.integration.desc': 'Connect systems, reduce duplicate data entry, and create continuous business processes.',
+            'services.support.title': 'Maintenance & IT Support', 'services.support.desc': 'Troubleshoot, improve systems, and prepare documentation to keep users productive.',
+            'journey.title': 'From IT foundations<br>to enterprise systems',
+            'journey.subtitle': 'Each role expanded my skills from IT support to web development, ERP, and workflow automation.',
+            'journey.it': 'Databases, networks, computer maintenance, and application development.',
+            'journey.web': 'Production websites built with PHP, MySQL, Bootstrap, and WordPress.',
+            'journey.erp': 'Production, inventory, and SAP ABAP integration solutions.',
+            'journey.k2': 'Enterprise workflows, SmartForms, SmartObjects, and system integration.',
+            'career.subtitle': 'A journey from documentation to web applications and enterprise workflow systems.',
+            'career.k2': 'Develop SmartForms, Workflows, and SmartObjects; integrate external systems; test, resolve UAT issues, and support production.',
+            'career.fullstack': 'Built Figma-based web applications with Laravel and MySQL, using Docker and GitLab throughout development.',
+            'career.php': 'Developed PHP and WordPress websites alongside SAP ABAP reports, interfaces, Smart Forms, and APIs.',
+            'career.officer': 'Prepared projects, internal memos, official orders, and documents for student activities.',
+            'process.title': 'A clear process<br>from brief to launch',
+            'process.subtitle': 'A communication-first, verifiable process that reduces risk before production deployment.',
+            'process.discover.title': 'Understand the problem', 'process.discover.desc': 'Gather requirements, stakeholders, data, and constraints in the current process.',
+            'process.design.title': 'Design the approach', 'process.design.desc': 'Map flows, data structures, screens, and integrations so everyone shares the same view.',
+            'process.build.title': 'Build iteratively', 'process.build.desc': 'Split work into focused increments and demonstrate progress for feedback along the way.',
+            'process.verify.title': 'Test and refine', 'process.verify.desc': 'Run unit tests, support UAT, resolve defects, and verify important usage scenarios.',
+            'process.deliver.title': 'Deliver and support', 'process.deliver.desc': 'Deploy with user documentation and follow up on issues after launch.',
+            'k2.note': 'An anonymized case study with no client or internal information disclosed.',
+            'k2.summary': 'Transformed a multi-step, fragmented approval process into a central workflow with visible status tracking.',
+            'k2.challenge.label': 'Challenge', 'k2.challenge.title': 'Complex approvals', 'k2.challenge.desc': 'Form data, approvers, and work status lived in separate places, making tracking and audits difficult.',
+            'k2.role.label': 'Responsibilities', 'k2.role.desc': 'Developed SmartForms, Views, Rules, Validation, Workflows, and SmartObjects from approved requirements.',
+            'k2.integration.label': 'Integration', 'k2.integration.desc': 'Connected SQL Server, REST APIs, Web Services, or SharePoint according to the system context.',
+            'k2.quality.label': 'Quality & delivery', 'k2.quality.desc': 'Performed unit testing, resolved UAT findings, and prepared deployment and user documentation.',
+            'k2.outcome.label': 'Qualitative outcomes', 'k2.outcome.one': 'A standardized approval process with status visible in one place.',
+            'k2.outcome.two': 'Less duplicate entry through integration with related systems.', 'k2.outcome.three': 'Easier history review and workflow troubleshooting.',
+            'work.subtitle': 'Select a project to read its case study and browse more screens.',
+            'project.bus': 'Bus operations, personnel, marketing, scheduling, and reporting in one application.',
+            'project.security': 'Staff, shift, checkpoint, and incident reporting management.',
+            'project.erp': 'Production, bill of materials, and inventory management.',
+            'project.jobs': 'Job search, applications, document uploads, and profile management.',
+            'outcome.bus': 'Centralized operational data, making overview monitoring and reporting easier.',
+            'outcome.security': 'Structured shift and incident records for easier tracking and historical review.',
+            'outcome.erp': 'Connected BOM, production, and inventory data into a more continuous process.',
+            'outcome.jobs': 'Candidates and employers manage vacancies, profiles, and applications through one channel.',
+            'award.sciitech': 'First-place award in the Computer Science and Technology category.',
+            'award.ncst': 'Presented research in computer science and information technology.',
+            'award.network': 'Fourth runner-up in the national network technology competition.',
+            'award.icdl': 'Workforce Basics Level 2 · Certification score 775.',
+            'availability.title': 'Ready for<br>new opportunities',
+            'availability.subtitle': 'Open to roles where development skills can solve meaningful business problems.',
+            'availability.positionLabel': 'Interested roles', 'availability.typeLabel': 'Work type',
+            'availability.type': 'Full-time · Part-time · Freelance<br>Work from Home',
+            'availability.startLabel': 'Available from', 'availability.start': '30 days after contract signing',
+            'availability.salaryLabel': 'Expected salary', 'availability.salary': 'THB 20,000 — 25,000',
+            'availability.download': 'Download Resume PDF',
+            'case.challenge': 'Challenge', 'case.role': 'Role', 'case.solution': 'Solution', 'case.outcome': 'Outcome'
         }
-    });
-
-    // Mobile menu toggle
-    mobileMenuBtn.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
-    });
-
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenu.classList.add('hidden');
-        });
-    });
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const offsetTop = target.offsetTop - 80; // Account for fixed navbar
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Active navigation link highlighting
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('section[id]');
-        const scrollPos = window.scrollY + 100;
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            const navLink = document.querySelector(`a[href="#${sectionId}"]`);
-
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                navLinks.forEach(link => link.classList.remove('text-primary-300'));
-                if (navLink) navLink.classList.add('text-primary-300');
-            }
-        });
-    });
-
-    // Skills animation
-    const skillBars = document.querySelectorAll('.skill-bar');
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px 0px -100px 0px'
     };
-
-    const skillObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const skillBar = entry.target;
-                const width = skillBar.getAttribute('data-width');
-                skillBar.style.width = '0%';
-                
-                setTimeout(() => {
-                    skillBar.style.transition = 'width 1.5s ease-in-out';
-                    skillBar.style.width = width + '%';
-                }, 200);
-                
-                skillObserver.unobserve(skillBar);
+    const caseStudies = {
+        th: {
+            bus: {
+                challenge: 'ข้อมูลรถ บุคลากร ตารางเดินรถ และงานการตลาดกระจายอยู่หลายส่วน ทำให้ติดตามภาพรวมได้ยาก',
+                role: 'Fullstack Developer — พัฒนาโมดูลและหน้าใช้งานตาม Figma พร้อมจัดการฐานข้อมูล',
+                solution: 'รวมกระบวนการสำคัญไว้ใน Web Application เดียว พร้อม Dashboard และรายงานสำหรับติดตามการดำเนินงาน',
+                outcome: 'ข้อมูลการดำเนินงานอยู่ในระบบเดียว ทำให้ติดตามภาพรวมและจัดทำรายงานได้สะดวกขึ้น',
+                tech: 'Laravel · PHP · MySQL · Docker · GitLab'
+            },
+            security: {
+                challenge: 'การจัดเวร จุดตรวจ และรายงานเหตุการณ์ต้องรองรับข้อมูลเจ้าหน้าที่จำนวนมากและตรวจสอบย้อนหลังได้',
+                role: 'Fullstack Developer — พัฒนาหน้าใช้งาน Logic และโครงสร้างข้อมูล',
+                solution: 'สร้างระบบรวมข้อมูลเจ้าหน้าที่ ตารางเวร จุดตรวจ และรายงานเหตุการณ์ให้ค้นหาและติดตามได้ง่าย',
+                outcome: 'ข้อมูลเวรและเหตุการณ์เป็นระบบมากขึ้น ช่วยให้ค้นหาและตรวจสอบประวัติได้ง่าย',
+                tech: 'Laravel · PHP · MySQL · Bootstrap'
+            },
+            erp: {
+                challenge: 'กระบวนการผลิตต้องเชื่อมโยงวัตถุดิบ BOM คลังสินค้า และข้อมูลการผลิตอย่างถูกต้อง',
+                role: 'PHP Web Programmer — พัฒนาโมดูล Production และ Inventory',
+                solution: 'ออกแบบหน้าจอและกระบวนการจัดการ BOM การผลิต และคลังสินค้าให้ข้อมูลสัมพันธ์กันในระบบ ERP',
+                outcome: 'ข้อมูล BOM การผลิต และคลังสินค้าเชื่อมโยงกัน ช่วยลดความซ้ำซ้อนระหว่างขั้นตอน',
+                tech: 'PHP · MySQL · Bootstrap · JavaScript'
+            },
+            jobs: {
+                challenge: 'ผู้สมัครและผู้ประกอบการต้องจัดการประกาศงาน โปรไฟล์ และเอกสารผ่านช่องทางเดียว',
+                role: 'Web Developer — พัฒนาฟังก์ชันหลักและส่วนติดต่อผู้ใช้',
+                solution: 'สร้างแพลตฟอร์มหางานที่รองรับการค้นหา สมัครงาน อัปโหลดเอกสาร และจัดการโปรไฟล์',
+                outcome: 'ผู้ใช้งานจัดการกระบวนการหางานและรับสมัครผ่านแพลตฟอร์มเดียวได้',
+                tech: 'PHP · MySQL · Bootstrap 5 · JavaScript'
             }
-        });
-    }, observerOptions);
-
-    skillBars.forEach(bar => {
-        skillObserver.observe(bar);
-    });
-
-    // Portfolio filter functionality
-    const portfolioFilterBtns = document.querySelectorAll('.portfolio-filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-    portfolioFilterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            
-            // Update active button
-            portfolioFilterBtns.forEach(b => {
-                b.classList.remove('active', 'bg-primary-600', 'text-white');
-                b.classList.add('bg-white', 'text-gray-700');
-            });
-            this.classList.add('active', 'bg-primary-600', 'text-white');
-            this.classList.remove('bg-white', 'text-gray-700');
-
-            // Filter portfolio items
-            portfolioItems.forEach(item => {
-                if (filter === 'all' || item.classList.contains(filter)) {
-                    item.style.display = 'block';
-                    item.style.animation = 'fadeIn 0.5s ease-in-out';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    // Portfolio item hover effects
-    portfolioItems.forEach(item => {
-        const overlay = item.querySelector('.absolute');
-        const button = item.querySelector('button');
-        
-        if (overlay && button) {
-            item.addEventListener('mouseenter', function() {
-                overlay.style.opacity = '1';
-                button.style.transform = 'scale(1)';
-            });
-            
-            item.addEventListener('mouseleave', function() {
-                overlay.style.opacity = '0';
-                button.style.transform = 'scale(0)';
-            });
-        }
-    });
-
-    // Back to top button
-    const backToTopBtn = document.getElementById('backToTop');
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 300) {
-            backToTopBtn.classList.remove('opacity-0', 'invisible');
-            backToTopBtn.classList.add('opacity-100', 'visible');
-        } else {
-            backToTopBtn.classList.add('opacity-0', 'invisible');
-            backToTopBtn.classList.remove('opacity-100', 'visible');
-        }
-    });
-
-    backToTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    // Contact form handling
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const subject = formData.get('subject');
-            const message = formData.get('message');
-            
-            // Basic validation
-            if (!name || !email || !subject || !message) {
-                showNotification('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showNotification('กรุณากรอกอีเมลให้ถูกต้อง', 'error');
-                return;
-            }
-            
-            // Simulate form submission (replace with actual form handling)
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            
-            submitBtn.textContent = 'กำลังส่ง...';
-            submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                showNotification('ส่งข้อความสำเร็จ! เราจะติดต่อกลับโดยเร็วที่สุด', 'success');
-                this.reset();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 2000);
-        });
-    }
-
-    // Email validation function
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    // Notification system
-    function showNotification(message, type = 'info') {
-        // Remove existing notifications
-        const existingNotifications = document.querySelectorAll('.notification');
-        existingNotifications.forEach(notification => notification.remove());
-        
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full`;
-        
-        // Set notification content and styling based on type
-        switch(type) {
-            case 'success':
-                notification.classList.add('bg-green-500', 'text-white');
-                notification.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-check-circle mr-2"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-                break;
-            case 'error':
-                notification.classList.add('bg-red-500', 'text-white');
-                notification.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-                break;
-            default:
-                notification.classList.add('bg-blue-500', 'text-white');
-                notification.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-info-circle mr-2"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-        }
-        
-        // Add to page
-        document.body.appendChild(notification);
-        
-        // Animate in
-        setTimeout(() => {
-            notification.classList.remove('translate-x-full');
-        }, 100);
-        
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            notification.classList.add('translate-x-full');
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 300);
-        }, 5000);
-    }
-
-    // Parallax effect for hero section
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const hero = document.getElementById('home');
-        if (hero) {
-            const rate = scrolled * -0.5;
-            hero.style.transform = `translateY(${rate}px)`;
-        }
-    });
-
-    // Loading animation
-    window.addEventListener('load', function() {
-        document.body.classList.add('loaded');
-    });
-
-    // Add some interactive hover effects
-    document.querySelectorAll('.service-item, .portfolio-item').forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-
-    // Intersection Observer for fade-in animations
-    const fadeElements = document.querySelectorAll('.fade-in');
-    const fadeObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-fade-in');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    fadeElements.forEach(element => {
-        fadeObserver.observe(element);
-    });
-
-    // Image Modal functionality
-    const imageModal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalImages = document.getElementById('modalImages');
-    const closeModal = document.getElementById('closeModal');
-    const prevImage = document.getElementById('prevImage');
-    const nextImage = document.getElementById('nextImage');
-    
-    let currentImageIndex = 0;
-    let currentImages = [];
-    
-    // View more buttons functionality
-    document.querySelectorAll('.view-more-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const title = this.getAttribute('data-title');
-            const description = this.getAttribute('data-description');
-            
-            try {
-                const images = JSON.parse(this.getAttribute('data-images'));
-                
-                if (!Array.isArray(images) || images.length === 0) {
-                    showNotification('ไม่มีรูปภาพเพิ่มเติม', 'error');
-                    return;
-                }
-                
-                // Set modal content
-                modalTitle.textContent = title;
-                modalDescription.textContent = description;
-                currentImages = images;
-                currentImageIndex = 0;
-                
-                // Load first image
-                loadImage(0);
-                
-                // Show modal
-                imageModal.classList.remove('opacity-0', 'invisible');
-                imageModal.classList.add('opacity-100', 'visible');
-                
-                // Prevent body scroll
-                document.body.style.overflow = 'hidden';
-                
-            } catch (error) {
-                console.error('Error parsing images JSON:', error);
-                showNotification('เกิดข้อผิดพลาดในการโหลดรูปภาพ', 'error');
-            }
-        });
-    });
-    
-    // Close modal
-    closeModal.addEventListener('click', function() {
-        hideModal();
-    });
-    
-    // Close modal when clicking outside
-    imageModal.addEventListener('click', function(e) {
-        if (e.target === imageModal) {
-            hideModal();
-        }
-    });
-    
-    // Navigation buttons
-    prevImage.addEventListener('click', function() {
-        if (currentImages.length > 1) {
-            currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
-            loadImage(currentImageIndex);
-        }
-    });
-    
-    nextImage.addEventListener('click', function() {
-        if (currentImages.length > 1) {
-            currentImageIndex = (currentImageIndex + 1) % currentImages.length;
-            loadImage(currentImageIndex);
-        }
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (imageModal.classList.contains('visible')) {
-            if (e.key === 'Escape') {
-                hideModal();
-            } else if (e.key === 'ArrowLeft') {
-                prevImage.click();
-            } else if (e.key === 'ArrowRight') {
-                nextImage.click();
+        },
+        en: {
+            bus: {
+                challenge: 'Vehicle, personnel, scheduling, and marketing data were fragmented, making operations difficult to monitor.',
+                role: 'Fullstack Developer — implemented modules and interfaces from Figma and managed the database layer.',
+                solution: 'Consolidated core operations into one web application with dashboards and operational reports.',
+                outcome: 'Operational data became centralized, making overview monitoring and reporting more convenient.',
+                tech: 'Laravel · PHP · MySQL · Docker · GitLab'
+            },
+            security: {
+                challenge: 'Shift, checkpoint, and incident records needed to support many officers and remain auditable.',
+                role: 'Fullstack Developer — developed interfaces, application logic, and data structures.',
+                solution: 'Centralized officer data, shifts, checkpoints, and incidents into a searchable management system.',
+                outcome: 'Shift and incident records became easier to search, track, and review historically.',
+                tech: 'Laravel · PHP · MySQL · Bootstrap'
+            },
+            erp: {
+                challenge: 'Production required accurate links between materials, BOMs, inventory, and manufacturing records.',
+                role: 'PHP Web Programmer — developed Production and Inventory modules.',
+                solution: 'Designed connected BOM, production, and inventory workflows inside the ERP system.',
+                outcome: 'BOM, production, and inventory data became connected, reducing duplication between process steps.',
+                tech: 'PHP · MySQL · Bootstrap · JavaScript'
+            },
+            jobs: {
+                challenge: 'Candidates and employers needed one channel for vacancies, profiles, applications, and documents.',
+                role: 'Web Developer — developed core functionality and user-facing interfaces.',
+                solution: 'Built a job platform supporting search, applications, document uploads, and profile management.',
+                outcome: 'Candidates and employers could manage recruitment activities through a single platform.',
+                tech: 'PHP · MySQL · Bootstrap 5 · JavaScript'
             }
         }
-    });
-    
-        // Load image function
-    function loadImage(index) {
-        const img = new Image();
-        
-        // Show loading state
-        modalImage.classList.add('loading');
-        
-        img.onload = function() {
-            modalImage.src = currentImages[index];
-            modalImage.alt = modalTitle.textContent;
-            modalImage.classList.remove('loading');
-            
-            // Update thumbnail navigation
-            updateThumbnails();
-            
-            // Update navigation buttons visibility
-            prevImage.style.display = currentImages.length > 1 ? 'flex' : 'none';
-            nextImage.style.display = currentImages.length > 1 ? 'flex' : 'none';
-            
-            // Hide thumbnails if only one image
-            if (currentImages.length <= 1) {
-                modalImages.style.display = 'none';
-            } else {
-                modalImages.style.display = 'flex';
-            }
-        };
-        
-        img.onerror = function() {
-            modalImage.classList.remove('loading');
-            showNotification('ไม่สามารถโหลดรูปภาพได้', 'error');
-            hideModal();
-        };
-        
-        img.src = currentImages[index];
-    }
-    
-    // Update thumbnails
-    function updateThumbnails() {
-        modalImages.innerHTML = '';
-        
-        currentImages.forEach((image, index) => {
-            const thumbnail = document.createElement('img');
-            thumbnail.src = image;
-            thumbnail.alt = `Thumbnail ${index + 1}`;
-            thumbnail.className = `w-20 h-20 object-cover rounded-lg cursor-pointer transition-all duration-300 border-2 ${
-                index === currentImageIndex 
-                    ? 'border-green-400 ring-2 ring-green-400/50 opacity-100 shadow-lg shadow-green-500/50' 
-                    : 'border-gray-700 opacity-60 hover:opacity-90 hover:border-gray-600'
-            }`;
-            
-            thumbnail.addEventListener('click', function() {
-                currentImageIndex = index;
-                loadImage(index);
-            });
-            
-            modalImages.appendChild(thumbnail);
-        });
-    }
-    
-    // Hide modal function
-    function hideModal() {
-        imageModal.classList.add('opacity-0', 'invisible');
-        imageModal.classList.remove('opacity-100', 'visible');
-        
-        // Restore body scroll
-        document.body.style.overflow = '';
-        
-        // Clear modal content
-        setTimeout(() => {
-            modalImage.src = '';
-            modalTitle.textContent = '';
-            modalDescription.textContent = '';
-            modalImages.innerHTML = '';
-        }, 300);
-    }
-
-    // Matrix Rain Effect
-    function initMatrixRain() {
-        const canvas = document.getElementById('matrix-canvas');
-        if (!canvas) return;
-        
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-        const charArray = chars.split('');
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-        
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.random() * -100;
-        }
-        
-        function draw() {
-            ctx.fillStyle = 'rgba(15, 20, 25, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#00ff41';
-            ctx.font = fontSize + 'px monospace';
-            
-            for (let i = 0; i < drops.length; i++) {
-                const text = charArray[Math.floor(Math.random() * charArray.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-        
-        setInterval(draw, 35);
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    }
-    
-    // Interactive Terminal Commands
-    function initTerminalCommands() {
-        const terminal = document.querySelector('.terminal-body');
-        if (!terminal) return;
-        
-        const commands = [
-            { cmd: 'ls -la', output: 'portfolio/  skills/  experience/  contact/' }
-        ];
-        
-        let commandIndex = 0;
-        setInterval(() => {
-            if (commandIndex < commands.length) {
-                const command = commands[commandIndex];
-                const prompt = document.createElement('div');
-                prompt.className = 'code-line compile-line mt-2';
-                prompt.innerHTML = `<span class="terminal-prompt"></span><span class="syntax-function">${command.cmd}</span><br><span class="command-output">${command.output}</span>`;
-                terminal.appendChild(prompt);
-                commandIndex++;
-            }
-        }, 3000);
-    }
-    
-    // Code Typing Animation
-    function initCodeTyping() {
-        const codeBlocks = document.querySelectorAll('.code-line');
-        codeBlocks.forEach((block, index) => {
-            const originalText = block.textContent;
-            block.textContent = '';
-            block.style.opacity = '0';
-            
-            setTimeout(() => {
-                block.style.opacity = '1';
-                let charIndex = 0;
-                const typingInterval = setInterval(() => {
-                    if (charIndex < originalText.length) {
-                        block.textContent += originalText[charIndex];
-                        charIndex++;
-                    } else {
-                        clearInterval(typingInterval);
-                    }
-                }, 30);
-            }, index * 200);
-        });
-    }
-    
-    // Glitch Effect on Hover
-    function initGlitchEffect() {
-        const glitchElements = document.querySelectorAll('h1, h2, h3');
-        glitchElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                element.classList.add('glitch');
-                setTimeout(() => {
-                    element.classList.remove('glitch');
-                }, 300);
-            });
-        });
-    }
-    
-    // Interactive Code Blocks
-    function initInteractiveCode() {
-        const codeBlocks = document.querySelectorAll('.terminal-window, .code-bg');
-        codeBlocks.forEach(block => {
-            block.addEventListener('click', () => {
-                block.classList.add('code-glow');
-                setTimeout(() => {
-                    block.classList.remove('code-glow');
-                }, 1000);
-            });
-        });
-    }
-    
-    // Terminal Loading Animation
-    function showTerminalLoader(element) {
-        const loader = document.createElement('span');
-        loader.className = 'terminal-loader ml-2';
-        element.appendChild(loader);
-        return loader;
-    }
-    
-    // Command Execution Simulation
-    function simulateCommand(cmd, output, delay = 1000) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const terminal = document.querySelector('.terminal-body');
-                if (terminal) {
-                    const prompt = document.createElement('div');
-                    prompt.className = 'code-line compile-line mt-2';
-                    prompt.innerHTML = `<span class="terminal-prompt"></span><span class="syntax-function">${cmd}</span><br><span class="command-output">${output}</span>`;
-                    terminal.appendChild(prompt);
-                    terminal.scrollTop = terminal.scrollHeight;
-                }
-                resolve();
-            }, delay);
-        });
-    }
-    
-    // Interactive Terminal
-    function initInteractiveTerminal() {
-        const terminalInput = document.getElementById('terminal-input');
-        const terminalOutput = document.getElementById('interactive-terminal');
-        
-        if (!terminalInput || !terminalOutput) return;
-        
-        const commands = {
-            help: () => {
-                return `Available commands:
-  ls              - List files
-  cat [file]      - Display file contents
-  whoami          - Show current user
-  git status      - Show git status
-  npm start       - Start development server
-  clear           - Clear terminal
-  about           - About me
-  skills          - Show skills
-  portfolio       - View portfolio
-  contact         - Contact information
-  matrix          - Enable matrix mode
-  sudo rm -rf /   - Just kidding! 😄`;
-            },
-            ls: () => {
-                return `portfolio/
-skills/
-experience/
-contact/
-README.md
-package.json`;
-            },
-            cat: (file) => {
-                const files = {
-                    'README.md': `# Salapao-Dev Portfolio
-Full Stack Developer | SAP Developer | Web Developer
-Experience: 1 year 11 months
-Location: Trang, Thailand`,
-                    'package.json': `{
-  "name": "salapao-dev-portfolio",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "npm run dev",
-    "build": "npm run build",
-    "test": "npm test"
-  },
-  "dependencies": {
-    "passion": "100%",
-    "coffee": "∞ cups"
-  }
-}`,
-                    'skills.json': `{
-  "languages": ["JavaScript", "PHP", "ABAP", "HTML", "CSS"],
-  "frameworks": ["Laravel", "Bootstrap", "jQuery"],
-  "tools": ["Git", "VS Code", "Postman"],
-  "learning": ["Next.js", "React", "Node.js"]
-}`
-                };
-                return files[file] || `cat: ${file}: No such file or directory`;
-            },
-            whoami: () => {
-                return 'salapao-dev';
-            },
-            'git status': () => {
-                return `On branch main
-Your branch is up to date with 'origin/main'.
-nothing to commit, working tree clean`;
-            },
-            'npm start': () => {
-                return `> portfolio@1.0.0 start
-> npm run dev
-
-✓ Server running on http://localhost:3000
-✓ Portfolio loaded successfully`;
-            },
-            clear: () => {
-                terminalOutput.innerHTML = '<div class="text-sm font-mono"><span class="terminal-prompt"></span><span id="terminal-input" class="text-gray-100" contenteditable="true"></span><span class="cursor-blink inline-block w-2 h-4 bg-green-400 ml-1"></span></div>';
-                document.getElementById('terminal-input').focus();
-                return '';
-            },
-            about: () => {
-                return `Watcharapong Kongjan
-Full Stack Developer
-Experience: 1 year 11 months
-Passionate about creating solutions that solve real problems.`;
-            },
-            skills: () => {
-                return `Frontend: JavaScript, HTML, CSS, Bootstrap, jQuery
-Backend: PHP, Laravel, MySQL
-SAP: ABAP, Interface, Smart Forms, Report, API
-Tools: Git, VS Code, Postman`;
-            },
-            portfolio: () => {
-                window.location.hash = '#portfolio';
-                return 'Opening portfolio section...';
-            },
-            contact: () => {
-                window.location.hash = '#contact';
-                return 'Opening contact section...';
-            },
-            matrix: () => {
-                const canvas = document.getElementById('matrix-canvas');
-                if (canvas) {
-                    canvas.style.opacity = canvas.style.opacity === '0.3' ? '0.1' : '0.3';
-                }
-                return 'Matrix mode toggled';
-            }
-        };
-        
-        terminalInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const command = terminalInput.textContent.trim();
-                const commandParts = command.split(' ');
-                const cmd = commandParts[0];
-                const args = commandParts.slice(1).join(' ');
-                
-                // Add command to output with animation
-                const commandLine = document.createElement('div');
-                commandLine.className = 'text-sm font-mono mb-1 command-execute';
-                commandLine.innerHTML = `<span class="terminal-prompt"></span><span class="text-gray-100">${command}</span>`;
-                terminalOutput.insertBefore(commandLine, terminalInput.parentElement);
-                
-                // Show loading indicator for some commands
-                if (['npm start', 'git status', 'npm test'].includes(command)) {
-                    const loader = showTerminalLoader(commandLine);
-                    setTimeout(() => {
-                        loader.remove();
-                    }, 500);
-                }
-                
-                // Execute command
-                let output = '';
-                const secretCommands = addSecretCommands();
-                
-                if (commands[command]) {
-                    output = commands[command]();
-                } else if (commands[cmd] && typeof commands[cmd] === 'function') {
-                    output = commands[cmd](args);
-                } else if (secretCommands[command]) {
-                    output = secretCommands[command]();
-                } else if (secretCommands[cmd] && typeof secretCommands[cmd] === 'function') {
-                    output = secretCommands[cmd](args);
-                } else {
-                    output = `Command not found: ${cmd}. Type 'help' for available commands.`;
-                }
-                
-                // Add output with animation
-                if (output) {
-                    const outputLine = document.createElement('div');
-                    outputLine.className = 'text-sm font-mono mb-2 text-gray-300 terminal-response';
-                    
-                    // Color code output based on content
-                    if (output.includes('✓') || output.includes('success')) {
-                        outputLine.className += ' success-message';
-                    } else if (output.includes('error') || output.includes('Error')) {
-                        outputLine.className += ' error-message';
-                    } else if (output.includes('warning') || output.includes('Warning')) {
-                        outputLine.className += ' warning-message';
-                    } else {
-                        outputLine.className += ' command-output';
-                    }
-                    
-                    outputLine.textContent = output;
-                    terminalOutput.insertBefore(outputLine, terminalInput.parentElement);
-                    
-                    // Add compile success effect for certain commands
-                    if (['npm start', 'npm test', 'npm run build'].includes(command)) {
-                        outputLine.classList.add('compile-success');
-                    }
-                }
-                
-                // Clear input
-                terminalInput.textContent = '';
-                terminalOutput.scrollTop = terminalOutput.scrollHeight;
-            }
-        });
-        
-        terminalInput.focus();
-    }
-    
-    // Keyboard Shortcuts
-    function initKeyboardShortcuts() {
-        document.addEventListener('keydown', (e) => {
-            // Ctrl+K or Cmd+K to focus terminal
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                const terminalInput = document.getElementById('terminal-input');
-                if (terminalInput) {
-                    terminalInput.focus();
-                }
-            }
-            
-            // Konami Code Easter Egg
-            const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-            window.konamiIndex = window.konamiIndex || 0;
-            
-            if (e.key === konamiCode[window.konamiIndex]) {
-                window.konamiIndex++;
-                if (window.konamiIndex === konamiCode.length) {
-                    alert('🎮 Konami Code activated! You found the Easter egg!');
-                    document.body.style.filter = 'hue-rotate(90deg)';
-                    setTimeout(() => {
-                        document.body.style.filter = '';
-                    }, 3000);
-                    window.konamiIndex = 0;
-                }
-            } else {
-                window.konamiIndex = 0;
-            }
-        });
-    }
-    
-    // Initialize all effects
-    setTimeout(() => {
-        initMatrixRain();
-        initTerminalCommands();
-        initGlitchEffect();
-        initInteractiveCode();
-        initInteractiveTerminal();
-        initKeyboardShortcuts();
-        
-        // Simulate commands after page load
-        // Removed to reduce terminal commands
-    }, 500);
-
-    // Loading Screen Animation
-    function initLoadingScreen() {
-        const loadingScreen = document.getElementById('loading-screen');
-        const loadingStatus = document.getElementById('loading-status');
-        
-        if (!loadingScreen || !loadingStatus) return;
-        
-        const loadingSteps = [
-            'Loading modules...',
-            'Compiling assets...',
-            'Initializing terminal...',
-            'Loading portfolio data...',
-            'Setting up matrix...',
-            'Ready!'
-        ];
-        
-        let stepIndex = 0;
-        const stepInterval = setInterval(() => {
-            if (stepIndex < loadingSteps.length) {
-                loadingStatus.textContent = loadingSteps[stepIndex];
-                stepIndex++;
-            } else {
-                clearInterval(stepInterval);
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    loadingScreen.style.transition = 'opacity 0.5s ease-out';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                    }, 500);
-                }, 500);
-            }
-        }, 400);
-    }
-    
-    // Particle Effect
-    function createParticles() {
-        const particlesContainer = document.createElement('div');
-        particlesContainer.className = 'particles';
-        particlesContainer.id = 'particles-container';
-        document.body.appendChild(particlesContainer);
-        
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.style.position = 'absolute';
-            particle.style.width = '2px';
-            particle.style.height = '2px';
-            particle.style.background = '#00ff41';
-            particle.style.borderRadius = '50%';
-            particle.style.opacity = '0.5';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animation = `float ${3 + Math.random() * 4}s ease-in-out infinite`;
-            particle.style.animationDelay = Math.random() * 2 + 's';
-            particlesContainer.appendChild(particle);
-        }
-    }
-    
-    // Animated Counter
-    function animateCounter(elementId, target, duration = 2000) {
-        const element = document.getElementById(elementId);
-        if (!element) return;
-        
-        let start = 0;
-        const increment = target / (duration / 16);
-        
-        const timer = setInterval(() => {
-            start += increment;
-            if (start >= target) {
-                element.textContent = target;
-                clearInterval(timer);
-            } else {
-                element.textContent = Math.floor(start);
-            }
-        }, 16);
-    }
-    
-    // Initialize counters after page load
-    function initCounters() {
-        setTimeout(() => {
-            animateCounter('exp-counter', 2);
-            animateCounter('project-counter', 9);
-            animateCounter('skill-counter', 20);
-        }, 3000);
-    }
-    
-    // Easter Egg - Secret Command
-    function addSecretCommands() {
-        const secretCommands = {
-            'sudo rm -rf /': () => {
-                return `rm: cannot remove '/': Permission denied
-Just kidding! 😄 You're safe here.`;
-            },
-            'hack': () => {
-                return `Accessing mainframe...
-[████████████████████] 100%
-Hack complete! Just kidding, this is a portfolio site. 😄`;
-            },
-            'coffee': () => {
-                return `Brewing coffee...
-☕ Coffee ready! Time to code!`;
-            },
-            'motivate': () => {
-                const quotes = [
-                    'Code is like humor. When you have to explain it, it\'s bad.',
-                    'First, solve the problem. Then, write the code.',
-                    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-                    'Programming isn\'t about what you know; it\'s about what you can figure out.'
-                ];
-                return quotes[Math.floor(Math.random() * quotes.length)];
-            },
-            'fortune': () => {
-                return `Your fortune:
-You will write bug-free code today!
-(Probably not, but keep trying!) 😄`;
-            }
-        };
-        
-        return secretCommands;
-    }
-    
-    // Initialize loading screen first
-    initLoadingScreen();
-    
-    // Initialize particles after loading
-    setTimeout(() => {
-        createParticles();
-        initCounters();
-    }, 2500);
-
-    // Scroll Progress Indicator
-    function initScrollProgress() {
-        const progressBar = document.getElementById('scroll-progress');
-        if (!progressBar) return;
-        
-        window.addEventListener('scroll', () => {
-            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (window.scrollY / windowHeight) * 100;
-            progressBar.style.width = scrolled + '%';
-        });
-    }
-    
-    // Initialize scroll progress
-    initScrollProgress();
-    
-    // Reveal animation on scroll
-    const revealObserverOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
     };
-    
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('reveal');
-            }
+    let currentLanguage = 'th';
+
+    function applyLanguage(language) {
+        currentLanguage = translations[language] ? language : 'th';
+        document.documentElement.lang = currentLanguage;
+        document.querySelectorAll('[data-i18n]').forEach((element) => {
+            const value = translations[currentLanguage][element.dataset.i18n];
+            if (value) element.textContent = value;
         });
-    }, revealObserverOptions);
-    
-    // Observe all sections
-    document.querySelectorAll('section').forEach(section => {
-        revealObserver.observe(section);
+        document.querySelectorAll('[data-i18n-html]').forEach((element) => {
+            const value = translations[currentLanguage][element.dataset.i18nHtml];
+            if (value) element.innerHTML = value;
+        });
+        document.querySelectorAll('[data-lang]').forEach((button) => {
+            button.classList.toggle('active', button.dataset.lang === currentLanguage);
+        });
+        try { localStorage.setItem('portfolio-language', currentLanguage); } catch (_) { /* Storage may be unavailable. */ }
+    }
+
+    let savedLanguage = 'th';
+    try { savedLanguage = localStorage.getItem('portfolio-language') || 'th'; } catch (_) { /* Use Thai by default. */ }
+    applyLanguage(savedLanguage);
+    document.querySelectorAll('[data-lang]').forEach((button) => {
+        button.addEventListener('click', () => applyLanguage(button.dataset.lang));
     });
 
-    console.log('%c╔═══════════════════════════════════════╗', 'color: #00ff41; font-family: monospace;');
-    console.log('%c║   Welcome to the Matrix...            ║', 'color: #00ff41; font-family: monospace;');
-    console.log('%c╚═══════════════════════════════════════╝', 'color: #00ff41; font-family: monospace;');
-    console.log('%cSalapao-Dev Portfolio loaded successfully! 🚀', 'color: #00ff41; font-size: 16px; font-weight: bold;');
-    console.log('%cTry typing commands in the terminal!', 'color: #79c0ff; font-size: 14px;');
-    console.log('%cPress Ctrl+K (or Cmd+K) to focus terminal', 'color: #ffa657; font-size: 12px;');
-    console.log('%cTry the Konami Code for a surprise!', 'color: #d2a8ff; font-size: 12px;');
-    console.log('%cType "help" in terminal for commands', 'color: #00ff41; font-size: 12px;');
-    console.log('%cEaster eggs: Try "coffee", "motivate", "fortune", "hack"', 'color: #d2a8ff; font-size: 11px; font-style: italic;');
+    function updatePageProgress() {
+        const availableScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = availableScroll > 0 ? window.scrollY / availableScroll * 100 : 0;
+        scrollLine.style.width = `${progress}%`;
+        nav.classList.toggle('scrolled', window.scrollY > 30);
+    }
+
+    window.addEventListener('scroll', updatePageProgress, { passive: true });
+    updatePageProgress();
+
+    if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
+        document.addEventListener('mousemove', (event) => {
+            cursorGlow.style.left = `${event.clientX}px`;
+            cursorGlow.style.top = `${event.clientY}px`;
+            cursorGlow.style.opacity = '1';
+        });
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.style.opacity = '0';
+        });
+    }
+
+    function setMenu(open) {
+        menuButton.classList.toggle('active', open);
+        menuButton.setAttribute('aria-expanded', String(open));
+        mobileMenu.classList.toggle('open', open);
+        document.body.classList.toggle('locked', open);
+    }
+
+    menuButton.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
+    mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+            const target = document.querySelector(link.getAttribute('href'));
+            if (!target) return;
+            event.preventDefault();
+            target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+            });
+        });
+
+    const animatedElements = document.querySelectorAll('.fade-up');
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        animatedElements.forEach((element) => element.classList.add('visible'));
+    } else {
+        const observer = new IntersectionObserver((entries, currentObserver) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                currentObserver.unobserve(entry.target);
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -45px' });
+
+        animatedElements.forEach((element, index) => {
+            element.style.transitionDelay = `${(index % 3) * 65}ms`;
+            observer.observe(element);
+        });
+    }
+
+    const viewer = document.getElementById('viewer');
+    const viewerImage = document.getElementById('viewerImage');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerCount = document.getElementById('viewerCount');
+    const viewerClose = document.getElementById('viewerClose');
+    const viewerPrev = document.getElementById('viewerPrev');
+    const viewerNext = document.getElementById('viewerNext');
+    const caseChallenge = document.getElementById('caseChallenge');
+    const caseRole = document.getElementById('caseRole');
+    const caseSolution = document.getElementById('caseSolution');
+    const caseOutcome = document.getElementById('caseOutcome');
+    const caseTech = document.getElementById('caseTech');
+    let images = [];
+    let imageIndex = 0;
+    let lastFocusedProject = null;
+
+    function renderViewer() {
+        viewerImage.src = images[imageIndex];
+        viewerImage.alt = `${viewerTitle.textContent} — ภาพที่ ${imageIndex + 1}`;
+        viewerCount.textContent = `${String(imageIndex + 1).padStart(2, '0')} / ${String(images.length).padStart(2, '0')}`;
+        const showNavigation = images.length > 1;
+        viewerPrev.hidden = !showNavigation;
+        viewerNext.hidden = !showNavigation;
+    }
+
+    function openViewer(project) {
+        images = project.dataset.gallery.split(',').map((path) => path.trim()).filter(Boolean);
+        if (!images.length) return;
+        const study = caseStudies[currentLanguage][project.dataset.case];
+        imageIndex = 0;
+        lastFocusedProject = project;
+        viewerTitle.textContent = project.dataset.title;
+        caseChallenge.textContent = study.challenge;
+        caseRole.textContent = study.role;
+        caseSolution.textContent = study.solution;
+        caseOutcome.textContent = study.outcome;
+        caseTech.textContent = study.tech;
+        renderViewer();
+        viewer.classList.add('open');
+        viewer.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('locked');
+        viewerClose.focus();
+    }
+
+    function closeViewer() {
+        viewer.classList.remove('open');
+        viewer.setAttribute('aria-hidden', 'true');
+        viewerImage.src = '';
+        document.body.classList.remove('locked');
+        if (lastFocusedProject) lastFocusedProject.focus();
+    }
+
+    function moveViewer(direction) {
+        imageIndex = (imageIndex + direction + images.length) % images.length;
+        renderViewer();
+    }
+
+    document.querySelectorAll('.project[data-gallery]').forEach((project) => {
+        project.setAttribute('role', 'button');
+        project.addEventListener('click', () => openViewer(project));
+        project.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            openViewer(project);
+        });
+    });
+
+    viewerClose.addEventListener('click', closeViewer);
+    viewerPrev.addEventListener('click', () => moveViewer(-1));
+    viewerNext.addEventListener('click', () => moveViewer(1));
+    viewer.addEventListener('click', (event) => {
+        if (event.target === viewer) closeViewer();
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (!viewer.classList.contains('open')) return;
+        if (event.key === 'Escape') closeViewer();
+        if (event.key === 'ArrowLeft' && images.length > 1) moveViewer(-1);
+        if (event.key === 'ArrowRight' && images.length > 1) moveViewer(1);
+    });
 });
-

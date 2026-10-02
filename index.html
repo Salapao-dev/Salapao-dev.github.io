@@ -1,445 +1,580 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="วัชรพงศ์ คงจันทร์ — AI Full Stack Engineer พัฒนาระบบ Full-Stack ผสาน LLM, RAG, AI Agent และ Vector Search">
-    <meta name="theme-color" content="#090909">
+    <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0b12" media="(prefers-color-scheme: dark)">
     <meta property="og:title" content="Watcharapong Kongjan — AI Full Stack Engineer">
     <meta property="og:description" content="Full-stack software with LLM, RAG, AI agents and vector search — plus K2 workflow, Laravel and SAP experience.">
     <meta property="og:image" content="img/AI23-Photoroom.png">
     <title>Watcharapong Kongjan — AI Full Stack Engineer</title>
+    <script>
+        // Apply the saved or system theme before first paint to avoid a flash.
+        (function () {
+            var theme = null;
+            try { theme = localStorage.getItem('portfolio-theme'); } catch (_) {}
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
+    <!-- Icon sprite -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+            <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+            <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+            <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+            <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+            <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+            <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+            <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+            <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+            <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+            <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+            <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15v4M17 17h4M5 3v3M3.5 4.5h3"/></symbol>
+            <symbol id="i-code" viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
+            <symbol id="i-flow" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4a3 3 0 0 1 3 3V14"/></symbol>
+            <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+            <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+            <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/></symbol>
+            <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></symbol>
+            <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+            <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+            <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+            <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89L17 22l-5-3-5 3 1.52-9.11"/></symbol>
+            <symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+            <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></symbol>
+            <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+            <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18M7 6h1v4M16.71 13.88l.7.71-2.82 2.82"/></symbol>
+            <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></symbol>
+            <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+            <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+            <symbol id="i-images" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+        </defs>
+    </svg>
+
     <a class="skip-link" href="#main" data-i18n="nav.skip">ข้ามไปยังเนื้อหา</a>
-    <div class="cursor-glow" id="cursorGlow"></div>
     <div class="scroll-line" id="scrollLine"></div>
 
     <header class="nav" id="nav">
-        <a class="logo" href="#top" aria-label="Watcharapong Kongjan — Home">WK<span>.</span></a>
-        <nav class="nav-links" aria-label="เมนูหลัก">
-            <a href="#about" data-i18n="nav.about">เกี่ยวกับ</a>
-            <a href="#experience" data-i18n="nav.experience">ประสบการณ์</a>
-            <a href="#work" data-i18n="nav.work">ผลงาน</a>
-            <a href="#services" data-i18n="nav.services">บริการ</a>
-            <a href="#contact" data-i18n="nav.contact">ติดต่อ</a>
-        </nav>
-        <div class="nav-actions">
-            <a class="resume-mini" href="resume_file/resume.pdf" download data-i18n="nav.resume">ดาวน์โหลด CV</a>
-            <div class="language-switch" role="group" aria-label="เลือกภาษา">
-                <button type="button" data-lang="th" class="active">TH</button>
-                <span>/</span>
-                <button type="button" data-lang="en">EN</button>
+        <div class="nav-inner">
+            <a class="logo" href="#top" aria-label="Watcharapong Kongjan — Home"><span class="logo-mark">WK</span><span class="logo-text">Watcharapong</span></a>
+            <nav class="nav-links" aria-label="เมนูหลัก">
+                <a href="#about" data-i18n="nav.about">เกี่ยวกับ</a>
+                <a href="#experience" data-i18n="nav.experience">ประสบการณ์</a>
+                <a href="#work" data-i18n="nav.work">ผลงาน</a>
+                <a href="#services" data-i18n="nav.services">บริการ</a>
+                <a href="#contact" data-i18n="nav.contact">ติดต่อ</a>
+            </nav>
+            <div class="nav-actions">
+                <div class="language-switch" role="group" aria-label="เลือกภาษา">
+                    <button type="button" data-lang="th" class="active">TH</button>
+                    <button type="button" data-lang="en">EN</button>
+                </div>
+                <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="สลับโหมดสี">
+                    <svg class="i i-sun"><use href="#i-sun"/></svg>
+                    <svg class="i i-moon"><use href="#i-moon"/></svg>
+                </button>
+                <a class="btn btn-primary btn-sm nav-cv" href="resume_file/resume.pdf" download><svg class="i"><use href="#i-download"/></svg><span data-i18n="nav.resume">ดาวน์โหลด CV</span></a>
+                <button class="icon-btn menu-button" id="menuButton" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="mobileMenu">
+                    <span></span><span></span>
+                </button>
             </div>
         </div>
-        <button class="menu-button" id="menuButton" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="mobileMenu">
-            <span></span><span></span>
-        </button>
     </header>
 
     <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
-        <a href="#about"><small>01</small><span data-i18n="nav.about">เกี่ยวกับ</span></a>
-        <a href="#experience"><small>03</small><span data-i18n="nav.experience">ประสบการณ์</span></a>
-        <a href="#work"><small>04</small><span data-i18n="nav.work">ผลงาน</span></a>
-        <a href="#services"><small>07</small><span data-i18n="nav.services">บริการ</span></a>
-        <a href="#contact"><small>11</small><span data-i18n="nav.contact">ติดต่อ</span></a>
-        <a href="resume_file/resume.pdf" download><small>PDF</small><span data-i18n="nav.resume">ดาวน์โหลด CV</span></a>
-        <div class="mobile-language language-switch" role="group" aria-label="เลือกภาษา"><button type="button" data-lang="th" class="active">TH</button><span>/</span><button type="button" data-lang="en">EN</button></div>
+        <nav>
+            <a href="#about"><span data-i18n="nav.about">เกี่ยวกับ</span><svg class="i"><use href="#i-arrow"/></svg></a>
+            <a href="#experience"><span data-i18n="nav.experience">ประสบการณ์</span><svg class="i"><use href="#i-arrow"/></svg></a>
+            <a href="#work"><span data-i18n="nav.work">ผลงาน</span><svg class="i"><use href="#i-arrow"/></svg></a>
+            <a href="#services"><span data-i18n="nav.services">บริการ</span><svg class="i"><use href="#i-arrow"/></svg></a>
+            <a href="#contact"><span data-i18n="nav.contact">ติดต่อ</span><svg class="i"><use href="#i-arrow"/></svg></a>
+        </nav>
+        <div class="mobile-menu-foot">
+            <a class="btn btn-primary" href="resume_file/resume.pdf" download><svg class="i"><use href="#i-download"/></svg><span data-i18n="nav.resume">ดาวน์โหลด CV</span></a>
+            <div class="mobile-menu-row">
+                <div class="language-switch" role="group" aria-label="เลือกภาษา"><button type="button" data-lang="th" class="active">TH</button><button type="button" data-lang="en">EN</button></div>
+                <button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="สลับโหมดสี">
+                    <svg class="i i-sun"><use href="#i-sun"/></svg>
+                    <svg class="i i-moon"><use href="#i-moon"/></svg>
+                </button>
+            </div>
+        </div>
     </aside>
 
     <main id="main">
+        <!-- HERO -->
         <section class="hero" id="top">
-            <div class="hero-meta fade-up">
-                <span data-i18n="hero.location">อยู่ที่จังหวัดตรัง ประเทศไทย</span>
-                <span>AI / FULL STACK ENGINEER</span>
-                <span>© 2026</span>
-            </div>
-            <div class="hero-main">
-                <div class="hero-type">
-                    <div class="hero-badge fade-up"><i></i><span data-i18n-html="hero.badge">ปัจจุบัน: <strong>AI Full Stack Engineer</strong> @ Khoomkha Center</span></div>
-                    <h1 class="fade-up">WATCHA<br>RAPONG</h1>
+            <div class="hero-bg" aria-hidden="true"><i class="orb orb-a"></i><i class="orb orb-b"></i><i class="grid"></i></div>
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <div class="status-pill fade-up"><i class="pulse"></i><span data-i18n-html="hero.badge">ปัจจุบัน: <strong>AI Full Stack Engineer</strong> @ Khoomkha Center</span></div>
+                    <p class="hero-hello fade-up" data-i18n="hero.greeting">สวัสดีครับ ผมชื่อ</p>
+                    <h1 class="fade-up"><span data-i18n="hero.name">วัชรพงศ์ คงจันทร์</span></h1>
+                    <p class="hero-title fade-up"><span class="gradient-text">AI Full Stack Engineer</span></p>
                     <p class="hero-role fade-up" data-i18n-html="hero.role">นักพัฒนา Full Stack ที่ผสาน AI เข้ากับซอฟต์แวร์ เพื่อเปลี่ยน Workflow ซับซ้อนให้เป็น <em>ระบบอัจฉริยะที่เรียบง่ายและเชื่อถือได้</em></p>
                     <div class="hero-actions fade-up">
-                        <a class="resume-button" href="resume_file/resume.pdf" download><span data-i18n="hero.resume">ดาวน์โหลด Resume</span> <i aria-hidden="true">↓</i></a>
-                        <a class="portfolio-button" href="#work"><span data-i18n="hero.portfolio">ดูผลงาน</span> <i aria-hidden="true">↘</i></a>
+                        <a class="btn btn-primary btn-lg" href="resume_file/resume.pdf" download><svg class="i"><use href="#i-download"/></svg><span data-i18n="hero.resume">ดาวน์โหลด Resume</span></a>
+                        <a class="btn btn-ghost btn-lg" href="#work"><span data-i18n="hero.portfolio">ดูผลงาน</span><svg class="i"><use href="#i-arrow"/></svg></a>
                     </div>
+                    <ul class="hero-meta fade-up">
+                        <li><svg class="i"><use href="#i-pin"/></svg><span data-i18n="hero.location">อยู่ที่จังหวัดตรัง ประเทศไทย</span></li>
+                        <li><svg class="i"><use href="#i-mail"/></svg><a href="mailto:watcharapong.ballz@gmail.com">watcharapong.ballz@gmail.com</a></li>
+                        <li><svg class="i"><use href="#i-github"/></svg><a href="https://github.com/Salapao-dev" target="_blank" rel="noopener">Salapao-dev</a></li>
+                    </ul>
                 </div>
-                <div class="portrait-wrap fade-up">
-                    <span class="portrait-index">01 — PORTRAIT</span>
-                    <div class="portrait">
-                        <img src="img/AI23-Photoroom.png" alt="วัชรพงศ์ คงจันทร์" width="600" height="833" fetchpriority="high">
+                <div class="hero-visual fade-up">
+                    <div class="portrait-card">
+                        <div class="portrait-glow" aria-hidden="true"></div>
+                        <img src="img/AI23-Photoroom.png" alt="วัชรพงศ์ คงจันทร์" width="640" height="1024" fetchpriority="high">
                     </div>
-                    <p><span data-i18n="hero.name">วัชรพงศ์ คงจันทร์</span><br><span>AI Full Stack Engineer</span></p>
+                    <div class="float-chip chip-a"><span class="chip-icon"><svg class="i"><use href="#i-sparkles"/></svg></span><div><strong>RAG · AI Agent</strong><small>Vector Search</small></div></div>
+                    <div class="float-chip chip-b"><span class="chip-icon chip-icon-alt"><svg class="i"><use href="#i-cap"/></svg></span><div><strong>GPA 3.94</strong><small data-i18n="hero.honors">เกียรตินิยมอันดับ 1</small></div></div>
+                    <div class="float-chip chip-c"><span class="chip-icon chip-icon-green"><svg class="i"><use href="#i-code"/></svg></span><div><strong>Full Stack</strong><small>Laravel · K2 · SAP</small></div></div>
                 </div>
             </div>
-            <a class="scroll-cue" href="#about">
-                <span>SCROLL TO EXPLORE</span>
-                <i aria-hidden="true">↓</i>
-            </a>
         </section>
 
-        <div class="tech-marquee" aria-label="เทคโนโลยีที่ใช้งาน">
+        <!-- TECH STRIP -->
+        <div class="tech-strip" aria-label="เทคโนโลยีที่ใช้งาน">
             <div class="marquee-track" id="marqueeTrack">
-                <span>LLM</span><i>✦</i><span>RAG</span><i>✦</i><span>AI AGENTS</span><i>✦</i><span>VECTOR SEARCH</span><i>✦</i><span>REST API</span><i>✦</i><span>K2 FIVE</span><i>✦</i><span>LARAVEL</span><i>✦</i><span>PHP</span><i>✦</i><span>SQL SERVER</span><i>✦</i><span>SAP ABAP</span><i>✦</i><span>DOCKER</span><i>✦</i>
+                <span>LLM</span><span>RAG</span><span>AI Agents</span><span>Vector Search</span><span>REST API</span><span>K2 Five</span><span>Laravel</span><span>PHP</span><span>SQL Server</span><span>MySQL</span><span>SAP ABAP</span><span>Docker</span><span>GitLab</span>
             </div>
         </div>
 
-        <section class="intro" id="about">
-            <div class="section-label fade-up"><span>01</span> ABOUT</div>
-            <div class="intro-copy fade-up">
-                <p data-i18n="about.lead">ผมเป็นนักพัฒนาที่ทำงานอยู่ระหว่าง</p>
-                <h2>PEOPLE,<br>PROCESS &<br><span>INTELLIGENCE.</span></h2>
-            </div>
-            <div class="intro-detail fade-up">
-                <p data-i18n="about.p1">ปัจจุบันเป็น AI Full Stack Engineer ดูแลระบบตั้งแต่ Frontend ถึง Backend API และพัฒนาฟีเจอร์ AI อย่าง RAG, AI Agent และ Vector Search ให้ใช้งานได้จริงในธุรกิจ</p>
-                <p data-i18n="about.p2">มีพื้นฐานระบบองค์กรจาก K2 Workflow, Laravel, PHP, SQL และ SAP ABAP ทำให้เข้าใจทั้งกระบวนการทำงานและการนำ AI ไปเชื่อมกับระบบเดิมอย่างเสถียร</p>
-                <a href="#contact" class="arrow-link"><span data-i18n="about.cta">ร่วมงานกัน</span> <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="metrics fade-up">
-                <div><strong data-count="3" data-suffix="+">3+</strong><span data-i18n-html="metrics.experience">ปีของ<br>ประสบการณ์</span></div>
-                <div><strong data-count="5">5</strong><span data-i18n-html="metrics.roles">ตำแหน่งงาน<br>ที่ผ่านมา</span></div>
-                <div><strong data-count="3.94" data-decimals="2">3.94</strong><span data-i18n-html="metrics.gpa">GPA — เกียรตินิยม<br>อันดับ 1</span></div>
+        <!-- ABOUT -->
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section-head fade-up">
+                    <span class="eyebrow"><span data-i18n="nav.about">เกี่ยวกับ</span></span>
+                    <h2 data-i18n-html="about.title">ทำงานอยู่ระหว่าง <span class="gradient-text">คน กระบวนการ และ AI</span></h2>
+                </div>
+                <div class="bento">
+                    <article class="card about-card fade-up">
+                        <p class="lead" data-i18n="about.p1">ปัจจุบันเป็น AI Full Stack Engineer ดูแลระบบตั้งแต่ Frontend ถึง Backend API และพัฒนาฟีเจอร์ AI อย่าง RAG, AI Agent และ Vector Search ให้ใช้งานได้จริงในธุรกิจ</p>
+                        <p data-i18n="about.p2">มีพื้นฐานระบบองค์กรจาก K2 Workflow, Laravel, PHP, SQL และ SAP ABAP ทำให้เข้าใจทั้งกระบวนการทำงานและการนำ AI ไปเชื่อมกับระบบเดิมอย่างเสถียร</p>
+                        <a href="#contact" class="text-link"><span data-i18n="about.cta">ร่วมงานกัน</span><svg class="i"><use href="#i-arrow"/></svg></a>
+                    </article>
+                    <div class="metrics fade-up">
+                        <div class="card metric"><strong data-count="3" data-suffix="+">3+</strong><span data-i18n-html="metrics.experience">ปีของ<br>ประสบการณ์</span></div>
+                        <div class="card metric"><strong data-count="5">5</strong><span data-i18n-html="metrics.roles">ตำแหน่งงาน<br>ที่ผ่านมา</span></div>
+                        <div class="card metric metric-accent"><strong data-count="3.94" data-decimals="2">3.94</strong><span data-i18n-html="metrics.gpa">GPA — เกียรตินิยม<br>อันดับ 1</span></div>
+                    </div>
+                </div>
+
+                <div class="capabilities">
+                    <article class="card capability capability-featured fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-sparkles"/></svg></span>
+                        <h3>AI & LLM Engineering <em class="badge">NEW</em></h3>
+                        <div class="tags"><span>LLM</span><span>RAG</span><span>AI Agents</span><span>Vector Search</span><span>Embeddings</span></div>
+                    </article>
+                    <article class="card capability fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-code"/></svg></span>
+                        <h3>Full Stack Development</h3>
+                        <div class="tags"><span>Frontend</span><span>Backend APIs</span><span>Laravel</span><span>PHP</span><span>JavaScript</span><span>Docker</span></div>
+                    </article>
+                    <article class="card capability fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-flow"/></svg></span>
+                        <h3>Workflow & Automation</h3>
+                        <div class="tags"><span>K2 Five</span><span>SmartForms</span><span>SmartObjects</span><span>Business Rules</span></div>
+                    </article>
+                    <article class="card capability fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-link"/></svg></span>
+                        <h3>System Integration</h3>
+                        <div class="tags"><span>REST API</span><span>Web Services</span><span>SQL Server</span><span>MySQL</span><span>SharePoint</span></div>
+                    </article>
+                    <article class="card capability fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-building"/></svg></span>
+                        <h3>Enterprise Solutions</h3>
+                        <div class="tags"><span>SAP ABAP</span><span>Report</span><span>Interface</span><span>Smart Form</span><span>ERP</span></div>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section class="capabilities">
-            <div class="section-label fade-up"><span>02</span> CAPABILITIES</div>
-            <div class="capability-list">
-                <article class="capability capability-featured fade-up">
-                    <span>01</span>
-                    <h3>AI & LLM Engineering <em>NEW</em></h3>
-                    <p>LLM · RAG · AI Agents · Vector Search · Embeddings</p>
-                    <i aria-hidden="true">↗</i>
-                </article>
-                <article class="capability fade-up">
-                    <span>02</span>
-                    <h3>Full Stack Development</h3>
-                    <p>Frontend · Backend APIs · Laravel · PHP · JavaScript · Docker</p>
-                    <i aria-hidden="true">↗</i>
-                </article>
-                <article class="capability fade-up">
-                    <span>03</span>
-                    <h3>Workflow & Automation</h3>
-                    <p>K2 Five · SmartForms · SmartObjects · Business Rules</p>
-                    <i aria-hidden="true">↗</i>
-                </article>
-                <article class="capability fade-up">
-                    <span>04</span>
-                    <h3>System Integration</h3>
-                    <p>REST API · Web Services · SQL Server · MySQL · SharePoint</p>
-                    <i aria-hidden="true">↗</i>
-                </article>
-                <article class="capability fade-up">
-                    <span>05</span>
-                    <h3>Enterprise Solutions</h3>
-                    <p>SAP ABAP · Report · Interface · Smart Form · ERP</p>
-                    <i aria-hidden="true">↗</i>
-                </article>
+        <!-- EXPERIENCE -->
+        <section class="section section-alt" id="experience">
+            <div class="container">
+                <div class="section-head fade-up">
+                    <span class="eyebrow" data-i18n="nav.experience">ประสบการณ์</span>
+                    <h2 data-i18n="career.title">เส้นทางการทำงาน</h2>
+                    <p data-i18n="career.subtitle">จากงานเอกสาร สู่ Web Application, Workflow ระดับองค์กร และระบบ AI ที่ใช้งานได้จริง</p>
+                </div>
+                <ol class="timeline">
+                    <li class="timeline-item is-current fade-up">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <article class="card job">
+                            <header class="job-head">
+                                <div>
+                                    <h3>AI Full Stack Engineer</h3>
+                                    <p class="job-org">Khoomkha Center Co., Ltd.</p>
+                                </div>
+                                <div class="job-when"><span class="badge badge-live"><i class="pulse"></i><span data-i18n="career.current">ปัจจุบัน</span></span><time>OCT 2026 — NOW</time></div>
+                            </header>
+                            <p data-i18n="career.ai">ผสานการพัฒนาซอฟต์แวร์ Full-Stack เข้ากับเทคโนโลยี AI/LLM โดยออกแบบให้ตอบโจทย์ทั้งผู้ใช้และธุรกิจ</p>
+                            <ul class="checks">
+                                <li data-i18n="career.ai.one">ดูแลการพัฒนาระบบตั้งแต่ Frontend ถึง Backend APIs ให้ทำงานราบรื่นและมีคุณภาพ</li>
+                                <li data-i18n="career.ai.two">พัฒนาฟีเจอร์ RAG (Retrieval-Augmented Generation) และ AI Agent เพื่อจัดการข้อมูลและตอบสนองผู้ใช้ได้ดีขึ้น</li>
+                                <li data-i18n="career.ai.three">Implement Vector Search เพื่อสร้างโซลูชันอัจฉริยะที่แม่นยำและขยายได้ตามธุรกิจ</li>
+                                <li data-i18n="career.ai.four">ออกแบบระบบให้เสถียรและรองรับการขยายตัวในอนาคต</li>
+                            </ul>
+                            <div class="tags"><span>LLM</span><span>RAG</span><span>AI Agent</span><span>Vector Search</span><span>Full Stack</span></div>
+                        </article>
+                    </li>
+                    <li class="timeline-item fade-up">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <article class="card job">
+                            <header class="job-head">
+                                <div><h3>Junior K2 Developer</h3><p class="job-org">I Design Solutions Co., Ltd.</p></div>
+                                <div class="job-when"><span class="badge">3 MONTHS</span><time>JUL — SEP 2026</time></div>
+                            </header>
+                            <p data-i18n="career.k2">พัฒนา SmartForms, Views และ Workflows บน K2 Five / Blackpearl พร้อมเชื่อมต่อระบบภายนอกและดูแลระบบ Production</p>
+                            <details class="career-more">
+                                <summary><span data-i18n="career.more">ดูรายละเอียด</span><svg class="i"><use href="#i-chevron-down"/></svg></summary>
+                                <ul class="checks">
+                                    <li data-i18n="career.k2.one">Form & Workflow: ออกแบบและพัฒนา SmartForms, Views และ Workflows ตาม Requirement จาก Business Analyst หรือ Senior Developer</li>
+                                    <li data-i18n="career.k2.two">Integration: สร้าง SmartObjects เชื่อมข้อมูล K2 กับ SQL Server, REST API, Web Services และ SharePoint</li>
+                                    <li data-i18n="career.k2.three">Business Rules: กำหนด Logic, Rule, Expression และ Validation ให้ข้อมูลถูกต้องตามโปรเซสธุรกิจ</li>
+                                    <li data-i18n="career.k2.four">Testing & Deployment: Unit Testing แก้ Bug จาก UAT และจัดทำเอกสาร Deployment / User Manual</li>
+                                    <li data-i18n="career.k2.five">Support: Troubleshoot Workflow Instances และ SmartForms ให้ระบบทำงานต่อเนื่อง</li>
+                                </ul>
+                            </details>
+                            <div class="tags"><span>K2 Five</span><span>Blackpearl</span><span>SmartObjects</span><span>SQL Server</span><span>SharePoint</span></div>
+                        </article>
+                    </li>
+                    <li class="timeline-item fade-up">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <article class="card job">
+                            <header class="job-head">
+                                <div><h3>Fullstack Developer</h3><p class="job-org">Musion Co., Ltd.</p></div>
+                                <div class="job-when"><span class="badge">7 MONTHS</span><time>NOV 2025 — MAY 2026</time></div>
+                            </header>
+                            <p data-i18n="career.fullstack">ออกแบบและพัฒนา Web Application ตามความต้องการของลูกค้า จากแบบ Figma ด้วย Laravel และ MySQL</p>
+                            <details class="career-more">
+                                <summary><span data-i18n="career.more">ดูรายละเอียด</span><svg class="i"><use href="#i-chevron-down"/></svg></summary>
+                                <ul class="checks">
+                                    <li data-i18n="career.fullstack.one">พัฒนาหน้าจอตามแบบ Figma ให้ตรงตามความคาดหวังและตอบโจทย์การใช้งาน</li>
+                                    <li data-i18n="career.fullstack.two">สร้างระบบด้วย Laravel ที่มีเสถียรภาพ และออกแบบฐานข้อมูล MySQL ให้เข้าถึงข้อมูลได้รวดเร็ว</li>
+                                    <li data-i18n="career.fullstack.three">ใช้ Docker สร้างสภาพแวดล้อมการพัฒนาที่ยืดหยุ่นและจัดการง่าย</li>
+                                    <li data-i18n="career.fullstack.four">ใช้ GitLab ควบคุมเวอร์ชันและทำงานร่วมกับทีม</li>
+                                </ul>
+                            </details>
+                            <div class="tags"><span>Laravel</span><span>MySQL</span><span>Figma</span><span>Docker</span><span>GitLab</span></div>
+                        </article>
+                    </li>
+                    <li class="timeline-item fade-up">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <article class="card job">
+                            <header class="job-head">
+                                <div><h3>PHP Web Programmer</h3><p class="job-org">Cloudmate Co., Ltd.</p></div>
+                                <div class="job-when"><span class="badge">1 YR 10 MO</span><time>JAN 2024 — OCT 2025</time></div>
+                            </header>
+                            <p data-i18n="career.php">พัฒนาเว็บไซต์และโปรแกรมด้วย PHP, SQL และ WordPress ควบคู่กับงาน SAP ABAP</p>
+                            <details class="career-more">
+                                <summary><span data-i18n="career.more">ดูรายละเอียด</span><svg class="i"><use href="#i-chevron-down"/></svg></summary>
+                                <ul class="checks">
+                                    <li data-i18n="career.php.one">เขียนโปรแกรมและเว็บไซต์ด้วย SQL, PHP, HTML5, Bootstrap 5 และ WordPress</li>
+                                    <li data-i18n="career.php.two">พัฒนา SAP ABAP: Report, Interface, Smart Form และ API</li>
+                                    <li data-i18n="career.php.three">เรียนรู้ Framework เพิ่มเติม: Spring Boot และ Next.js (เบื้องต้น)</li>
+                                </ul>
+                            </details>
+                            <div class="tags"><span>PHP</span><span>SQL</span><span>WordPress</span><span>SAP ABAP</span><span>Bootstrap 5</span></div>
+                        </article>
+                    </li>
+                    <li class="timeline-item fade-up">
+                        <span class="timeline-dot" aria-hidden="true"></span>
+                        <article class="card job">
+                            <header class="job-head">
+                                <div><h3 data-i18n="career.officer.title">เจ้าหน้าที่งานกิจกรรมนักเรียน นักศึกษา</h3><p class="job-org" data-i18n="career.officer.org">วิทยาลัยเทคนิคตรัง</p></div>
+                                <div class="job-when"><span class="badge">4 MONTHS</span><time>SEP — DEC 2023</time></div>
+                            </header>
+                            <p data-i18n="career.officer">งานด้านเอกสาร เช่น บันทึกข้อความ คำสั่ง โครงการ และเอกสารราชการต่าง ๆ</p>
+                        </article>
+                    </li>
+                </ol>
             </div>
         </section>
 
-        <section class="career" id="experience">
-            <div class="section-label fade-up"><span>03</span> EXPERIENCE</div>
-            <div class="career-header fade-up">
-                <h2>CAREER<br>JOURNEY</h2>
-                <p data-i18n="career.subtitle">จากงานเอกสาร สู่ Web Application, Workflow ระดับองค์กร และระบบ AI ที่ใช้งานได้จริง</p>
-            </div>
-            <div class="career-list">
-                <article class="career-item career-current fade-up">
-                    <div class="career-date">OCT 2026 — NOW</div>
-                    <div class="career-role"><h3>AI Full Stack Engineer</h3><p>Khoomkha Center Co., Ltd.</p></div>
-                    <div class="career-body">
-                        <p data-i18n="career.ai">ผสานการพัฒนาซอฟต์แวร์ Full-Stack เข้ากับเทคโนโลยี AI/LLM โดยออกแบบให้ตอบโจทย์ทั้งผู้ใช้และธุรกิจ</p>
-                        <ul class="career-points">
-                            <li data-i18n="career.ai.one">ดูแลการพัฒนาระบบตั้งแต่ Frontend ถึง Backend APIs ให้ทำงานราบรื่นและมีคุณภาพ</li>
-                            <li data-i18n="career.ai.two">พัฒนาฟีเจอร์ RAG (Retrieval-Augmented Generation) และ AI Agent เพื่อจัดการข้อมูลและตอบสนองผู้ใช้ได้ดีขึ้น</li>
-                            <li data-i18n="career.ai.three">Implement Vector Search เพื่อสร้างโซลูชันอัจฉริยะที่แม่นยำและขยายได้ตามธุรกิจ</li>
-                            <li data-i18n="career.ai.four">ออกแบบระบบให้เสถียรและรองรับการขยายตัวในอนาคต</li>
+        <!-- WORK -->
+        <section class="section" id="work">
+            <div class="container">
+                <div class="section-head fade-up">
+                    <span class="eyebrow" data-i18n="nav.work">ผลงาน</span>
+                    <h2 data-i18n="work.title">ผลงานที่คัดสรร</h2>
+                    <p data-i18n="work.subtitle">คลิกที่ผลงานเพื่ออ่าน Case Study และดูภาพเพิ่มเติม</p>
+                </div>
+                <div class="projects">
+                    <article class="card project fade-up" tabindex="0" data-case="bus" data-title="Bus Management System" data-gallery="img/bus-1.png,img/bus-2.png,img/bus-3.png,img/bus-4.png">
+                        <div class="project-media">
+                            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                            <img src="img/bus-1.png" alt="ระบบบริหารจัดการรถบัส" loading="lazy" decoding="async">
+                            <span class="project-count"><svg class="i"><use href="#i-images"/></svg>4</span>
+                        </div>
+                        <div class="project-body">
+                            <small class="project-kind">Laravel Application</small>
+                            <h3>Bus Management</h3>
+                            <p data-i18n="project.bus">ระบบจัดการรถบัส บุคลากร การตลาด ตารางเดินรถ และรายงาน</p>
+                            <div class="project-outcome"><svg class="i"><use href="#i-check"/></svg><p data-i18n="outcome.bus">รวมข้อมูลการดำเนินงานไว้ในระบบเดียว ช่วยให้ติดตามภาพรวมและจัดทำรายงานได้ง่ายขึ้น</p></div>
+                            <div class="project-foot"><div class="tags"><span>Laravel</span><span>MySQL</span><span>Docker</span></div><span class="text-link"><span data-i18n="work.view">ดู Case Study</span><svg class="i"><use href="#i-arrow-up-right"/></svg></span></div>
+                        </div>
+                    </article>
+                    <article class="card project fade-up" tabindex="0" data-case="security" data-title="Security Management System" data-gallery="img/anupon-1.png,img/anupon-2.png,img/anupon-3.png,img/anupon-4.png,img/anupon-5.png">
+                        <div class="project-media">
+                            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                            <img src="img/anupon-1.png" alt="ระบบจัดการงานรักษาความปลอดภัย" loading="lazy" decoding="async">
+                            <span class="project-count"><svg class="i"><use href="#i-images"/></svg>5</span>
+                        </div>
+                        <div class="project-body">
+                            <small class="project-kind">Web Application</small>
+                            <h3>Security Management</h3>
+                            <p data-i18n="project.security">ระบบจัดการเจ้าหน้าที่ ตารางเวร จุดตรวจ และรายงานเหตุการณ์</p>
+                            <div class="project-outcome"><svg class="i"><use href="#i-check"/></svg><p data-i18n="outcome.security">ข้อมูลเวรและเหตุการณ์ค้นหาได้เป็นระบบ เพิ่มความสะดวกในการติดตามและตรวจสอบย้อนหลัง</p></div>
+                            <div class="project-foot"><div class="tags"><span>Laravel</span><span>MySQL</span><span>Bootstrap</span></div><span class="text-link"><span data-i18n="work.view">ดู Case Study</span><svg class="i"><use href="#i-arrow-up-right"/></svg></span></div>
+                        </div>
+                    </article>
+                    <article class="card project fade-up" tabindex="0" data-case="erp" data-title="ERP Production System" data-gallery="img/erp-1.png,img/erp-2.png,img/erp-3.png,img/erp-4.png,img/erp-5.png,img/erp-6.png">
+                        <div class="project-media">
+                            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                            <img src="img/erp-1.png" alt="ระบบ ERP Production" loading="lazy" decoding="async">
+                            <span class="project-count"><svg class="i"><use href="#i-images"/></svg>6</span>
+                        </div>
+                        <div class="project-body">
+                            <small class="project-kind">ERP</small>
+                            <h3>Production System</h3>
+                            <p data-i18n="project.erp">ระบบบริหารการผลิต บัญชีส่วนประกอบ และคลังสินค้า</p>
+                            <div class="project-outcome"><svg class="i"><use href="#i-check"/></svg><p data-i18n="outcome.erp">เชื่อมโยง BOM การผลิต และคลังสินค้า ทำให้ข้อมูลในแต่ละขั้นตอนต่อเนื่องกันมากขึ้น</p></div>
+                            <div class="project-foot"><div class="tags"><span>PHP</span><span>MySQL</span><span>JavaScript</span></div><span class="text-link"><span data-i18n="work.view">ดู Case Study</span><svg class="i"><use href="#i-arrow-up-right"/></svg></span></div>
+                        </div>
+                    </article>
+                    <article class="card project fade-up" tabindex="0" data-case="jobs" data-title="Jobs Platform" data-gallery="img/job-1.png,img/job-2.png,img/job-3.png,img/job-4.png,img/job-5.png">
+                        <div class="project-media">
+                            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                            <img src="img/job-1.png" alt="แพลตฟอร์มหางาน" loading="lazy" decoding="async">
+                            <span class="project-count"><svg class="i"><use href="#i-images"/></svg>5</span>
+                        </div>
+                        <div class="project-body">
+                            <small class="project-kind">PHP Platform</small>
+                            <h3>Jobs Platform</h3>
+                            <p data-i18n="project.jobs">แพลตฟอร์มหางาน สมัครงาน อัปโหลดเอกสาร และจัดการโปรไฟล์</p>
+                            <div class="project-outcome"><svg class="i"><use href="#i-check"/></svg><p data-i18n="outcome.jobs">ผู้สมัครและผู้ประกอบการจัดการประกาศ โปรไฟล์ และใบสมัครผ่านช่องทางเดียว</p></div>
+                            <div class="project-foot"><div class="tags"><span>PHP</span><span>MySQL</span><span>Bootstrap 5</span></div><span class="text-link"><span data-i18n="work.view">ดู Case Study</span><svg class="i"><use href="#i-arrow-up-right"/></svg></span></div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- K2 CASE STUDY -->
+                <article class="k2 fade-up" id="k2-case-study">
+                    <div class="k2-intro">
+                        <span class="eyebrow eyebrow-light">Featured K2 Case Study</span>
+                        <h3>Approval Workflow System</h3>
+                        <p data-i18n="k2.summary">เปลี่ยนกระบวนการอนุมัติที่มีหลายขั้นตอนและข้อมูลกระจาย ให้เป็น Workflow กลางที่ผู้ใช้ติดตามสถานะได้</p>
+                        <span class="k2-note" data-i18n="k2.note">กรณีศึกษาแบบไม่เปิดเผยชื่อลูกค้าและข้อมูลภายใน</span>
+                    </div>
+                    <div class="k2-steps">
+                        <div class="k2-step"><span>01</span><small data-i18n="k2.challenge.label">โจทย์</small><h4 data-i18n="k2.challenge.title">ขั้นตอนอนุมัติซับซ้อน</h4><p data-i18n="k2.challenge.desc">ข้อมูลจากแบบฟอร์ม ผู้อนุมัติ และสถานะงานอยู่คนละจุด ทำให้ติดตามงานและตรวจสอบย้อนหลังได้ยาก</p></div>
+                        <div class="k2-step"><span>02</span><small data-i18n="k2.role.label">หน้าที่รับผิดชอบ</small><h4>Forms to Workflow</h4><p data-i18n="k2.role.desc">พัฒนา SmartForms, Views, Rules, Validation, Workflow และ SmartObjects ตาม Requirement ที่ได้รับ</p></div>
+                        <div class="k2-step"><span>03</span><small data-i18n="k2.integration.label">การเชื่อมต่อ</small><h4>Connected Data</h4><p data-i18n="k2.integration.desc">เชื่อมข้อมูลกับ SQL Server, REST API, Web Services หรือ SharePoint ตามบริบทของระบบ</p></div>
+                        <div class="k2-step"><span>04</span><small data-i18n="k2.quality.label">คุณภาพและส่งมอบ</small><h4>Test & Deploy</h4><p data-i18n="k2.quality.desc">ทำ Unit Testing แก้ไขปัญหาจาก UAT จัดทำ Deployment Document และ User Manual</p></div>
+                    </div>
+                    <div class="k2-outcomes">
+                        <small data-i18n="k2.outcome.label">ผลลัพธ์เชิงคุณภาพ</small>
+                        <ul>
+                            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="k2.outcome.one">ขั้นตอนอนุมัติมีมาตรฐานและมองเห็นสถานะได้จากจุดเดียว</span></li>
+                            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="k2.outcome.two">ลดการกรอกข้อมูลซ้ำด้วยการเชื่อมต่อระบบที่เกี่ยวข้อง</span></li>
+                            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="k2.outcome.three">ตรวจสอบประวัติและแก้ไขปัญหา Workflow ได้สะดวกขึ้น</span></li>
                         </ul>
-                        <div class="career-tags"><span>LLM</span><span>RAG</span><span>AI Agent</span><span>Vector Search</span><span>Full Stack</span></div>
                     </div>
-                    <span class="now">CURRENT</span>
-                </article>
-                <article class="career-item fade-up">
-                    <div class="career-date">JUL — SEP 2026</div>
-                    <div class="career-role"><h3>Junior K2 Developer</h3><p>I Design Solutions Co., Ltd.</p></div>
-                    <div class="career-body">
-                        <p data-i18n="career.k2">พัฒนา SmartForms, Views และ Workflows บน K2 Five / Blackpearl พร้อมเชื่อมต่อระบบภายนอกและดูแลระบบ Production</p>
-                        <details class="career-more">
-                            <summary><span data-i18n="career.more">ดูรายละเอียด</span></summary>
-                            <ul class="career-points">
-                                <li data-i18n="career.k2.one">Form & Workflow: ออกแบบและพัฒนา SmartForms, Views และ Workflows ตาม Requirement จาก Business Analyst หรือ Senior Developer</li>
-                                <li data-i18n="career.k2.two">Integration: สร้าง SmartObjects เชื่อมข้อมูล K2 กับ SQL Server, REST API, Web Services และ SharePoint</li>
-                                <li data-i18n="career.k2.three">Business Rules: กำหนด Logic, Rule, Expression และ Validation ให้ข้อมูลถูกต้องตามโปรเซสธุรกิจ</li>
-                                <li data-i18n="career.k2.four">Testing & Deployment: Unit Testing แก้ Bug จาก UAT และจัดทำเอกสาร Deployment / User Manual</li>
-                                <li data-i18n="career.k2.five">Support: Troubleshoot Workflow Instances และ SmartForms ให้ระบบทำงานต่อเนื่อง</li>
-                            </ul>
-                        </details>
-                        <div class="career-tags"><span>K2 Five</span><span>Blackpearl</span><span>SmartObjects</span><span>SQL Server</span><span>SharePoint</span></div>
-                    </div>
-                    <span>3 MONTHS</span>
-                </article>
-                <article class="career-item fade-up">
-                    <div class="career-date">NOV 2025 — MAY 2026</div>
-                    <div class="career-role"><h3>Fullstack Developer</h3><p>Musion Co., Ltd.</p></div>
-                    <div class="career-body">
-                        <p data-i18n="career.fullstack">ออกแบบและพัฒนา Web Application ตามความต้องการของลูกค้า จากแบบ Figma ด้วย Laravel และ MySQL</p>
-                        <details class="career-more">
-                            <summary><span data-i18n="career.more">ดูรายละเอียด</span></summary>
-                            <ul class="career-points">
-                                <li data-i18n="career.fullstack.one">พัฒนาหน้าจอตามแบบ Figma ให้ตรงตามความคาดหวังและตอบโจทย์การใช้งาน</li>
-                                <li data-i18n="career.fullstack.two">สร้างระบบด้วย Laravel ที่มีเสถียรภาพ และออกแบบฐานข้อมูล MySQL ให้เข้าถึงข้อมูลได้รวดเร็ว</li>
-                                <li data-i18n="career.fullstack.three">ใช้ Docker สร้างสภาพแวดล้อมการพัฒนาที่ยืดหยุ่นและจัดการง่าย</li>
-                                <li data-i18n="career.fullstack.four">ใช้ GitLab ควบคุมเวอร์ชันและทำงานร่วมกับทีม</li>
-                            </ul>
-                        </details>
-                        <div class="career-tags"><span>Laravel</span><span>MySQL</span><span>Figma</span><span>Docker</span><span>GitLab</span></div>
-                    </div>
-                    <span>7 MONTHS</span>
-                </article>
-                <article class="career-item fade-up">
-                    <div class="career-date">JAN 2024 — OCT 2025</div>
-                    <div class="career-role"><h3>PHP Web Programmer</h3><p>Cloudmate Co., Ltd.</p></div>
-                    <div class="career-body">
-                        <p data-i18n="career.php">พัฒนาเว็บไซต์และโปรแกรมด้วย PHP, SQL และ WordPress ควบคู่กับงาน SAP ABAP</p>
-                        <details class="career-more">
-                            <summary><span data-i18n="career.more">ดูรายละเอียด</span></summary>
-                            <ul class="career-points">
-                                <li data-i18n="career.php.one">เขียนโปรแกรมและเว็บไซต์ด้วย SQL, PHP, HTML5, Bootstrap 5 และ WordPress</li>
-                                <li data-i18n="career.php.two">พัฒนา SAP ABAP: Report, Interface, Smart Form และ API</li>
-                                <li data-i18n="career.php.three">เรียนรู้ Framework เพิ่มเติม: Spring Boot และ Next.js (เบื้องต้น)</li>
-                            </ul>
-                        </details>
-                        <div class="career-tags"><span>PHP</span><span>SQL</span><span>WordPress</span><span>SAP ABAP</span><span>Bootstrap 5</span></div>
-                    </div>
-                    <span>1 YR 10 MO</span>
-                </article>
-                <article class="career-item fade-up">
-                    <div class="career-date">SEP — DEC 2023</div>
-                    <div class="career-role"><h3 data-i18n="career.officer.title">เจ้าหน้าที่งานกิจกรรมนักเรียน นักศึกษา</h3><p data-i18n="career.officer.org">วิทยาลัยเทคนิคตรัง</p></div>
-                    <div class="career-body">
-                        <p data-i18n="career.officer">งานด้านเอกสาร เช่น บันทึกข้อความ คำสั่ง โครงการ และเอกสารราชการต่าง ๆ</p>
-                    </div>
-                    <span>4 MONTHS</span>
                 </article>
             </div>
         </section>
 
-        <section class="work" id="work">
-            <div class="section-label fade-up"><span>04</span> SELECTED WORK</div>
-            <div class="work-heading fade-up">
-                <h2>RECENT<br>PROJECTS</h2>
-                <p data-i18n="work.subtitle">คลิกที่ผลงานเพื่ออ่าน Case Study และดูภาพเพิ่มเติม</p>
-            </div>
-            <div class="projects">
-                <article class="project fade-up" tabindex="0" data-case="bus" data-title="Bus Management System" data-gallery="img/bus-1.png,img/bus-2.png,img/bus-3.png,img/bus-4.png">
-                    <div class="project-media"><img src="img/bus-1.png" alt="ระบบบริหารจัดการรถบัส" loading="lazy" decoding="async"><span>VIEW PROJECT ↗</span><b class="project-count">4 SCREENS</b></div>
-                    <div class="project-title"><div><small>01 / LARAVEL APPLICATION</small><h3>Bus Management</h3></div><p data-i18n="project.bus">ระบบจัดการรถบัส บุคลากร การตลาด ตารางเดินรถ และรายงาน</p></div>
-                    <div class="project-outcome"><small>OUTCOME</small><p data-i18n="outcome.bus">รวมข้อมูลการดำเนินงานไว้ในระบบเดียว ช่วยให้ติดตามภาพรวมและจัดทำรายงานได้ง่ายขึ้น</p></div>
-                </article>
-                <article class="project fade-up" tabindex="0" data-case="security" data-title="Security Management System" data-gallery="img/anupon-1.png,img/anupon-2.png,img/anupon-3.png,img/anupon-4.png,img/anupon-5.png">
-                    <div class="project-media"><img src="img/anupon-1.png" alt="ระบบจัดการงานรักษาความปลอดภัย" loading="lazy" decoding="async"><span>VIEW PROJECT ↗</span><b class="project-count">5 SCREENS</b></div>
-                    <div class="project-title"><div><small>02 / WEB APPLICATION</small><h3>Security Management</h3></div><p data-i18n="project.security">ระบบจัดการเจ้าหน้าที่ ตารางเวร จุดตรวจ และรายงานเหตุการณ์</p></div>
-                    <div class="project-outcome"><small>OUTCOME</small><p data-i18n="outcome.security">ข้อมูลเวรและเหตุการณ์ค้นหาได้เป็นระบบ เพิ่มความสะดวกในการติดตามและตรวจสอบย้อนหลัง</p></div>
-                </article>
-                <article class="project fade-up" tabindex="0" data-case="erp" data-title="ERP Production System" data-gallery="img/erp-1.png,img/erp-2.png,img/erp-3.png,img/erp-4.png,img/erp-5.png,img/erp-6.png">
-                    <div class="project-media"><img src="img/erp-1.png" alt="ระบบ ERP Production" loading="lazy" decoding="async"><span>VIEW PROJECT ↗</span><b class="project-count">6 SCREENS</b></div>
-                    <div class="project-title"><div><small>03 / ERP</small><h3>Production System</h3></div><p data-i18n="project.erp">ระบบบริหารการผลิต บัญชีส่วนประกอบ และคลังสินค้า</p></div>
-                    <div class="project-outcome"><small>OUTCOME</small><p data-i18n="outcome.erp">เชื่อมโยง BOM การผลิต และคลังสินค้า ทำให้ข้อมูลในแต่ละขั้นตอนต่อเนื่องกันมากขึ้น</p></div>
-                </article>
-                <article class="project fade-up" tabindex="0" data-case="jobs" data-title="Jobs Platform" data-gallery="img/job-1.png,img/job-2.png,img/job-3.png,img/job-4.png,img/job-5.png">
-                    <div class="project-media"><img src="img/job-1.png" alt="แพลตฟอร์มหางาน" loading="lazy" decoding="async"><span>VIEW PROJECT ↗</span><b class="project-count">5 SCREENS</b></div>
-                    <div class="project-title"><div><small>04 / PHP PLATFORM</small><h3>Jobs Platform</h3></div><p data-i18n="project.jobs">แพลตฟอร์มหางาน สมัครงาน อัปโหลดเอกสาร และจัดการโปรไฟล์</p></div>
-                    <div class="project-outcome"><small>OUTCOME</small><p data-i18n="outcome.jobs">ผู้สมัครและผู้ประกอบการจัดการประกาศ โปรไฟล์ และใบสมัครผ่านช่องทางเดียว</p></div>
-                </article>
-            </div>
-        </section>
-
-        <section class="k2-study" id="k2-case-study">
-            <div class="section-label fade-up"><span>05</span> FEATURED K2 CASE STUDY</div>
-            <div class="k2-hero fade-up">
-                <div>
-                    <span class="confidential-note" data-i18n="k2.note">กรณีศึกษาแบบไม่เปิดเผยชื่อลูกค้าและข้อมูลภายใน</span>
-                    <h2>APPROVAL<br>WORKFLOW<br><em>SYSTEM</em></h2>
+        <!-- SKILL JOURNEY -->
+        <section class="section section-alt" id="journey">
+            <div class="container">
+                <div class="section-head fade-up">
+                    <span class="eyebrow">Skill Journey</span>
+                    <h2 data-i18n-html="journey.title">จากพื้นฐาน IT<br>สู่ AI Engineering</h2>
+                    <p data-i18n="journey.subtitle">ทุกช่วงการทำงานช่วยต่อยอดทักษะ จากการดูแลระบบ สู่ Web Development, ERP, Workflow Automation และ AI</p>
                 </div>
-                <p data-i18n="k2.summary">เปลี่ยนกระบวนการอนุมัติที่มีหลายขั้นตอนและข้อมูลกระจาย ให้เป็น Workflow กลางที่ผู้ใช้ติดตามสถานะได้</p>
-            </div>
-            <div class="k2-details">
-                <article class="fade-up"><small data-i18n="k2.challenge.label">โจทย์</small><h3 data-i18n="k2.challenge.title">ขั้นตอนอนุมัติซับซ้อน</h3><p data-i18n="k2.challenge.desc">ข้อมูลจากแบบฟอร์ม ผู้อนุมัติ และสถานะงานอยู่คนละจุด ทำให้ติดตามงานและตรวจสอบย้อนหลังได้ยาก</p></article>
-                <article class="fade-up"><small data-i18n="k2.role.label">หน้าที่รับผิดชอบ</small><h3>Forms to Workflow</h3><p data-i18n="k2.role.desc">พัฒนา SmartForms, Views, Rules, Validation, Workflow และ SmartObjects ตาม Requirement ที่ได้รับ</p></article>
-                <article class="fade-up"><small data-i18n="k2.integration.label">การเชื่อมต่อ</small><h3>Connected Data</h3><p data-i18n="k2.integration.desc">เชื่อมข้อมูลกับ SQL Server, REST API, Web Services หรือ SharePoint ตามบริบทของระบบ</p></article>
-                <article class="fade-up"><small data-i18n="k2.quality.label">คุณภาพและส่งมอบ</small><h3>Test & Deploy</h3><p data-i18n="k2.quality.desc">ทำ Unit Testing แก้ไขปัญหาจาก UAT จัดทำ Deployment Document และ User Manual</p></article>
-            </div>
-            <div class="k2-outcomes fade-up">
-                <span data-i18n="k2.outcome.label">ผลลัพธ์เชิงคุณภาพ</span>
-                <ul>
-                    <li data-i18n="k2.outcome.one">ขั้นตอนอนุมัติมีมาตรฐานและมองเห็นสถานะได้จากจุดเดียว</li>
-                    <li data-i18n="k2.outcome.two">ลดการกรอกข้อมูลซ้ำด้วยการเชื่อมต่อระบบที่เกี่ยวข้อง</li>
-                    <li data-i18n="k2.outcome.three">ตรวจสอบประวัติและแก้ไขปัญหา Workflow ได้สะดวกขึ้น</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="skill-journey" id="journey">
-            <div class="section-label fade-up"><span>06</span> SKILL JOURNEY</div>
-            <div class="journey-heading fade-up">
-                <h2 data-i18n-html="journey.title">จากพื้นฐาน IT<br>สู่ AI Engineering</h2>
-                <p data-i18n="journey.subtitle">ทุกช่วงการทำงานช่วยต่อยอดทักษะ จากการดูแลระบบ สู่ Web Development, ERP, Workflow Automation และ AI</p>
-            </div>
-            <div class="journey-line fade-up">
-                <article><span>2018 — 2022</span><i></i><h3>IT Foundation</h3><p data-i18n="journey.it">ฐานข้อมูล เครือข่าย ซ่อมคอมพิวเตอร์ และพัฒนาแอปพลิเคชัน</p></article>
-                <article><span>2024 — 2025</span><i></i><h3>PHP, ERP & SAP</h3><p data-i18n="journey.web">เว็บไซต์ PHP / WordPress ระบบ ERP และ SAP ABAP Report, Interface, API</p></article>
-                <article><span>2025 — 2026</span><i></i><h3>Laravel Full Stack</h3><p data-i18n="journey.erp">Web Application ตามแบบ Figma ด้วย Laravel, MySQL, Docker และ GitLab</p></article>
-                <article><span>JUL — SEP 2026</span><i></i><h3>K2 & Automation</h3><p data-i18n="journey.k2">Workflow, SmartForms, SmartObjects และการเชื่อมต่อระบบองค์กร</p></article>
-                <article class="journey-now"><span>2026 — NOW</span><i></i><h3>AI & LLM</h3><p data-i18n="journey.ai">RAG, AI Agent และ Vector Search บนระบบ Full-Stack ที่พร้อมขยาย</p></article>
-            </div>
-        </section>
-
-        <section class="services" id="services">
-            <div class="section-label fade-up"><span>07</span> SERVICES</div>
-            <div class="services-heading fade-up">
-                <h2 data-i18n-html="services.title">บริการที่ช่วยเปลี่ยน<br>แนวคิดให้เป็นระบบ</h2>
-                <p data-i18n="services.subtitle">รับพัฒนางานตามขอบเขตที่ชัดเจน ตั้งแต่การวิเคราะห์ไปจนถึงส่งมอบและดูแลหลังใช้งาน</p>
-            </div>
-            <div class="service-grid">
-                <article class="service-card fade-up">
-                    <span>01</span><div class="service-icon" aria-hidden="true">✦</div>
-                    <h3 data-i18n="services.ai.title">AI Features & Chatbot</h3>
-                    <p data-i18n="services.ai.desc">ผู้ช่วย AI ที่ตอบจากข้อมูลของธุรกิจด้วย RAG, AI Agent ที่ช่วยทำงานซ้ำ ๆ และระบบค้นหาเชิงความหมาย</p>
-                    <small>LLM · RAG · AI Agent · Vector Search</small>
-                </article>
-                <article class="service-card fade-up">
-                    <span>02</span><div class="service-icon" aria-hidden="true">⌘</div>
-                    <h3 data-i18n="services.web.title">พัฒนา Web Application</h3>
-                    <p data-i18n="services.web.desc">ระบบหลังบ้าน Dashboard แบบฟอร์ม และระบบจัดการข้อมูลที่ออกแบบตามกระบวนการของธุรกิจ</p>
-                    <small>Laravel · PHP · MySQL · JavaScript</small>
-                </article>
-                <article class="service-card fade-up">
-                    <span>03</span><div class="service-icon" aria-hidden="true">↻</div>
-                    <h3 data-i18n="services.workflow.title">Workflow Automation</h3>
-                    <p data-i18n="services.workflow.desc">เปลี่ยนขั้นตอนอนุมัติและงานเอกสารให้เป็น Workflow ที่ติดตามสถานะและตรวจสอบย้อนหลังได้</p>
-                    <small>K2 · SmartForms · SmartObjects</small>
-                </article>
-                <article class="service-card fade-up">
-                    <span>04</span><div class="service-icon" aria-hidden="true">⇄</div>
-                    <h3 data-i18n="services.integration.title">System Integration</h3>
-                    <p data-i18n="services.integration.desc">เชื่อมต่อข้อมูลระหว่างระบบ ลดการกรอกข้อมูลซ้ำ และทำให้กระบวนการทำงานต่อเนื่องกัน</p>
-                    <small>REST API · SQL Server · Web Services</small>
-                </article>
-                <article class="service-card fade-up">
-                    <span>05</span><div class="service-icon" aria-hidden="true">+</div>
-                    <h3 data-i18n="services.support.title">Maintenance & IT Support</h3>
-                    <p data-i18n="services.support.desc">ตรวจสอบ แก้ไขปัญหา ปรับปรุงระบบ และจัดทำเอกสารเพื่อให้ผู้ใช้ทำงานได้อย่างต่อเนื่อง</p>
-                    <small>UAT · Troubleshooting · Documentation</small>
-                </article>
-            </div>
-        </section>
-
-        <section class="process" id="process">
-            <div class="section-label fade-up"><span>08</span> WORK PROCESS</div>
-            <div class="process-heading fade-up">
-                <h2 data-i18n-html="process.title">ชัดเจนทุกขั้นตอน<br>ตั้งแต่โจทย์ถึงใช้งานจริง</h2>
-                <p data-i18n="process.subtitle">กระบวนการทำงานที่เน้นการสื่อสาร ตรวจสอบได้ และลดความเสี่ยงก่อนนำระบบขึ้นใช้งาน</p>
-            </div>
-            <div class="process-list">
-                <article class="process-step fade-up"><strong>01</strong><div><small>DISCOVER</small><h3 data-i18n="process.discover.title">ทำความเข้าใจโจทย์</h3><p data-i18n="process.discover.desc">รวบรวม Requirement ผู้เกี่ยวข้อง ข้อมูล และข้อจำกัดของกระบวนการปัจจุบัน</p></div></article>
-                <article class="process-step fade-up"><strong>02</strong><div><small>DESIGN</small><h3 data-i18n="process.design.title">ออกแบบแนวทาง</h3><p data-i18n="process.design.desc">วาง Flow โครงสร้างข้อมูล หน้าจอ และจุดเชื่อมต่อให้ทุกฝ่ายเห็นภาพตรงกัน</p></div></article>
-                <article class="process-step fade-up"><strong>03</strong><div><small>BUILD</small><h3 data-i18n="process.build.title">พัฒนาเป็นรอบ</h3><p data-i18n="process.build.desc">แบ่งงานเป็นส่วนย่อย พัฒนาและสาธิตความคืบหน้าเพื่อรับ Feedback ระหว่างทาง</p></div></article>
-                <article class="process-step fade-up"><strong>04</strong><div><small>VERIFY</small><h3 data-i18n="process.verify.title">ทดสอบและปรับปรุง</h3><p data-i18n="process.verify.desc">ทำ Unit Testing รองรับ UAT แก้ไขข้อผิดพลาด และตรวจสอบกรณีใช้งานสำคัญ</p></div></article>
-                <article class="process-step fade-up"><strong>05</strong><div><small>DELIVER</small><h3 data-i18n="process.deliver.title">ส่งมอบและดูแล</h3><p data-i18n="process.deliver.desc">Deploy พร้อมเอกสาร User Manual และติดตามปัญหาหลังนำระบบขึ้นใช้งาน</p></div></article>
-            </div>
-        </section>
-
-        <section class="education">
-            <div class="section-label fade-up"><span>09</span> EDUCATION & AWARDS</div>
-            <div class="education-grid">
-                <div class="education-main fade-up">
-                    <small>BACHELOR OF SCIENCE · 2022</small>
-                    <h2>Information<br>Technology</h2>
-                    <p>Rajamangala University of Technology Srivijaya</p>
-                    <div class="honor"><strong>3.94</strong><span>FIRST CLASS<br>HONORS</span></div>
-                </div>
-                <div class="awards">
-                    <article class="fade-up"><span>2022</span><div><h3>Sciitech Project Day</h3><p data-i18n="award.sciitech">ชนะเลิศอันดับ 1 กลุ่มวิทยาศาสตร์คอมพิวเตอร์และเทคโนโลยี</p></div></article>
-                    <article class="fade-up"><span>2022</span><div><h3>NCST Conference</h3><p data-i18n="award.ncst">นำเสนอผลงานด้านวิทยาการคอมพิวเตอร์และเทคโนโลยีสารสนเทศ</p></div></article>
-                    <article class="fade-up"><span>NATIONAL</span><div><h3>Network Technology Skill</h3><p data-i18n="award.network">รองชนะเลิศอันดับ 4 ระดับชาติ</p></div></article>
-                    <article class="fade-up"><span>CERTIFIED</span><div><h3>ICDL Digital Literacy</h3><p data-i18n="award.icdl">Workforce Basics ระดับ 2 · คะแนนรับรอง 775</p></div></article>
+                <div class="journey fade-up">
+                    <article class="journey-step"><span class="journey-node" aria-hidden="true"></span><time>2018 — 2022</time><h3>IT Foundation</h3><p data-i18n="journey.it">ฐานข้อมูล เครือข่าย ซ่อมคอมพิวเตอร์ และพัฒนาแอปพลิเคชัน</p></article>
+                    <article class="journey-step"><span class="journey-node" aria-hidden="true"></span><time>2024 — 2025</time><h3>PHP, ERP & SAP</h3><p data-i18n="journey.web">เว็บไซต์ PHP / WordPress ระบบ ERP และ SAP ABAP Report, Interface, API</p></article>
+                    <article class="journey-step"><span class="journey-node" aria-hidden="true"></span><time>2025 — 2026</time><h3>Laravel Full Stack</h3><p data-i18n="journey.erp">Web Application ตามแบบ Figma ด้วย Laravel, MySQL, Docker และ GitLab</p></article>
+                    <article class="journey-step"><span class="journey-node" aria-hidden="true"></span><time>JUL — SEP 2026</time><h3>K2 & Automation</h3><p data-i18n="journey.k2">Workflow, SmartForms, SmartObjects และการเชื่อมต่อระบบองค์กร</p></article>
+                    <article class="journey-step is-now"><span class="journey-node" aria-hidden="true"></span><time>2026 — NOW</time><h3>AI & LLM</h3><p data-i18n="journey.ai">RAG, AI Agent และ Vector Search บนระบบ Full-Stack ที่พร้อมขยาย</p></article>
                 </div>
             </div>
         </section>
 
-        <section class="availability" id="availability">
-            <div class="section-label fade-up"><span>10</span> AVAILABILITY</div>
-            <div class="availability-grid">
-                <div class="availability-title fade-up">
-                    <span class="availability-dot"></span>
-                    <h2 data-i18n-html="availability.title">พร้อมสำหรับ<br>โอกาสใหม่</h2>
-                    <p data-i18n="availability.subtitle">เปิดรับงานที่ได้ใช้ทักษะด้านการพัฒนาระบบและแก้ปัญหาให้ธุรกิจ</p>
+        <!-- SERVICES -->
+        <section class="section" id="services">
+            <div class="container">
+                <div class="section-head fade-up">
+                    <span class="eyebrow" data-i18n="nav.services">บริการ</span>
+                    <h2 data-i18n-html="services.title">บริการที่ช่วยเปลี่ยน<br>แนวคิดให้เป็นระบบ</h2>
+                    <p data-i18n="services.subtitle">รับพัฒนางานตามขอบเขตที่ชัดเจน ตั้งแต่การวิเคราะห์ไปจนถึงส่งมอบและดูแลหลังใช้งาน</p>
                 </div>
-                <div class="availability-details fade-up">
-                    <div><small data-i18n="availability.positionLabel">ตำแหน่งที่สนใจ</small><strong>AI / Full Stack Engineer<br>Programmer / Developer</strong></div>
-                    <div><small data-i18n="availability.typeLabel">รูปแบบการทำงาน</small><strong data-i18n-html="availability.type">งานประจำ · Part-time · Freelance<br>Work from Home</strong></div>
-                    <div><small data-i18n="availability.startLabel">เริ่มงานได้</small><strong data-i18n="availability.start">30 วันหลังจากเซ็นสัญญา</strong></div>
-                    <div><small data-i18n="availability.salaryLabel">เงินเดือนที่คาดหวัง</small><strong data-i18n="availability.salary">20,000 — 25,000 บาท</strong></div>
-                    <a href="resume_file/resume.pdf" download class="availability-resume"><span data-i18n="availability.download">ดาวน์โหลด Resume PDF</span><i aria-hidden="true">↓</i></a>
+                <div class="services">
+                    <article class="card service service-featured fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-sparkles"/></svg></span>
+                        <h3 data-i18n="services.ai.title">AI Features & Chatbot</h3>
+                        <p data-i18n="services.ai.desc">ผู้ช่วย AI ที่ตอบจากข้อมูลของธุรกิจด้วย RAG, AI Agent ที่ช่วยทำงานซ้ำ ๆ และระบบค้นหาเชิงความหมาย</p>
+                        <small>LLM · RAG · AI Agent · Vector Search</small>
+                    </article>
+                    <article class="card service fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-layers"/></svg></span>
+                        <h3 data-i18n="services.web.title">พัฒนา Web Application</h3>
+                        <p data-i18n="services.web.desc">ระบบหลังบ้าน Dashboard แบบฟอร์ม และระบบจัดการข้อมูลที่ออกแบบตามกระบวนการของธุรกิจ</p>
+                        <small>Laravel · PHP · MySQL · JavaScript</small>
+                    </article>
+                    <article class="card service fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-flow"/></svg></span>
+                        <h3 data-i18n="services.workflow.title">Workflow Automation</h3>
+                        <p data-i18n="services.workflow.desc">เปลี่ยนขั้นตอนอนุมัติและงานเอกสารให้เป็น Workflow ที่ติดตามสถานะและตรวจสอบย้อนหลังได้</p>
+                        <small>K2 · SmartForms · SmartObjects</small>
+                    </article>
+                    <article class="card service fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-link"/></svg></span>
+                        <h3 data-i18n="services.integration.title">System Integration</h3>
+                        <p data-i18n="services.integration.desc">เชื่อมต่อข้อมูลระหว่างระบบ ลดการกรอกข้อมูลซ้ำ และทำให้กระบวนการทำงานต่อเนื่องกัน</p>
+                        <small>REST API · SQL Server · Web Services</small>
+                    </article>
+                    <article class="card service fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-wrench"/></svg></span>
+                        <h3 data-i18n="services.support.title">Maintenance & IT Support</h3>
+                        <p data-i18n="services.support.desc">ตรวจสอบ แก้ไขปัญหา ปรับปรุงระบบ และจัดทำเอกสารเพื่อให้ผู้ใช้ทำงานได้อย่างต่อเนื่อง</p>
+                        <small>UAT · Troubleshooting · Documentation</small>
+                    </article>
+                </div>
+
+                <!-- PROCESS -->
+                <div class="process-wrap" id="process">
+                    <div class="section-head section-head-sm fade-up">
+                        <span class="eyebrow">Work Process</span>
+                        <h2 data-i18n-html="process.title">ชัดเจนทุกขั้นตอน<br>ตั้งแต่โจทย์ถึงใช้งานจริง</h2>
+                        <p data-i18n="process.subtitle">กระบวนการทำงานที่เน้นการสื่อสาร ตรวจสอบได้ และลดความเสี่ยงก่อนนำระบบขึ้นใช้งาน</p>
+                    </div>
+                    <ol class="process">
+                        <li class="process-step fade-up"><span class="step-num">01</span><small>Discover</small><h3 data-i18n="process.discover.title">ทำความเข้าใจโจทย์</h3><p data-i18n="process.discover.desc">รวบรวม Requirement ผู้เกี่ยวข้อง ข้อมูล และข้อจำกัดของกระบวนการปัจจุบัน</p></li>
+                        <li class="process-step fade-up"><span class="step-num">02</span><small>Design</small><h3 data-i18n="process.design.title">ออกแบบแนวทาง</h3><p data-i18n="process.design.desc">วาง Flow โครงสร้างข้อมูล หน้าจอ และจุดเชื่อมต่อให้ทุกฝ่ายเห็นภาพตรงกัน</p></li>
+                        <li class="process-step fade-up"><span class="step-num">03</span><small>Build</small><h3 data-i18n="process.build.title">พัฒนาเป็นรอบ</h3><p data-i18n="process.build.desc">แบ่งงานเป็นส่วนย่อย พัฒนาและสาธิตความคืบหน้าเพื่อรับ Feedback ระหว่างทาง</p></li>
+                        <li class="process-step fade-up"><span class="step-num">04</span><small>Verify</small><h3 data-i18n="process.verify.title">ทดสอบและปรับปรุง</h3><p data-i18n="process.verify.desc">ทำ Unit Testing รองรับ UAT แก้ไขข้อผิดพลาด และตรวจสอบกรณีใช้งานสำคัญ</p></li>
+                        <li class="process-step fade-up"><span class="step-num">05</span><small>Deliver</small><h3 data-i18n="process.deliver.title">ส่งมอบและดูแล</h3><p data-i18n="process.deliver.desc">Deploy พร้อมเอกสาร User Manual และติดตามปัญหาหลังนำระบบขึ้นใช้งาน</p></li>
+                    </ol>
                 </div>
             </div>
         </section>
 
-        <section class="contact" id="contact">
-            <div class="section-label fade-up"><span>11</span> CONTACT</div>
-            <p class="contact-kicker fade-up">HAVE A PROJECT IN MIND?</p>
-            <h2 class="fade-up">LET'S MAKE<br>SOMETHING <em>WORK.</em></h2>
-            <div class="contact-email-row fade-up">
-                <a class="contact-email" href="mailto:watcharapong.ballz@gmail.com">watcharapong.ballz@gmail.com <span aria-hidden="true">↗</span></a>
-                <button type="button" class="copy-button" id="copyEmail" data-copy="watcharapong.ballz@gmail.com"><span data-i18n="contact.copy">คัดลอกอีเมล</span></button>
+        <!-- EDUCATION -->
+        <section class="section section-alt" id="education">
+            <div class="container">
+                <div class="section-head fade-up">
+                    <span class="eyebrow">Education & Awards</span>
+                    <h2 data-i18n="edu.title">การศึกษาและรางวัล</h2>
+                </div>
+                <div class="edu-grid">
+                    <article class="card edu-main fade-up">
+                        <span class="icon-tile"><svg class="i"><use href="#i-cap"/></svg></span>
+                        <small>Bachelor of Science · 2022</small>
+                        <h3>Information Technology</h3>
+                        <p>Rajamangala University of Technology Srivijaya</p>
+                        <div class="honor">
+                            <strong>3.94</strong>
+                            <span>GPA<br><b>First Class Honors</b></span>
+                        </div>
+                    </article>
+                    <div class="awards">
+                        <article class="card award fade-up"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-award"/></svg></span><div><h3>Sciitech Project Day</h3><p data-i18n="award.sciitech">ชนะเลิศอันดับ 1 กลุ่มวิทยาศาสตร์คอมพิวเตอร์และเทคโนโลยี</p></div><span class="badge">2022</span></article>
+                        <article class="card award fade-up"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-award"/></svg></span><div><h3>NCST Conference</h3><p data-i18n="award.ncst">นำเสนอผลงานด้านวิทยาการคอมพิวเตอร์และเทคโนโลยีสารสนเทศ</p></div><span class="badge">2022</span></article>
+                        <article class="card award fade-up"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-award"/></svg></span><div><h3>Network Technology Skill</h3><p data-i18n="award.network">รองชนะเลิศอันดับ 4 ระดับชาติ</p></div><span class="badge">National</span></article>
+                        <article class="card award fade-up"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-check"/></svg></span><div><h3>ICDL Digital Literacy</h3><p data-i18n="award.icdl">Workforce Basics ระดับ 2 · คะแนนรับรอง 775</p></div><span class="badge">Certified</span></article>
+                    </div>
+                </div>
             </div>
-            <div class="contact-info fade-up">
-                <div><small>PHONE</small><a href="tel:+66874737160">087-473-7160</a></div>
-                <div><small>LOCATION</small><span data-i18n="contact.location">Trang, Thailand</span></div>
-                <div><small>SOCIAL</small><span class="social-links"><a href="https://github.com/Salapao-dev" target="_blank" rel="noopener">GitHub ↗</a><a href="https://www.facebook.com/salapao0/" target="_blank" rel="noopener">Facebook ↗</a></span></div>
+        </section>
+
+        <!-- AVAILABILITY + CONTACT -->
+        <section class="section" id="contact">
+            <div class="container">
+                <div class="cta fade-up" id="availability">
+                    <div class="cta-bg" aria-hidden="true"></div>
+                    <div class="cta-copy">
+                        <span class="status-pill status-pill-dark"><i class="pulse"></i><span data-i18n="hero.available">พร้อมรับโอกาสใหม่</span></span>
+                        <h2 data-i18n-html="contact.title">มาสร้างระบบที่<br>ใช้งานได้จริงด้วยกัน</h2>
+                        <p data-i18n="availability.subtitle">เปิดรับงานที่ได้ใช้ทักษะด้านการพัฒนาระบบและแก้ปัญหาให้ธุรกิจ</p>
+                        <div class="cta-actions">
+                            <a class="btn btn-light btn-lg" href="mailto:watcharapong.ballz@gmail.com"><svg class="i"><use href="#i-mail"/></svg><span>watcharapong.ballz@gmail.com</span></a>
+                            <button type="button" class="btn btn-outline-light btn-lg" id="copyEmail" data-copy="watcharapong.ballz@gmail.com"><svg class="i"><use href="#i-copy"/></svg><span data-i18n="contact.copy">คัดลอกอีเมล</span></button>
+                        </div>
+                    </div>
+                    <dl class="cta-details">
+                        <div><dt><svg class="i"><use href="#i-briefcase"/></svg><span data-i18n="availability.positionLabel">ตำแหน่งที่สนใจ</span></dt><dd>AI / Full Stack Engineer<br>Programmer / Developer</dd></div>
+                        <div><dt><svg class="i"><use href="#i-layers"/></svg><span data-i18n="availability.typeLabel">รูปแบบการทำงาน</span></dt><dd data-i18n-html="availability.type">งานประจำ · Part-time · Freelance<br>Work from Home</dd></div>
+                        <div><dt><svg class="i"><use href="#i-clock"/></svg><span data-i18n="availability.startLabel">เริ่มงานได้</span></dt><dd data-i18n="availability.start">30 วันหลังจากเซ็นสัญญา</dd></div>
+                        <div><dt><svg class="i"><use href="#i-coins"/></svg><span data-i18n="availability.salaryLabel">เงินเดือนที่คาดหวัง</span></dt><dd data-i18n="availability.salary">20,000 — 25,000 บาท</dd></div>
+                        <a href="resume_file/resume.pdf" download class="cta-resume"><span data-i18n="availability.download">ดาวน์โหลด Resume PDF</span><svg class="i"><use href="#i-download"/></svg></a>
+                    </dl>
+                </div>
+
+                <div class="contact-cards">
+                    <a class="card contact-card fade-up" href="tel:+66874737160"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-phone"/></svg></span><div><small>Phone</small><strong>087-473-7160</strong></div></a>
+                    <div class="card contact-card fade-up"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-pin"/></svg></span><div><small>Location</small><strong data-i18n="contact.location">Trang, Thailand</strong></div></div>
+                    <a class="card contact-card fade-up" href="https://github.com/Salapao-dev" target="_blank" rel="noopener"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-github"/></svg></span><div><small>GitHub</small><strong>Salapao-dev</strong></div><svg class="i contact-arrow"><use href="#i-arrow-up-right"/></svg></a>
+                    <a class="card contact-card fade-up" href="https://www.facebook.com/salapao0/" target="_blank" rel="noopener"><span class="icon-tile icon-tile-sm"><svg class="i"><use href="#i-facebook"/></svg></span><div><small>Facebook</small><strong>salapao0</strong></div><svg class="i contact-arrow"><use href="#i-arrow-up-right"/></svg></a>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <a class="logo" href="#top">WK<span>.</span></a>
-        <p>WATCHARAPONG KONGJAN<br>AI FULL STACK ENGINEER © 2026</p>
-        <a href="#top">BACK TO TOP ↑</a>
+    <footer class="footer">
+        <div class="container footer-inner">
+            <a class="logo" href="#top"><span class="logo-mark">WK</span><span class="logo-text">Watcharapong Kongjan</span></a>
+            <p>AI Full Stack Engineer · © 2026</p>
+            <a class="text-link" href="#top"><span data-i18n="aria.toTop">กลับขึ้นด้านบน</span><svg class="i"><use href="#i-arrow-up"/></svg></a>
+        </div>
     </footer>
 
     <a class="to-top" id="toTop" href="#top" aria-label="กลับขึ้นด้านบน">
         <svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="20" /><circle class="to-top-progress" id="toTopProgress" cx="22" cy="22" r="20" /></svg>
-        <span aria-hidden="true">↑</span>
+        <svg class="i"><use href="#i-arrow-up"/></svg>
     </a>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle" aria-hidden="true">
-        <div class="viewer-head"><span id="viewerTitle"></span><button id="viewerClose" aria-label="ปิด">CLOSE <b aria-hidden="true">×</b></button></div>
-        <div class="viewer-layout">
-            <div class="viewer-stage">
-                <div class="viewer-media" id="viewerMedia">
-                    <button class="viewer-arrow viewer-prev" id="viewerPrev" aria-label="รูปก่อนหน้า">←</button>
-                    <img id="viewerImage" src="" alt="">
-                    <button class="viewer-arrow viewer-next" id="viewerNext" aria-label="รูปถัดไป">→</button>
+        <div class="viewer-panel">
+            <div class="viewer-head"><span id="viewerTitle"></span><button class="icon-btn" id="viewerClose" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
+            <div class="viewer-layout">
+                <div class="viewer-stage">
+                    <div class="viewer-media" id="viewerMedia">
+                        <button class="viewer-arrow viewer-prev" id="viewerPrev" aria-label="รูปก่อนหน้า"><svg class="i"><use href="#i-chevron-left"/></svg></button>
+                        <img id="viewerImage" src="" alt="">
+                        <button class="viewer-arrow viewer-next" id="viewerNext" aria-label="รูปถัดไป"><svg class="i"><use href="#i-chevron-right"/></svg></button>
+                    </div>
+                    <div class="viewer-thumbs-row">
+                        <span class="viewer-count" id="viewerCount"></span>
+                        <div class="viewer-thumbs" id="viewerThumbs"></div>
+                    </div>
                 </div>
-                <div class="viewer-thumbs-row">
-                    <span class="viewer-count" id="viewerCount"></span>
-                    <div class="viewer-thumbs" id="viewerThumbs"></div>
-                </div>
+                <aside class="case-panel">
+                    <span class="eyebrow">Case Study</span>
+                    <div><small data-i18n="case.challenge">โจทย์</small><p id="caseChallenge"></p></div>
+                    <div><small data-i18n="case.role">บทบาท</small><p id="caseRole"></p></div>
+                    <div><small data-i18n="case.solution">แนวทางแก้ปัญหา</small><p id="caseSolution"></p></div>
+                    <div><small data-i18n="case.outcome">ผลลัพธ์</small><p id="caseOutcome"></p></div>
+                    <div><small>Tech Stack</small><p id="caseTech" class="case-tech"></p></div>
+                </aside>
             </div>
-            <aside class="case-panel">
-                <span class="case-kicker">CASE STUDY</span>
-                <div><small data-i18n="case.challenge">โจทย์</small><p id="caseChallenge"></p></div>
-                <div><small data-i18n="case.role">บทบาท</small><p id="caseRole"></p></div>
-                <div><small data-i18n="case.solution">แนวทางแก้ปัญหา</small><p id="caseSolution"></p></div>
-                <div><small data-i18n="case.outcome">ผลลัพธ์</small><p id="caseOutcome"></p></div>
-                <div><small>TECH STACK</small><p id="caseTech"></p></div>
-            </aside>
         </div>
     </div>
 

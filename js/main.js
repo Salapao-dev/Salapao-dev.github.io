@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const nav = document.getElementById('nav');
     const scrollLine = document.getElementById('scrollLine');
-    const cursorGlow = document.getElementById('cursorGlow');
     const menuButton = document.getElementById('menuButton');
     const mobileMenu = document.getElementById('mobileMenu');
     const toTop = document.getElementById('toTop');
@@ -10,6 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const translations = {
         th: {
+            'hero.greeting': 'สวัสดีครับ ผมชื่อ', 'hero.honors': 'เกียรตินิยมอันดับ 1', 'hero.available': 'พร้อมรับโอกาสใหม่',
+            'about.title': 'ทำงานอยู่ระหว่าง <span class="gradient-text">คน กระบวนการ และ AI</span>',
+            'career.title': 'เส้นทางการทำงาน', 'career.current': 'ปัจจุบัน',
+            'work.title': 'ผลงานที่คัดสรร', 'work.view': 'ดู Case Study',
+            'edu.title': 'การศึกษาและรางวัล',
+            'contact.title': 'มาสร้างระบบที่<br>ใช้งานได้จริงด้วยกัน',
+            'aria.theme': 'สลับโหมดสว่าง/มืด',
             'nav.skip': 'ข้ามไปยังเนื้อหา',
             'nav.about': 'เกี่ยวกับ', 'nav.experience': 'ประสบการณ์', 'nav.work': 'ผลงาน', 'nav.services': 'บริการ', 'nav.contact': 'ติดต่อ',
             'nav.resume': 'ดาวน์โหลด CV',
@@ -102,6 +108,13 @@ document.addEventListener('DOMContentLoaded', () => {
             'aria.close': 'ปิด', 'aria.prev': 'รูปก่อนหน้า', 'aria.next': 'รูปถัดไป', 'aria.image': 'ภาพที่'
         },
         en: {
+            'hero.greeting': "Hi, I'm", 'hero.honors': 'First class honors', 'hero.available': 'Open to new opportunities',
+            'about.title': 'Working between <span class="gradient-text">people, process & AI</span>',
+            'career.title': 'Career journey', 'career.current': 'Current',
+            'work.title': 'Selected projects', 'work.view': 'View case study',
+            'edu.title': 'Education & awards',
+            'contact.title': "Let's build something<br>that really works.",
+            'aria.theme': 'Toggle light/dark mode',
             'nav.skip': 'Skip to content',
             'nav.about': 'About', 'nav.experience': 'Experience', 'nav.work': 'Work', 'nav.services': 'Services', 'nav.contact': 'Contact',
             'nav.resume': 'Download CV',
@@ -298,6 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         menuButton.setAttribute('aria-label', t(mobileMenu.classList.contains('open') ? 'aria.menuClose' : 'aria.menuOpen'));
         toTop.setAttribute('aria-label', t('aria.toTop'));
+        document.querySelectorAll('[data-theme-toggle]').forEach((button) => button.setAttribute('aria-label', t('aria.theme')));
         viewerClose.setAttribute('aria-label', t('aria.close'));
         viewerPrev.setAttribute('aria-label', t('aria.prev'));
         viewerNext.setAttribute('aria-label', t('aria.next'));
@@ -319,6 +333,27 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-lang]').forEach((button) => {
         button.addEventListener('click', () => applyLanguage(button.dataset.lang));
     });
+
+
+    // Light / dark theme toggle (initial theme is set inline in <head>).
+    const root = document.documentElement;
+    const themeMeta = document.querySelectorAll('meta[name="theme-color"]');
+    function setTheme(theme, persist) {
+        root.setAttribute('data-theme', theme);
+        themeMeta.forEach((meta) => meta.setAttribute('content', theme === 'dark' ? '#0a0b12' : '#f6f7fb'));
+        if (persist) { try { localStorage.setItem('portfolio-theme', theme); } catch (_) { /* Storage may be unavailable. */ } }
+    }
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', false);
+    document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.addEventListener('click', () => setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true));
+    });
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const followSystem = (event) => {
+        let saved = null;
+        try { saved = localStorage.getItem('portfolio-theme'); } catch (_) { /* ignore */ }
+        if (!saved) setTheme(event.matches ? 'dark' : 'light', false);
+    };
+    if (systemDark.addEventListener) systemDark.addEventListener('change', followSystem);
 
     // Duplicate the marquee content so the loop is seamless without hand-copied markup.
     const marqueeTrack = document.getElementById('marqueeTrack');
@@ -346,17 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(updatePageProgress);
     }, { passive: true });
     updatePageProgress();
-
-    if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
-        document.addEventListener('mousemove', (event) => {
-            cursorGlow.style.left = `${event.clientX}px`;
-            cursorGlow.style.top = `${event.clientY}px`;
-            cursorGlow.style.opacity = '1';
-        });
-        document.addEventListener('mouseleave', () => {
-            cursorGlow.style.opacity = '0';
-        });
-    }
 
     function setMenu(open) {
         menuButton.classList.toggle('active', open);

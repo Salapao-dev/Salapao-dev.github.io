@@ -4,36 +4,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursorGlow = document.getElementById('cursorGlow');
     const menuButton = document.getElementById('menuButton');
     const mobileMenu = document.getElementById('mobileMenu');
+    const toTop = document.getElementById('toTop');
+    const toTopProgress = document.getElementById('toTopProgress');
+    const toast = document.getElementById('toast');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const translations = {
         th: {
-            'nav.about': 'เกี่ยวกับ', 'nav.experience': 'ประสบการณ์', 'nav.work': 'ผลงาน', 'nav.contact': 'ติดต่อ',
-            'nav.resume': 'ดาวน์โหลด CV', 'nav.available': 'พร้อมรับงาน',
+            'nav.skip': 'ข้ามไปยังเนื้อหา',
+            'nav.about': 'เกี่ยวกับ', 'nav.experience': 'ประสบการณ์', 'nav.work': 'ผลงาน', 'nav.services': 'บริการ', 'nav.contact': 'ติดต่อ',
+            'nav.resume': 'ดาวน์โหลด CV',
             'hero.location': 'อยู่ที่จังหวัดตรัง ประเทศไทย', 'hero.name': 'วัชรพงศ์ คงจันทร์',
-            'hero.role': 'นักพัฒนาที่เปลี่ยน Workflow ซับซ้อนให้เป็น <em>ระบบที่เรียบง่ายและเชื่อถือได้</em>',
+            'hero.badge': 'ปัจจุบัน: <strong>AI Full Stack Engineer</strong> @ Khoomkha Center',
+            'hero.role': 'นักพัฒนา Full Stack ที่ผสาน AI เข้ากับซอฟต์แวร์ เพื่อเปลี่ยน Workflow ซับซ้อนให้เป็น <em>ระบบอัจฉริยะที่เรียบง่ายและเชื่อถือได้</em>',
             'hero.resume': 'ดาวน์โหลด Resume', 'hero.portfolio': 'ดูผลงาน',
             'about.lead': 'ผมเป็นนักพัฒนาที่ทำงานอยู่ระหว่าง',
-            'about.p1': 'มีประสบการณ์พัฒนาระบบองค์กรตั้งแต่เก็บ Requirement, สร้าง Workflow, เชื่อมต่อ API, ทดสอบ ไปจนถึงนำขึ้น Production',
-            'about.p2': 'ถนัด K2 SmartForms, Laravel, PHP, SQL และ SAP ABAP พร้อมเรียนรู้เครื่องมือใหม่เพื่อแก้ปัญหาให้เหมาะกับแต่ละธุรกิจ',
+            'about.p1': 'ปัจจุบันเป็น AI Full Stack Engineer ดูแลระบบตั้งแต่ Frontend ถึง Backend API และพัฒนาฟีเจอร์ AI อย่าง RAG, AI Agent และ Vector Search ให้ใช้งานได้จริงในธุรกิจ',
+            'about.p2': 'มีพื้นฐานระบบองค์กรจาก K2 Workflow, Laravel, PHP, SQL และ SAP ABAP ทำให้เข้าใจทั้งกระบวนการทำงานและการนำ AI ไปเชื่อมกับระบบเดิมอย่างเสถียร',
             'about.cta': 'ร่วมงานกัน',
-            'metrics.experience': 'ปีของ<br>ประสบการณ์', 'metrics.projects': 'โปรเจกต์<br>ที่เลือกไว้', 'metrics.gpa': 'GPA — เกียรตินิยม<br>อันดับ 1',
+            'metrics.experience': 'ปีของ<br>ประสบการณ์', 'metrics.roles': 'ตำแหน่งงาน<br>ที่ผ่านมา', 'metrics.gpa': 'GPA — เกียรตินิยม<br>อันดับ 1',
             'services.title': 'บริการที่ช่วยเปลี่ยน<br>แนวคิดให้เป็นระบบ',
             'services.subtitle': 'รับพัฒนางานตามขอบเขตที่ชัดเจน ตั้งแต่การวิเคราะห์ไปจนถึงส่งมอบและดูแลหลังใช้งาน',
+            'services.ai.title': 'AI Features & Chatbot', 'services.ai.desc': 'ผู้ช่วย AI ที่ตอบจากข้อมูลของธุรกิจด้วย RAG, AI Agent ที่ช่วยทำงานซ้ำ ๆ และระบบค้นหาเชิงความหมาย',
             'services.web.title': 'พัฒนา Web Application', 'services.web.desc': 'ระบบหลังบ้าน Dashboard แบบฟอร์ม และระบบจัดการข้อมูลที่ออกแบบตามกระบวนการของธุรกิจ',
             'services.workflow.title': 'Workflow Automation', 'services.workflow.desc': 'เปลี่ยนขั้นตอนอนุมัติและงานเอกสารให้เป็น Workflow ที่ติดตามสถานะและตรวจสอบย้อนหลังได้',
             'services.integration.title': 'เชื่อมต่อระบบ', 'services.integration.desc': 'เชื่อมต่อข้อมูลระหว่างระบบ ลดการกรอกข้อมูลซ้ำ และทำให้กระบวนการทำงานต่อเนื่องกัน',
             'services.support.title': 'ดูแลระบบและ IT Support', 'services.support.desc': 'ตรวจสอบ แก้ไขปัญหา ปรับปรุงระบบ และจัดทำเอกสารเพื่อให้ผู้ใช้ทำงานได้อย่างต่อเนื่อง',
-            'journey.title': 'จากพื้นฐาน IT<br>สู่ระบบองค์กร',
-            'journey.subtitle': 'ทุกช่วงการทำงานช่วยต่อยอดทักษะจากการดูแลระบบ สู่ Web Development, ERP และ Workflow Automation',
+            'journey.title': 'จากพื้นฐาน IT<br>สู่ AI Engineering',
+            'journey.subtitle': 'ทุกช่วงการทำงานช่วยต่อยอดทักษะ จากการดูแลระบบ สู่ Web Development, ERP, Workflow Automation และ AI',
             'journey.it': 'ฐานข้อมูล เครือข่าย ซ่อมคอมพิวเตอร์ และพัฒนาแอปพลิเคชัน',
-            'journey.web': 'พัฒนาเว็บไซต์จริงด้วย PHP, MySQL, Bootstrap และ WordPress',
-            'journey.erp': 'ระบบการผลิต คลังสินค้า และ SAP ABAP Integration',
+            'journey.web': 'เว็บไซต์ PHP / WordPress ระบบ ERP และ SAP ABAP Report, Interface, API',
+            'journey.erp': 'Web Application ตามแบบ Figma ด้วย Laravel, MySQL, Docker และ GitLab',
             'journey.k2': 'Workflow, SmartForms, SmartObjects และการเชื่อมต่อระบบองค์กร',
-            'career.subtitle': 'ประสบการณ์จากงานเอกสาร สู่การพัฒนา Web Application และระบบ Workflow ระดับองค์กร',
-            'career.k2': 'พัฒนา SmartForms, Workflows และ SmartObjects เชื่อมต่อระบบภายนอก ทดสอบ แก้ไข UAT และดูแลระบบ Production',
-            'career.fullstack': 'สร้าง Web Application ตาม Figma ด้วย Laravel และ MySQL ใช้ Docker และ GitLab ในกระบวนการพัฒนา',
-            'career.php': 'พัฒนาเว็บไซต์ PHP และ WordPress รวมถึง SAP ABAP Report, Interface, Smart Form และ API',
-            'career.officer': 'จัดทำโครงการ บันทึกข้อความ คำสั่ง และเอกสารราชการสำหรับงานกิจกรรมนักเรียน',
+            'journey.ai': 'RAG, AI Agent และ Vector Search บนระบบ Full-Stack ที่พร้อมขยาย',
+            'career.subtitle': 'จากงานเอกสาร สู่ Web Application, Workflow ระดับองค์กร และระบบ AI ที่ใช้งานได้จริง',
+            'career.ai': 'ผสานการพัฒนาซอฟต์แวร์ Full-Stack เข้ากับเทคโนโลยี AI/LLM โดยออกแบบให้ตอบโจทย์ทั้งผู้ใช้และธุรกิจ',
+            'career.ai.one': 'ดูแลการพัฒนาระบบตั้งแต่ Frontend ถึง Backend APIs ให้ทำงานราบรื่นและมีคุณภาพ',
+            'career.ai.two': 'พัฒนาฟีเจอร์ RAG (Retrieval-Augmented Generation) และ AI Agent เพื่อจัดการข้อมูลและตอบสนองผู้ใช้ได้ดีขึ้น',
+            'career.ai.three': 'Implement Vector Search เพื่อสร้างโซลูชันอัจฉริยะที่แม่นยำและขยายได้ตามธุรกิจ',
+            'career.ai.four': 'ออกแบบระบบให้เสถียรและรองรับการขยายตัวในอนาคต',
+            'career.more': 'ดูรายละเอียด', 'career.less': 'ซ่อนรายละเอียด',
+            'career.k2': 'พัฒนา SmartForms, Views และ Workflows บน K2 Five / Blackpearl พร้อมเชื่อมต่อระบบภายนอกและดูแลระบบ Production',
+            'career.k2.one': 'Form & Workflow: ออกแบบและพัฒนา SmartForms, Views และ Workflows ตาม Requirement จาก Business Analyst หรือ Senior Developer',
+            'career.k2.two': 'Integration: สร้าง SmartObjects เชื่อมข้อมูล K2 กับ SQL Server, REST API, Web Services และ SharePoint',
+            'career.k2.three': 'Business Rules: กำหนด Logic, Rule, Expression และ Validation ให้ข้อมูลถูกต้องตามโปรเซสธุรกิจ',
+            'career.k2.four': 'Testing & Deployment: Unit Testing แก้ Bug จาก UAT และจัดทำเอกสาร Deployment / User Manual',
+            'career.k2.five': 'Support: Troubleshoot Workflow Instances และ SmartForms ให้ระบบทำงานต่อเนื่อง',
+            'career.fullstack': 'ออกแบบและพัฒนา Web Application ตามความต้องการของลูกค้า จากแบบ Figma ด้วย Laravel และ MySQL',
+            'career.fullstack.one': 'พัฒนาหน้าจอตามแบบ Figma ให้ตรงตามความคาดหวังและตอบโจทย์การใช้งาน',
+            'career.fullstack.two': 'สร้างระบบด้วย Laravel ที่มีเสถียรภาพ และออกแบบฐานข้อมูล MySQL ให้เข้าถึงข้อมูลได้รวดเร็ว',
+            'career.fullstack.three': 'ใช้ Docker สร้างสภาพแวดล้อมการพัฒนาที่ยืดหยุ่นและจัดการง่าย',
+            'career.fullstack.four': 'ใช้ GitLab ควบคุมเวอร์ชันและทำงานร่วมกับทีม',
+            'career.php': 'พัฒนาเว็บไซต์และโปรแกรมด้วย PHP, SQL และ WordPress ควบคู่กับงาน SAP ABAP',
+            'career.php.one': 'เขียนโปรแกรมและเว็บไซต์ด้วย SQL, PHP, HTML5, Bootstrap 5 และ WordPress',
+            'career.php.two': 'พัฒนา SAP ABAP: Report, Interface, Smart Form และ API',
+            'career.php.three': 'เรียนรู้ Framework เพิ่มเติม: Spring Boot และ Next.js (เบื้องต้น)',
+            'career.officer.title': 'เจ้าหน้าที่งานกิจกรรมนักเรียน นักศึกษา', 'career.officer.org': 'วิทยาลัยเทคนิคตรัง',
+            'career.officer': 'งานด้านเอกสาร เช่น บันทึกข้อความ คำสั่ง โครงการ และเอกสารราชการต่าง ๆ',
             'process.title': 'ชัดเจนทุกขั้นตอน<br>ตั้งแต่โจทย์ถึงใช้งานจริง',
             'process.subtitle': 'กระบวนการทำงานที่เน้นการสื่อสาร ตรวจสอบได้ และลดความเสี่ยงก่อนนำระบบขึ้นใช้งาน',
             'process.discover.title': 'ทำความเข้าใจโจทย์', 'process.discover.desc': 'รวบรวม Requirement ผู้เกี่ยวข้อง ข้อมูล และข้อจำกัดของกระบวนการปัจจุบัน',
@@ -69,36 +95,63 @@ document.addEventListener('DOMContentLoaded', () => {
             'availability.startLabel': 'เริ่มงานได้', 'availability.start': '30 วันหลังจากเซ็นสัญญา',
             'availability.salaryLabel': 'เงินเดือนที่คาดหวัง', 'availability.salary': '20,000 — 25,000 บาท',
             'availability.download': 'ดาวน์โหลด Resume PDF',
-            'case.challenge': 'โจทย์', 'case.role': 'บทบาท', 'case.solution': 'แนวทางแก้ปัญหา', 'case.outcome': 'ผลลัพธ์'
+            'contact.copy': 'คัดลอกอีเมล', 'contact.copied': 'คัดลอกอีเมลแล้ว ✓', 'contact.copyFailed': 'คัดลอกไม่สำเร็จ ลองเลือกข้อความแทน',
+            'contact.location': 'ตรัง, ประเทศไทย',
+            'case.challenge': 'โจทย์', 'case.role': 'บทบาท', 'case.solution': 'แนวทางแก้ปัญหา', 'case.outcome': 'ผลลัพธ์',
+            'aria.menuOpen': 'เปิดเมนู', 'aria.menuClose': 'ปิดเมนู', 'aria.toTop': 'กลับขึ้นด้านบน',
+            'aria.close': 'ปิด', 'aria.prev': 'รูปก่อนหน้า', 'aria.next': 'รูปถัดไป', 'aria.image': 'ภาพที่'
         },
         en: {
-            'nav.about': 'About', 'nav.experience': 'Experience', 'nav.work': 'Work', 'nav.contact': 'Contact',
-            'nav.resume': 'Download CV', 'nav.available': 'Available for work',
-            'hero.location': 'Based in Trang, Thailand', 'hero.name': 'Watcharapong Khongchan',
-            'hero.role': 'Developer who turns complex workflows into <em>simple, reliable systems.</em>',
+            'nav.skip': 'Skip to content',
+            'nav.about': 'About', 'nav.experience': 'Experience', 'nav.work': 'Work', 'nav.services': 'Services', 'nav.contact': 'Contact',
+            'nav.resume': 'Download CV',
+            'hero.location': 'Based in Trang, Thailand', 'hero.name': 'Watcharapong Kongjan',
+            'hero.badge': 'Now: <strong>AI Full Stack Engineer</strong> @ Khoomkha Center',
+            'hero.role': 'Full stack engineer blending AI into software to turn complex workflows into <em>simple, intelligent, reliable systems.</em>',
             'hero.resume': 'Download Resume', 'hero.portfolio': 'View Work',
             'about.lead': 'I am a developer working between',
-            'about.p1': 'Experienced in enterprise development from requirements and workflow design to API integration, testing, and production deployment.',
-            'about.p2': 'Skilled in K2 SmartForms, Laravel, PHP, SQL, and SAP ABAP, with a continuous drive to learn the right tools for each business problem.',
+            'about.p1': 'Currently an AI Full Stack Engineer, owning systems from frontend to backend APIs and shipping AI features such as RAG, AI agents, and vector search for real business use.',
+            'about.p2': 'A background in enterprise systems — K2 workflow, Laravel, PHP, SQL, and SAP ABAP — helps me connect AI to existing processes in a stable way.',
             'about.cta': "Let's work together",
-            'metrics.experience': 'Years of<br>experience', 'metrics.projects': 'Selected<br>projects', 'metrics.gpa': 'GPA — First<br>class honors',
+            'metrics.experience': 'Years of<br>experience', 'metrics.roles': 'Roles<br>held', 'metrics.gpa': 'GPA — First<br>class honors',
             'services.title': 'Services that turn<br>ideas into systems',
             'services.subtitle': 'Clear-scope development from analysis and implementation through delivery and post-launch support.',
+            'services.ai.title': 'AI Features & Chatbots', 'services.ai.desc': 'AI assistants grounded in your business data with RAG, agents that take over repetitive tasks, and semantic search.',
             'services.web.title': 'Web Application Development', 'services.web.desc': 'Back-office systems, dashboards, forms, and data management tailored to business processes.',
             'services.workflow.title': 'Workflow Automation', 'services.workflow.desc': 'Turn approvals and document processes into traceable, auditable digital workflows.',
             'services.integration.title': 'System Integration', 'services.integration.desc': 'Connect systems, reduce duplicate data entry, and create continuous business processes.',
             'services.support.title': 'Maintenance & IT Support', 'services.support.desc': 'Troubleshoot, improve systems, and prepare documentation to keep users productive.',
-            'journey.title': 'From IT foundations<br>to enterprise systems',
-            'journey.subtitle': 'Each role expanded my skills from IT support to web development, ERP, and workflow automation.',
+            'journey.title': 'From IT foundations<br>to AI engineering',
+            'journey.subtitle': 'Each role expanded my skills from IT support to web development, ERP, workflow automation, and AI.',
             'journey.it': 'Databases, networks, computer maintenance, and application development.',
-            'journey.web': 'Production websites built with PHP, MySQL, Bootstrap, and WordPress.',
-            'journey.erp': 'Production, inventory, and SAP ABAP integration solutions.',
+            'journey.web': 'PHP / WordPress websites, ERP modules, and SAP ABAP reports, interfaces, and APIs.',
+            'journey.erp': 'Figma-based web applications with Laravel, MySQL, Docker, and GitLab.',
             'journey.k2': 'Enterprise workflows, SmartForms, SmartObjects, and system integration.',
-            'career.subtitle': 'A journey from documentation to web applications and enterprise workflow systems.',
-            'career.k2': 'Develop SmartForms, Workflows, and SmartObjects; integrate external systems; test, resolve UAT issues, and support production.',
-            'career.fullstack': 'Built Figma-based web applications with Laravel and MySQL, using Docker and GitLab throughout development.',
-            'career.php': 'Developed PHP and WordPress websites alongside SAP ABAP reports, interfaces, Smart Forms, and APIs.',
-            'career.officer': 'Prepared projects, internal memos, official orders, and documents for student activities.',
+            'journey.ai': 'RAG, AI agents, and vector search on scalable full-stack systems.',
+            'career.subtitle': 'From documentation to web applications, enterprise workflows, and production AI systems.',
+            'career.ai': 'Combine full-stack software development with AI/LLM technology, designing for both user and business needs.',
+            'career.ai.one': 'Own development from frontend to backend APIs so the whole system runs smoothly and reliably.',
+            'career.ai.two': 'Build RAG (Retrieval-Augmented Generation) and AI agent features to improve data handling and user responses.',
+            'career.ai.three': 'Implement vector search to deliver accurate, intelligent solutions that scale with the business.',
+            'career.ai.four': 'Design stable systems ready to support future growth and varied use cases.',
+            'career.more': 'Show details', 'career.less': 'Hide details',
+            'career.k2': 'Built SmartForms, Views, and Workflows on K2 Five / Blackpearl, integrated external systems, and supported production.',
+            'career.k2.one': 'Form & Workflow: designed and developed SmartForms, Views, and Workflows from Business Analyst or Senior Developer requirements.',
+            'career.k2.two': 'Integration: created SmartObjects connecting K2 to SQL Server, REST APIs, Web Services, and SharePoint.',
+            'career.k2.three': 'Business rules: defined logic, rules, expressions, and validation so data follows the business process.',
+            'career.k2.four': 'Testing & deployment: unit testing, fixing UAT bugs, and writing deployment documents and user manuals.',
+            'career.k2.five': 'Support: troubleshot workflow instances and SmartForms to keep the system running.',
+            'career.fullstack': 'Designed and built client web applications from Figma designs with Laravel and MySQL.',
+            'career.fullstack.one': 'Implemented screens from Figma to match expectations and real usage needs.',
+            'career.fullstack.two': 'Built stable systems with Laravel and designed MySQL databases for fast data access.',
+            'career.fullstack.three': 'Used Docker for flexible, easy-to-manage development environments.',
+            'career.fullstack.four': 'Used GitLab for version control and smooth team collaboration.',
+            'career.php': 'Developed websites and programs with PHP, SQL, and WordPress alongside SAP ABAP work.',
+            'career.php.one': 'Built programs and websites with SQL, PHP, HTML5, Bootstrap 5, and WordPress.',
+            'career.php.two': 'Developed SAP ABAP reports, interfaces, Smart Forms, and APIs.',
+            'career.php.three': 'Learned additional frameworks: Spring Boot and Next.js (basics).',
+            'career.officer.title': 'Student Activity Officer', 'career.officer.org': 'Trang Technical College',
+            'career.officer': 'Handled official documentation: memos, orders, project proposals, and government documents.',
             'process.title': 'A clear process<br>from brief to launch',
             'process.subtitle': 'A communication-first, verifiable process that reduces risk before production deployment.',
             'process.discover.title': 'Understand the problem', 'process.discover.desc': 'Gather requirements, stakeholders, data, and constraints in the current process.',
@@ -134,7 +187,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'availability.startLabel': 'Available from', 'availability.start': '30 days after contract signing',
             'availability.salaryLabel': 'Expected salary', 'availability.salary': 'THB 20,000 — 25,000',
             'availability.download': 'Download Resume PDF',
-            'case.challenge': 'Challenge', 'case.role': 'Role', 'case.solution': 'Solution', 'case.outcome': 'Outcome'
+            'contact.copy': 'Copy email', 'contact.copied': 'Email copied ✓', 'contact.copyFailed': 'Copy failed — please select the text instead',
+            'contact.location': 'Trang, Thailand',
+            'case.challenge': 'Challenge', 'case.role': 'Role', 'case.solution': 'Solution', 'case.outcome': 'Outcome',
+            'aria.menuOpen': 'Open menu', 'aria.menuClose': 'Close menu', 'aria.toTop': 'Back to top',
+            'aria.close': 'Close', 'aria.prev': 'Previous image', 'aria.next': 'Next image', 'aria.image': 'image'
         }
     };
     const caseStudies = {
@@ -200,6 +257,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     let currentLanguage = 'th';
+    const t = (key) => translations[currentLanguage][key] || key;
+
+    // Elements filled by JS that must follow the active language.
+    const viewer = document.getElementById('viewer');
+    const viewerImage = document.getElementById('viewerImage');
+    const viewerMedia = document.getElementById('viewerMedia');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerCount = document.getElementById('viewerCount');
+    const viewerThumbs = document.getElementById('viewerThumbs');
+    const viewerClose = document.getElementById('viewerClose');
+    const viewerPrev = document.getElementById('viewerPrev');
+    const viewerNext = document.getElementById('viewerNext');
+    const caseFields = {
+        challenge: document.getElementById('caseChallenge'),
+        role: document.getElementById('caseRole'),
+        solution: document.getElementById('caseSolution'),
+        outcome: document.getElementById('caseOutcome'),
+        tech: document.getElementById('caseTech')
+    };
+    let images = [];
+    let imageIndex = 0;
+    let activeProject = null;
 
     function applyLanguage(language) {
         currentLanguage = translations[language] ? language : 'th';
@@ -213,10 +292,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (value) element.innerHTML = value;
         });
         document.querySelectorAll('[data-lang]').forEach((button) => {
-            button.classList.toggle('active', button.dataset.lang === currentLanguage);
+            const active = button.dataset.lang === currentLanguage;
+            button.classList.toggle('active', active);
+            button.setAttribute('aria-pressed', String(active));
         });
+        menuButton.setAttribute('aria-label', t(mobileMenu.classList.contains('open') ? 'aria.menuClose' : 'aria.menuOpen'));
+        toTop.setAttribute('aria-label', t('aria.toTop'));
+        viewerClose.setAttribute('aria-label', t('aria.close'));
+        viewerPrev.setAttribute('aria-label', t('aria.prev'));
+        viewerNext.setAttribute('aria-label', t('aria.next'));
+        document.querySelectorAll('.career-more').forEach(syncDetailsLabel);
+        if (activeProject) fillCaseStudy(activeProject);
         try { localStorage.setItem('portfolio-language', currentLanguage); } catch (_) { /* Storage may be unavailable. */ }
     }
+
+    function syncDetailsLabel(details) {
+        details.querySelector('summary span').textContent = t(details.open ? 'career.less' : 'career.more');
+    }
+    document.querySelectorAll('.career-more').forEach((details) => {
+        details.addEventListener('toggle', () => syncDetailsLabel(details));
+    });
 
     let savedLanguage = 'th';
     try { savedLanguage = localStorage.getItem('portfolio-language') || 'th'; } catch (_) { /* Use Thai by default. */ }
@@ -225,14 +320,31 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => applyLanguage(button.dataset.lang));
     });
 
+    // Duplicate the marquee content so the loop is seamless without hand-copied markup.
+    const marqueeTrack = document.getElementById('marqueeTrack');
+    Array.from(marqueeTrack.children).forEach((item) => {
+        const clone = item.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        marqueeTrack.appendChild(clone);
+    });
+
+    // Scroll progress, sticky nav state, and back-to-top ring.
+    const ringLength = 2 * Math.PI * 20;
+    let scrollTicking = false;
     function updatePageProgress() {
         const availableScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = availableScroll > 0 ? window.scrollY / availableScroll * 100 : 0;
-        scrollLine.style.width = `${progress}%`;
+        const ratio = availableScroll > 0 ? Math.min(window.scrollY / availableScroll, 1) : 0;
+        scrollLine.style.width = `${ratio * 100}%`;
         nav.classList.toggle('scrolled', window.scrollY > 30);
+        toTop.classList.toggle('show', window.scrollY > window.innerHeight * 0.8);
+        toTopProgress.style.strokeDashoffset = String(ringLength * (1 - ratio));
+        scrollTicking = false;
     }
-
-    window.addEventListener('scroll', updatePageProgress, { passive: true });
+    window.addEventListener('scroll', () => {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(updatePageProgress);
+    }, { passive: true });
     updatePageProgress();
 
     if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
@@ -249,12 +361,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function setMenu(open) {
         menuButton.classList.toggle('active', open);
         menuButton.setAttribute('aria-expanded', String(open));
+        menuButton.setAttribute('aria-label', t(open ? 'aria.menuClose' : 'aria.menuOpen'));
         mobileMenu.classList.toggle('open', open);
+        mobileMenu.setAttribute('aria-hidden', String(!open));
         document.body.classList.toggle('locked', open);
+        if (open) mobileMenu.querySelector('a').focus();
     }
 
     menuButton.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
     mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 900 && mobileMenu.classList.contains('open')) setMenu(false);
+    });
 
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
         link.addEventListener('click', (event) => {
@@ -262,8 +380,45 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!target) return;
             event.preventDefault();
             target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-            });
+            if (link.classList.contains('skip-link')) {
+                target.setAttribute('tabindex', '-1');
+                target.focus({ preventScroll: true });
+            }
         });
+    });
+
+    // Highlight the nav link of the section currently in view.
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+    const spySections = navLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    if ('IntersectionObserver' in window) {
+        const spy = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                navLinks.forEach((link) => {
+                    const active = link.getAttribute('href') === `#${entry.target.id}`;
+                    link.classList.toggle('active', active);
+                    if (active) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current');
+                });
+            });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        spySections.forEach((section) => spy.observe(section));
+    }
+
+    // Count metrics up from zero the first time they appear.
+    function countUp(element) {
+        const target = parseFloat(element.dataset.count);
+        const decimals = parseInt(element.dataset.decimals || '0', 10);
+        const suffix = element.dataset.suffix || '';
+        const duration = 1200;
+        const start = performance.now();
+        function frame(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            element.textContent = (target * eased).toFixed(decimals) + suffix;
+            if (progress < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+    }
 
     const animatedElements = document.querySelectorAll('.fade-up');
     if (prefersReducedMotion || !('IntersectionObserver' in window)) {
@@ -273,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.forEach((entry) => {
                 if (!entry.isIntersecting) return;
                 entry.target.classList.add('visible');
+                entry.target.querySelectorAll('[data-count]').forEach(countUp);
                 currentObserver.unobserve(entry.target);
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -45px' });
@@ -283,44 +439,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const viewer = document.getElementById('viewer');
-    const viewerImage = document.getElementById('viewerImage');
-    const viewerTitle = document.getElementById('viewerTitle');
-    const viewerCount = document.getElementById('viewerCount');
-    const viewerClose = document.getElementById('viewerClose');
-    const viewerPrev = document.getElementById('viewerPrev');
-    const viewerNext = document.getElementById('viewerNext');
-    const caseChallenge = document.getElementById('caseChallenge');
-    const caseRole = document.getElementById('caseRole');
-    const caseSolution = document.getElementById('caseSolution');
-    const caseOutcome = document.getElementById('caseOutcome');
-    const caseTech = document.getElementById('caseTech');
-    let images = [];
-    let imageIndex = 0;
-    let lastFocusedProject = null;
+    // Copy email with feedback toast.
+    let toastTimer = null;
+    function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    const copyEmail = document.getElementById('copyEmail');
+    copyEmail.addEventListener('click', async () => {
+        const value = copyEmail.dataset.copy;
+        try {
+            await navigator.clipboard.writeText(value);
+            showToast(t('contact.copied'));
+        } catch (_) {
+            const field = document.createElement('textarea');
+            field.value = value;
+            field.style.position = 'fixed';
+            field.style.opacity = '0';
+            document.body.appendChild(field);
+            field.select();
+            const copied = document.execCommand('copy');
+            field.remove();
+            showToast(t(copied ? 'contact.copied' : 'contact.copyFailed'));
+        }
+    });
+
+    // Project viewer with thumbnails, swipe, and focus trap.
+    function fillCaseStudy(project) {
+        const study = caseStudies[currentLanguage][project.dataset.case];
+        Object.keys(caseFields).forEach((key) => { caseFields[key].textContent = study[key]; });
+        renderViewer();
+    }
 
     function renderViewer() {
+        if (!images.length) return;
+        viewerImage.classList.add('loading');
+        viewerImage.onload = () => viewerImage.classList.remove('loading');
         viewerImage.src = images[imageIndex];
-        viewerImage.alt = `${viewerTitle.textContent} — ภาพที่ ${imageIndex + 1}`;
+        viewerImage.alt = `${viewerTitle.textContent} — ${t('aria.image')} ${imageIndex + 1}`;
         viewerCount.textContent = `${String(imageIndex + 1).padStart(2, '0')} / ${String(images.length).padStart(2, '0')}`;
         const showNavigation = images.length > 1;
         viewerPrev.hidden = !showNavigation;
         viewerNext.hidden = !showNavigation;
+        viewerThumbs.querySelectorAll('button').forEach((thumb, index) => {
+            const active = index === imageIndex;
+            thumb.classList.toggle('active', active);
+            thumb.setAttribute('aria-current', String(active));
+            if (active) thumb.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        });
+        // Warm the cache for the next screen so paging feels instant.
+        if (showNavigation) new Image().src = images[(imageIndex + 1) % images.length];
+    }
+
+    function buildThumbs() {
+        viewerThumbs.innerHTML = '';
+        images.forEach((path, index) => {
+            const thumb = document.createElement('button');
+            thumb.type = 'button';
+            thumb.setAttribute('aria-label', `${t('aria.image')} ${index + 1}`);
+            thumb.innerHTML = `<img src="${path}" alt="" loading="lazy">`;
+            thumb.addEventListener('click', () => { imageIndex = index; renderViewer(); });
+            viewerThumbs.appendChild(thumb);
+        });
+        viewerThumbs.parentElement.hidden = images.length < 2;
     }
 
     function openViewer(project) {
         images = project.dataset.gallery.split(',').map((path) => path.trim()).filter(Boolean);
         if (!images.length) return;
-        const study = caseStudies[currentLanguage][project.dataset.case];
         imageIndex = 0;
-        lastFocusedProject = project;
+        activeProject = project;
         viewerTitle.textContent = project.dataset.title;
-        caseChallenge.textContent = study.challenge;
-        caseRole.textContent = study.role;
-        caseSolution.textContent = study.solution;
-        caseOutcome.textContent = study.outcome;
-        caseTech.textContent = study.tech;
-        renderViewer();
+        buildThumbs();
+        fillCaseStudy(project);
         viewer.classList.add('open');
         viewer.setAttribute('aria-hidden', 'false');
         document.body.classList.add('locked');
@@ -330,9 +524,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeViewer() {
         viewer.classList.remove('open');
         viewer.setAttribute('aria-hidden', 'true');
-        viewerImage.src = '';
+        viewerImage.removeAttribute('src');
         document.body.classList.remove('locked');
-        if (lastFocusedProject) lastFocusedProject.focus();
+        if (activeProject) activeProject.focus();
+        activeProject = null;
     }
 
     function moveViewer(direction) {
@@ -342,6 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.project[data-gallery]').forEach((project) => {
         project.setAttribute('role', 'button');
+        project.setAttribute('aria-haspopup', 'dialog');
         project.addEventListener('click', () => openViewer(project));
         project.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' && event.key !== ' ') return;
@@ -357,10 +553,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target === viewer) closeViewer();
     });
 
+    let touchStartX = null;
+    viewerMedia.addEventListener('touchstart', (event) => { touchStartX = event.touches[0].clientX; }, { passive: true });
+    viewerMedia.addEventListener('touchend', (event) => {
+        if (touchStartX === null || images.length < 2) return;
+        const deltaX = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(deltaX) > 45) moveViewer(deltaX < 0 ? 1 : -1);
+        touchStartX = null;
+    });
+
     document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && mobileMenu.classList.contains('open')) {
+            setMenu(false);
+            menuButton.focus();
+            return;
+        }
         if (!viewer.classList.contains('open')) return;
         if (event.key === 'Escape') closeViewer();
         if (event.key === 'ArrowLeft' && images.length > 1) moveViewer(-1);
         if (event.key === 'ArrowRight' && images.length > 1) moveViewer(1);
+        if (event.key === 'Tab') {
+            const focusable = Array.from(viewer.querySelectorAll('button:not([hidden])')).filter((element) => element.offsetParent !== null);
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
     });
 });

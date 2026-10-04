@@ -90,10 +90,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'outcome.security': 'ข้อมูลเวรและเหตุการณ์ค้นหาได้เป็นระบบ เพิ่มความสะดวกในการติดตามและตรวจสอบย้อนหลัง',
             'outcome.erp': 'เชื่อมโยง BOM การผลิต และคลังสินค้า ทำให้ข้อมูลในแต่ละขั้นตอนต่อเนื่องกันมากขึ้น',
             'outcome.jobs': 'ผู้สมัครและผู้ประกอบการจัดการประกาศ โปรไฟล์ และใบสมัครผ่านช่องทางเดียว',
-            'award.sciitech': 'ชนะเลิศอันดับ 1 กลุ่มวิทยาศาสตร์คอมพิวเตอร์และเทคโนโลยี',
+            'award.sciitech': 'รองชนะเลิศอันดับ 1 กลุ่มวิทยาศาสตร์คอมพิวเตอร์และเทคโนโลยี',
             'award.ncst': 'นำเสนอผลงานด้านวิทยาการคอมพิวเตอร์และเทคโนโลยีสารสนเทศ',
             'award.network': 'รองชนะเลิศอันดับ 4 ระดับชาติ',
-            'award.icdl': 'Workforce Basics ระดับ 2 · คะแนนรับรอง 775',
+            'award.icdl': 'Workforce Basics ระดับ 2',
+            'certs.title': 'ใบประกาศและเกียรติบัตร', 'certs.subtitle': 'คลิกที่ภาพเพื่อดูขนาดเต็ม',
+            'cert.1.title': 'ทักษะเทคโนโลยีเครือข่าย ระดับภาค', 'cert.1.desc': 'รองชนะเลิศอันดับ 1 · ระดับ ปวส.',
+            'cert.2.title': 'ทักษะเทคโนโลยีเครือข่าย ระดับชาติ', 'cert.2.desc': 'รองชนะเลิศอันดับ 4 · ระดับ ปวส.',
+            'cert.3.title': 'ทักษะการบริหารจัดการฐานข้อมูล ระดับภาค', 'cert.3.desc': 'รองชนะเลิศอันดับ 1 · ระดับ ปวช.',
+            'cert.4.title': 'ทักษะการบริหารจัดการฐานข้อมูล ระดับชาติ', 'cert.4.desc': 'เข้าร่วมการแข่งขัน · ระดับ ปวช.',
+            'cert.5.title': 'LINK Certified Network Cabling for Engineering', 'cert.5.desc': 'เข้าร่วมการอบรม',
+            'cert.6.title': 'ปริญญาบัตร วิทยาศาสตรบัณฑิต (เทคโนโลยีสารสนเทศ)', 'cert.6.desc': 'สำเร็จการศึกษา · เกียรตินิยมอันดับ 1',
+            'cert.7.title': 'ใบแสดงผลการเรียน ปริญญาตรี', 'cert.7.desc': 'วิทยาศาสตรบัณฑิต (เทคโนโลยีสารสนเทศ)',
+            'cert.8.title': 'Sciitech Project Day', 'cert.8.desc': 'ประกวดโครงงานนักศึกษา · รองชนะเลิศอันดับ 1',
+            'cert.9.title': 'งานประชุมระดับชาติด้านวิทยาศาสตร์และเทคโนโลยีเครือข่ายภาคใต้', 'cert.9.desc': 'นำเสนอผลงานวิจัย',
+            'cert.10.title': 'ICDL Digital Literacy', 'cert.10.desc': 'ประกาศนียบัตรมาตรฐานสมรรถนะการใช้ดิจิทัล · สถาบันคุณวุฒิวิชาชีพ',
             'availability.title': 'พร้อมสำหรับ<br>โอกาสใหม่',
             'availability.subtitle': 'เปิดรับงานที่ได้ใช้ทักษะด้านการพัฒนาระบบและแก้ปัญหาให้ธุรกิจ',
             'availability.positionLabel': 'ตำแหน่งที่สนใจ', 'availability.typeLabel': 'รูปแบบการทำงาน',
@@ -101,6 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'availability.startLabel': 'เริ่มงานได้', 'availability.start': '30 วันหลังจากเซ็นสัญญา',
             'availability.salaryLabel': 'เงินเดือนที่คาดหวัง', 'availability.salary': '20,000 — 25,000 บาท',
             'availability.download': 'ดาวน์โหลด Resume PDF',
+            'download.title': 'เลือกไฟล์ที่ต้องการดาวน์โหลด', 'download.subtitle': 'Resume, CV และ Portfolio ในรูปแบบต่าง ๆ',
+            'download.resume': 'เรซูเม่ฉบับเต็ม', 'download.cv': 'CV สำหรับสมัครงาน',
+            'download.image': 'เรซูเม่หน้าเดียวแบบรูปภาพ', 'download.portfolio': 'รวมผลงานพร้อมรายละเอียด',
+            'download.started': 'กำลังดาวน์โหลดไฟล์...',
             'contact.copy': 'คัดลอกอีเมล', 'contact.copied': 'คัดลอกอีเมลแล้ว ✓', 'contact.copyFailed': 'คัดลอกไม่สำเร็จ ลองเลือกข้อความแทน',
             'contact.location': 'ตรัง, ประเทศไทย',
             'case.challenge': 'โจทย์', 'case.role': 'บทบาท', 'case.solution': 'แนวทางแก้ปัญหา', 'case.outcome': 'ผลลัพธ์',
@@ -189,10 +204,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'outcome.security': 'Structured shift and incident records for easier tracking and historical review.',
             'outcome.erp': 'Connected BOM, production, and inventory data into a more continuous process.',
             'outcome.jobs': 'Candidates and employers manage vacancies, profiles, and applications through one channel.',
-            'award.sciitech': 'First-place award in the Computer Science and Technology category.',
+            'award.sciitech': '1st runner-up in the Computer Science and Technology category.',
             'award.ncst': 'Presented research in computer science and information technology.',
             'award.network': 'Fourth runner-up in the national network technology competition.',
             'award.icdl': 'Workforce Basics Level 2 · Certification score 775.',
+            'certs.title': 'Certificates & recognition', 'certs.subtitle': 'Select an image to view it full size',
+            'cert.1.title': 'Network Technology Skills — Regional', 'cert.1.desc': '1st runner-up · Higher Vocational Certificate level',
+            'cert.2.title': 'Network Technology Skills — National', 'cert.2.desc': '4th runner-up · Higher Vocational Certificate level',
+            'cert.3.title': 'Database Management Skills — Regional', 'cert.3.desc': '1st runner-up · Vocational Certificate level',
+            'cert.4.title': 'Database Management Skills — National', 'cert.4.desc': 'Competition participant · Vocational Certificate level',
+            'cert.5.title': 'LINK Certified Network Cabling for Engineering', 'cert.5.desc': 'Training participant',
+            'cert.6.title': 'B.Sc. in Information Technology — Degree Certificate', 'cert.6.desc': 'Graduated with First Class Honors',
+            'cert.7.title': "Bachelor's Degree Transcript", 'cert.7.desc': 'B.Sc. in Information Technology',
+            'cert.8.title': 'Sciitech Project Day', 'cert.8.desc': 'Student project competition · 1st runner-up',
+            'cert.9.title': 'Southern National Conference on Science and Network Technology', 'cert.9.desc': 'Research presentation',
+            'cert.10.title': 'ICDL Digital Literacy', 'cert.10.desc': 'Digital competency certificate · Thailand Professional Qualification Institute',
             'availability.title': 'Ready for<br>new opportunities',
             'availability.subtitle': 'Open to roles where development skills can solve meaningful business problems.',
             'availability.positionLabel': 'Interested roles', 'availability.typeLabel': 'Work type',
@@ -200,6 +226,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'availability.startLabel': 'Available from', 'availability.start': '30 days after contract signing',
             'availability.salaryLabel': 'Expected salary', 'availability.salary': 'THB 20,000 — 25,000',
             'availability.download': 'Download Resume PDF',
+            'download.title': 'Choose a file to download', 'download.subtitle': 'Resume, CV and Portfolio in different formats',
+            'download.resume': 'Full resume', 'download.cv': 'CV for job applications',
+            'download.image': 'One-page resume as an image', 'download.portfolio': 'Project portfolio with details',
+            'download.started': 'Downloading file...',
             'contact.copy': 'Copy email', 'contact.copied': 'Email copied ✓', 'contact.copyFailed': 'Copy failed — please select the text instead',
             'contact.location': 'Trang, Thailand',
             'case.challenge': 'Challenge', 'case.role': 'Role', 'case.solution': 'Solution', 'case.outcome': 'Outcome',
@@ -282,6 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewerClose = document.getElementById('viewerClose');
     const viewerPrev = document.getElementById('viewerPrev');
     const viewerNext = document.getElementById('viewerNext');
+    const downloadDialog = document.getElementById('downloadDialog');
+    const downloadClose = document.getElementById('downloadClose');
     const caseFields = {
         challenge: document.getElementById('caseChallenge'),
         role: document.getElementById('caseRole'),
@@ -290,8 +322,10 @@ document.addEventListener('DOMContentLoaded', () => {
         tech: document.getElementById('caseTech')
     };
     let images = [];
+    let imageTitles = [];
     let imageIndex = 0;
     let activeProject = null;
+    const certCards = Array.from(document.querySelectorAll('.cert[data-cert]'));
 
     function applyLanguage(language) {
         currentLanguage = translations[language] ? language : 'th';
@@ -315,8 +349,9 @@ document.addEventListener('DOMContentLoaded', () => {
         viewerClose.setAttribute('aria-label', t('aria.close'));
         viewerPrev.setAttribute('aria-label', t('aria.prev'));
         viewerNext.setAttribute('aria-label', t('aria.next'));
+        downloadClose.setAttribute('aria-label', t('aria.close'));
         document.querySelectorAll('.career-more').forEach(syncDetailsLabel);
-        if (activeProject) fillCaseStudy(activeProject);
+        if (activeProject) refreshViewerText();
         try { localStorage.setItem('portfolio-language', currentLanguage); } catch (_) { /* Storage may be unavailable. */ }
     }
 
@@ -491,6 +526,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Resume download picker.
+    document.querySelectorAll('[data-download-open]').forEach((button) => {
+        button.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('open')) setMenu(false);
+            downloadDialog.showModal();
+        });
+    });
+    downloadClose.addEventListener('click', () => downloadDialog.close());
+    downloadDialog.addEventListener('click', (event) => {
+        if (event.target === downloadDialog) downloadDialog.close();
+    });
+    downloadDialog.querySelectorAll('.download-item').forEach((item) => {
+        item.addEventListener('click', () => {
+            downloadDialog.close();
+            showToast(t('download.started'));
+        });
+    });
+
     // Project viewer with thumbnails, swipe, and focus trap.
     function fillCaseStudy(project) {
         const study = caseStudies[currentLanguage][project.dataset.case];
@@ -503,6 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewerImage.classList.add('loading');
         viewerImage.onload = () => viewerImage.classList.remove('loading');
         viewerImage.src = images[imageIndex];
+        if (imageTitles.length) viewerTitle.textContent = imageTitles[imageIndex];
         viewerImage.alt = `${viewerTitle.textContent} — ${t('aria.image')} ${imageIndex + 1}`;
         viewerCount.textContent = `${String(imageIndex + 1).padStart(2, '0')} / ${String(images.length).padStart(2, '0')}`;
         const showNavigation = images.length > 1;
@@ -534,11 +588,37 @@ document.addEventListener('DOMContentLoaded', () => {
     function openViewer(project) {
         images = project.dataset.gallery.split(',').map((path) => path.trim()).filter(Boolean);
         if (!images.length) return;
+        imageTitles = [];
         imageIndex = 0;
         activeProject = project;
+        viewer.classList.remove('viewer-simple');
         viewerTitle.textContent = project.dataset.title;
         buildThumbs();
         fillCaseStudy(project);
+        showViewer();
+    }
+
+    function openCertViewer(card) {
+        images = certCards.map((cert) => cert.dataset.cert);
+        imageTitles = certCards.map((cert) => cert.querySelector('strong').textContent);
+        imageIndex = certCards.indexOf(card);
+        activeProject = card;
+        viewer.classList.add('viewer-simple');
+        buildThumbs();
+        renderViewer();
+        showViewer();
+    }
+
+    function refreshViewerText() {
+        if (!imageTitles.length) {
+            fillCaseStudy(activeProject);
+            return;
+        }
+        imageTitles = certCards.map((cert) => cert.querySelector('strong').textContent);
+        renderViewer();
+    }
+
+    function showViewer() {
         viewer.classList.add('open');
         viewer.setAttribute('aria-hidden', 'false');
         document.body.classList.add('locked');
@@ -568,6 +648,11 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             openViewer(project);
         });
+    });
+
+    certCards.forEach((card) => {
+        card.setAttribute('aria-haspopup', 'dialog');
+        card.addEventListener('click', () => openCertViewer(card));
     });
 
     viewerClose.addEventListener('click', closeViewer);
